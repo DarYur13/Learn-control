@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package github.com.Artenso.learn_control.api.learn_control;
+
+option go_package = "github.com/DarYur13/learn_control/pkg/learn_control";
+
+import "validate/validate.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service LearnControl {
+    rpc GetEmployees (GetEmployeesRequest) returns (GetEmployeesResponse) {
+        option (google.api.http) = {
+            get: "/employees/get"
+            body: "*"
+          };
+    };
+    rpc GetEmployee (GetEmployeeRequest) returns (GetEmployeeResponse) {
+        option (google.api.http) = {
+            get: "/employee/{id}"
+          };
+    };
+}
+
+message GetEmployeesRequest {
+    string name = 1;
+}
+
+message GetEmployeesResponse {
+    repeated EmployeeBaseInfo employees = 1;
+}
+
+message EmployeeBaseInfo {
+    int64 id = 1;
+    string fullname = 2;
+    string birthdate = 3;
+}
+
+message GetEmployeeRequest {
+    int64 id = 1 [(validate.rules).int64.gt = 0];
+}
+
+message GetEmployeeResponse {
+    string fullname = 1;
+    string birthdate = 2;
+    string department = 3;
+    string position = 4;
+    string snils = 5;
+    repeated Training trainings = 6;
+}
+
+message Training {
+    string name = 1;
+    string date = 2;
+    string nextdate = 3;
+}
