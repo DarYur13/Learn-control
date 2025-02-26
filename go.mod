@@ -29,6 +29,7 @@ require (
 require (
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/jackc/pgx/v5 v5.7.2
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/cors v1.11.1
 	go.uber.org/zap v1.27.0
 	golang.org/x/net v0.34.0 // indirect

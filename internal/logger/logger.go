@@ -22,14 +22,13 @@ func initLogger() *zap.SugaredLogger {
 
 }
 
-func New(logFile string) (*zap.SugaredLogger, error) {
+func New() (*zap.SugaredLogger, error) {
 
 	level = zap.NewAtomicLevel()
 
 	globalLogger, err := zap.Config{
-		Encoding:      "json",
+		Encoding:      "console",
 		Level:         level,
-		OutputPaths:   []string{logFile},
 		EncoderConfig: zap.NewDevelopmentEncoderConfig(),
 	}.Build()
 	if err != nil {

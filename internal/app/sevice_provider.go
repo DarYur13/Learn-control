@@ -3,10 +3,12 @@ package service_provider
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
 	cmdImpl "github.com/DarYur13/learn-control/internal/api/learn_control"
+	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
 	cmdService "github.com/DarYur13/learn-control/internal/service"
 	cmdStor "github.com/DarYur13/learn-control/internal/storage"
@@ -26,7 +28,13 @@ func newServiceProvider() *serviceProvider {
 
 func (s *serviceProvider) getDbConn(_ context.Context) *sql.DB {
 	if s.db == nil {
-		dbDSN := "postgres://postgres:postgres@localhost:5432/learn_control"
+		dbDSN := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
+			config.PgUser(),
+			config.PgPassword(),
+			config.PgHost(),
+			config.PgPort(),
+			config.PgDatabase(),
+		)
 
 		db, err := sql.Open("pgx", dbDSN)
 		if err != nil {

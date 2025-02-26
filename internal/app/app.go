@@ -17,10 +17,6 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-const (
-	pathToConfig = "config.json"
-)
-
 // App is the application struct
 type App struct {
 	serviceProvider *serviceProvider
@@ -43,7 +39,7 @@ func (a *App) Run(ctx context.Context) error {
 	group, groupCtx := errgroup.WithContext(ctx)
 
 	group.Go(func() error {
-		list, err := net.Listen("tcp", config.GetGrpcPort())
+		list, err := net.Listen("tcp", fmt.Sprintf(":%s", config.ApiGrpcPort()))
 		if err != nil {
 			return fmt.Errorf("failed to mapping port: %s", err.Error())
 		}
@@ -52,6 +48,8 @@ func (a *App) Run(ctx context.Context) error {
 			return fmt.Errorf("failed to server: %s", err.Error())
 		}
 
+		logger.Info("gRPC сервер запущен на порту", config.ApiHttpPort())
+
 		return nil
 	})
 
@@ -59,7 +57,7 @@ func (a *App) Run(ctx context.Context) error {
 		mux := runtime.NewServeMux()
 		opts := []grpc.DialOption{grpc.WithInsecure()} // nolint: staticcheck
 
-		err := desc.RegisterLearnControlHandlerFromEndpoint(groupCtx, mux, config.GetGrpcPort(), opts)
+		err := desc.RegisterLearnControlHandlerFromEndpoint(groupCtx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts)
 		if err != nil {
 			return err
 		}
@@ -74,8 +72,12 @@ func (a *App) Run(ctx context.Context) error {
 
 		handler := c.Handler(mux)
 
-		fmt.Println("HTTP сервер запущен на", config.GetHttpPort())
-		return http.ListenAndServe(config.GetHttpPort(), handler)
+		logger.Info("HTTP сервер запущен на порту", config.ApiHttpPort())
+		return http.ListenAndServe(
+			fmt.Sprintf("%s:%s",
+				config.ApiHost(),
+				config.ApiHttpPort(),
+			), handler)
 	})
 
 	if err := group.Wait(); err != nil {
@@ -105,19 +107,19 @@ func (a *App) initDeps(ctx context.Context) error {
 }
 
 func (a *App) initConfig(_ context.Context) error {
-	config.Read(pathToConfig)
+	config.LoadAll()
 	return nil
 }
 
 func (a *App) initLogger(_ context.Context) error {
-	newLogger, err := logger.New(config.GetLogFile())
+	newLogger, err := logger.New()
 	if err != nil {
 		log.Fatalf("logger settingup error: %s", err.Error())
 	}
 
 	logger.SetLogger(newLogger)
 
-	err = logger.SetLogLevel(config.GetLogLevel())
+	err = logger.SetLogLevel(config.LogLevel())
 	if err != nil {
 		log.Fatalf("logger settingup error: %s", err.Error())
 	}

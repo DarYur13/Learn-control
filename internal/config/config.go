@@ -1,9 +1,9 @@
 package config
 
 import (
-	"encoding/json"
 	"log"
-	"os"
+
+	"github.com/DarYur13/learn-control/internal/config/modules"
 )
 
 const (
@@ -17,42 +17,74 @@ const (
 )
 
 type config struct {
-	GrpcPort string `json:"gRPC_port"`
-	HttpPort string `json:"HTTP_port"`
-	LogFile  string `json:"path_to_log_file"`
-	LogLevel string `json:"log_level"`
+	Pg  *modules.Pg
+	Log *modules.Log
+	Api *modules.Api
 }
 
 var globalConfig config
 
-func Read(pathToConfig string) {
-
-	configFile, err := os.ReadFile(pathToConfig)
+func LoadAll() {
+	logger, err := modules.LoadLog()
 	if err != nil {
-		log.Fatalf("failed to open config file: %s", err)
+		log.Fatalf("failed to load logger config")
 	}
 
-	err = json.Unmarshal(configFile, &globalConfig)
-	if err != nil {
-		log.Fatalf("failed to unmarshal config file: %s", err)
-	}
-
-	switch globalConfig.LogLevel {
+	switch logger.Level {
 	case debug, info, warn, error, dPanic, panic, fatal:
 	default:
-		log.Fatalf("unknown log level in config file: %s", globalConfig.LogLevel)
+		log.Fatalf("unknown log level in config file: %s", logger.Level)
+	}
+
+	db, err := modules.LoadPg()
+	if err != nil {
+		log.Fatalf("failed to load pg config")
+	}
+
+	api, err := modules.LoadApi()
+	if err != nil {
+		log.Fatalf("failed to load api config")
+	}
+
+	globalConfig = config{
+		Log: logger,
+		Pg:  db,
+		Api: api,
 	}
 }
 
-func GetGrpcPort() string {
-	return globalConfig.GrpcPort
+func ApiGrpcPort() string {
+	return globalConfig.Api.GRPCPort
 }
-func GetHttpPort() string {
-	return globalConfig.HttpPort
+
+func ApiHttpPort() string {
+	return globalConfig.Api.HttpPort
 }
-func GetLogFile() string {
-	return globalConfig.LogFile
+
+func ApiHost() string {
+	return globalConfig.Api.Host
 }
-func GetLogLevel() string {
-	return globalConfig.LogLevel
+
+func LogLevel() string {
+	return globalConfig.Log.Level
+}
+
+func PgPort() string {
+	return globalConfig.Pg.Port
+}
+
+func PgHost() string {
+	return globalConfig.Pg.Host
+}
+
+func PgUser() string {
+	return globalConfig.Pg.User
+}
+
+func PgPassword() string {
+	return globalConfig.Pg.Password
+}
+
+func PgDatabase() string {
+	return globalConfig.Pg.Database
 }
