@@ -5,13 +5,12 @@ package github.com.Artenso.learn_control.api.learn_control;
 option go_package = "github.com/DarYur13/learn_control/pkg/learn_control";
 
 import "validate/validate.proto";
-import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
 
 service LearnControl {
     rpc GetEmployees (GetEmployeesRequest) returns (GetEmployeesResponse) {
         option (google.api.http) = {
-            get: "/employees/get"
+            post: "/employees/get"
             body: "*"
           };
     };

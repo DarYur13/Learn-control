@@ -11,6 +11,7 @@ import (
 	"github.com/DarYur13/learn-control/internal/logger"
 	desc "github.com/DarYur13/learn-control/pkg/learn_control"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/rs/cors"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -63,7 +64,18 @@ func (a *App) Run(ctx context.Context) error {
 			return err
 		}
 
-		return http.ListenAndServe(config.GetHttpPort(), mux)
+		// Настройки CORS
+		c := cors.New(cors.Options{
+			AllowedOrigins:   []string{"http://localhost:5173"}, // Разрешаем доступ фронту
+			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+			AllowedHeaders:   []string{"Content-Type", "Authorization"},
+			AllowCredentials: true,
+		})
+
+		handler := c.Handler(mux)
+
+		fmt.Println("HTTP сервер запущен на", config.GetHttpPort())
+		return http.ListenAndServe(config.GetHttpPort(), handler)
 	})
 
 	if err := group.Wait(); err != nil {

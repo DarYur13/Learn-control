@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/DarYur13/learn-control/internal/domain"
@@ -22,9 +23,9 @@ type Employee struct {
 }
 
 type Training struct {
-	Name       string    `db:"training"`
-	PassDate   time.Time `db:"pass_date"`
-	RePassDate time.Time `db:"repass_date"`
+	Name       string       `db:"training"`
+	PassDate   time.Time    `db:"pass_date"`
+	RePassDate sql.NullTime `db:"repass_date"`
 }
 
 func (e *Employee) toDomain() *domain.Employee {

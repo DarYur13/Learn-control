@@ -33,9 +33,9 @@ func (s *Storage) GetEmployees(ctx context.Context, name string) (*domain.Employ
 
 	for rows.Next() {
 		if err := rows.Scan(
-			employeeBaseInfo.ID,
-			employeeBaseInfo.FullName,
-			employeeBaseInfo.BirthDate,
+			&employeeBaseInfo.ID,
+			&employeeBaseInfo.FullName,
+			&employeeBaseInfo.BirthDate,
 		); err != nil {
 			return nil, err
 		}

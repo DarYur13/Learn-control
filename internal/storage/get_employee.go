@@ -21,7 +21,7 @@ const (
 		JOIN employee_trainings et ON e.id = et.employee_id
 		JOIN trainings t ON et.training_id = t.id
 		WHERE e.id = $1
-		ORDER BY et.retraining_date ASC, t.training
+		ORDER BY et.training_date DESC, t.training
 	`
 )
 
