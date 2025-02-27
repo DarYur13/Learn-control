@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:8000' });
+const api = axios.create({ baseURL: 'https://6dnqnvhj-8000.uks1.devtunnels.ms/' });
 
 export const getEmployees = async (name: string) => {
   const { data } = await api.post('/employees/get', { name });

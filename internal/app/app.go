@@ -64,20 +64,21 @@ func (a *App) Run(ctx context.Context) error {
 
 		// Настройки CORS
 		c := cors.New(cors.Options{
-			AllowedOrigins:   []string{"http://localhost:5173"}, // Разрешаем доступ фронту
+			AllowedOrigins:   []string{"*", "http://localhost:5173", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-			AllowedHeaders:   []string{"Content-Type", "Authorization"},
+			AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
+			ExposedHeaders:   []string{"Content-Length"},
 			AllowCredentials: true,
+			Debug:            true, // Позволяет увидеть логи cors
 		})
 
 		handler := c.Handler(mux)
 
 		logger.Info("HTTP сервер запущен на порту", config.ApiHttpPort())
 		return http.ListenAndServe(
-			fmt.Sprintf("%s:%s",
-				config.ApiHost(),
-				config.ApiHttpPort(),
-			), handler)
+			fmt.Sprintf("%s:%s", config.ApiHost(), config.ApiHttpPort()),
+			handler,
+		)
 	})
 
 	if err := group.Wait(); err != nil {
