@@ -6,13 +6,13 @@ import (
 	"github.com/DarYur13/learn-control/internal/domain"
 )
 
-func (s *Service) GetEmployee(ctx context.Context, id int) (*domain.Employee, error) {
+func (s *Service) GetEmployee(ctx context.Context, id int) (*domain.EmployeePersonalCard, error) {
 	employee, err := s.storage.GetEmployee(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	result := domain.Employee{
+	result := domain.EmployeePersonalCard{
 		FullName:   employee.FullName,
 		BirthDate:  employee.BirthDate,
 		Snils:      employee.Snils,

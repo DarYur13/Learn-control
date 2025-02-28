@@ -113,7 +113,7 @@ func (a *App) initConfig(_ context.Context) error {
 }
 
 func (a *App) initLogger(_ context.Context) error {
-	newLogger, err := logger.New()
+	newLogger, err := logger.New(config.LogFilePath())
 	if err != nil {
 		log.Fatalf("logger settingup error: %s", err.Error())
 	}

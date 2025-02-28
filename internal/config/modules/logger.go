@@ -7,7 +7,8 @@ import (
 const LogModulePrefix = "LOG"
 
 type Log struct {
-	Level string `envconfig:"LEVEL" default:"info"`
+	Level    string `envconfig:"LEVEL" default:"info"`
+	FilePath string `envconfig:"FILE" default:"stdout"`
 }
 
 func LoadLog() (*Log, error) {

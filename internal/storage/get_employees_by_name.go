@@ -2,8 +2,6 @@ package storage
 
 import (
 	"context"
-
-	"github.com/DarYur13/learn-control/internal/domain"
 )
 
 const (
@@ -19,19 +17,18 @@ const (
 	`
 )
 
-func (s *Storage) GetEmployeesByName(ctx context.Context, name string) (*domain.EmployeesBaseInfo, error) {
-	var (
-		result           domain.EmployeesBaseInfo
-		employeeBaseInfo domain.EmployeeBaseInfo
-	)
-
+func (s *Storage) GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error) {
 	rows, err := s.db.QueryContext(ctx, queryGetEmployeesByName, name)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
+	var result []EmployeeBaseInfo
+
 	for rows.Next() {
+		var employeeBaseInfo EmployeeBaseInfo
+
 		if err := rows.Scan(
 			&employeeBaseInfo.ID,
 			&employeeBaseInfo.FullName,
@@ -40,12 +37,12 @@ func (s *Storage) GetEmployeesByName(ctx context.Context, name string) (*domain.
 			return nil, err
 		}
 
-		result.Employees = append(result.Employees, employeeBaseInfo)
+		result = append(result, employeeBaseInfo)
 	}
 
 	if rows.Err() != nil {
 		return nil, err
 	}
 
-	return &result, nil
+	return result, nil
 }

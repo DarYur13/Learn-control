@@ -36,6 +36,7 @@ func (s *Storage) GetEmployee(ctx context.Context, id int) (*Employee, error) {
 
 	for rows.Next() {
 		var trainings Training
+
 		rows.Scan(
 			&result.FullName,
 			&result.BirthDate,

@@ -107,12 +107,12 @@ message UpdateEmployeeTrainingDateResponse {
 message GetFiltersRequest {}
 
 message GetFiltersResponse {
-    repeated FilterBaseInfo departments = 1;
-    repeated FilterBaseInfo positions = 2;
-    repeated FilterBaseInfo trainings = 3;
+    repeated string departments = 1;
+    repeated string positions = 2;
+    repeated TrainingBaseInfo trainings = 3;
 }
 
-message FilterBaseInfo {
+message TrainingBaseInfo {
     int64 id = 1;
     string name = 2;
 }
