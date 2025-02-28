@@ -12,7 +12,7 @@ func (s *Service) GetEmployeesByName(ctx context.Context, name string) ([]domain
 		return nil, err
 	}
 
-	result := make([]domain.EmployeeBaseInfo, len(employeesBaseInfo), 0)
+	result := make([]domain.EmployeeBaseInfo, 0, len(employeesBaseInfo))
 
 	for _, employeeBaseInfo := range employeesBaseInfo {
 		result = append(result, domain.EmployeeBaseInfo(employeeBaseInfo))

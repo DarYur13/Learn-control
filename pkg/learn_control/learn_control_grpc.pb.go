@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -20,11 +21,13 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	LearnControl_GetEmployeesByName_FullMethodName         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
-	LearnControl_GetEmployee_FullMethodName                = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployee"
+	LearnControl_GetEmployeePersonalCard_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
 	LearnControl_SetEmployeeTrainingDate_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate"
 	LearnControl_UpdateEmployeeTrainingDate_FullMethodName = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
-	LearnControl_GetFilters_FullMethodName                 = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetFilters"
-	LearnControl_GetEmployees_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployees"
+	LearnControl_GetDepartments_FullMethodName             = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments"
+	LearnControl_GetPositions_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
+	LearnControl_GetTrainings_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings"
+	LearnControl_GetEmployeesByFilters_FullMethodName      = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
 )
 
 // LearnControlClient is the client API for LearnControl service.
@@ -32,11 +35,13 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LearnControlClient interface {
 	GetEmployeesByName(ctx context.Context, in *GetEmployeesByNameRequest, opts ...grpc.CallOption) (*GetEmployeesByNameResponse, error)
-	GetEmployee(ctx context.Context, in *GetEmployeeRequest, opts ...grpc.CallOption) (*GetEmployeeResponse, error)
+	GetEmployeePersonalCard(ctx context.Context, in *GetEmployeePersonalCardRequest, opts ...grpc.CallOption) (*GetEmployeePersonalCardResponse, error)
 	SetEmployeeTrainingDate(ctx context.Context, in *SetEmployeeTrainingDateRequest, opts ...grpc.CallOption) (*SetEmployeeTrainingDateResponse, error)
 	UpdateEmployeeTrainingDate(ctx context.Context, in *UpdateEmployeeTrainingDateRequest, opts ...grpc.CallOption) (*UpdateEmployeeTrainingDateResponse, error)
-	GetFilters(ctx context.Context, in *GetFiltersRequest, opts ...grpc.CallOption) (*GetFiltersResponse, error)
-	GetEmployees(ctx context.Context, in *GetEmployeesRequest, opts ...grpc.CallOption) (*GetEmployeesResponse, error)
+	GetDepartments(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetDepartmentsResponse, error)
+	GetPositions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetPositionsResponse, error)
+	GetTrainings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTrainingsResponse, error)
+	GetEmployeesByFilters(ctx context.Context, in *GetEmployeesByFiltersRequest, opts ...grpc.CallOption) (*GetEmployeesByFiltersResponse, error)
 }
 
 type learnControlClient struct {
@@ -56,9 +61,9 @@ func (c *learnControlClient) GetEmployeesByName(ctx context.Context, in *GetEmpl
 	return out, nil
 }
 
-func (c *learnControlClient) GetEmployee(ctx context.Context, in *GetEmployeeRequest, opts ...grpc.CallOption) (*GetEmployeeResponse, error) {
-	out := new(GetEmployeeResponse)
-	err := c.cc.Invoke(ctx, LearnControl_GetEmployee_FullMethodName, in, out, opts...)
+func (c *learnControlClient) GetEmployeePersonalCard(ctx context.Context, in *GetEmployeePersonalCardRequest, opts ...grpc.CallOption) (*GetEmployeePersonalCardResponse, error) {
+	out := new(GetEmployeePersonalCardResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetEmployeePersonalCard_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -83,18 +88,36 @@ func (c *learnControlClient) UpdateEmployeeTrainingDate(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *learnControlClient) GetFilters(ctx context.Context, in *GetFiltersRequest, opts ...grpc.CallOption) (*GetFiltersResponse, error) {
-	out := new(GetFiltersResponse)
-	err := c.cc.Invoke(ctx, LearnControl_GetFilters_FullMethodName, in, out, opts...)
+func (c *learnControlClient) GetDepartments(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetDepartmentsResponse, error) {
+	out := new(GetDepartmentsResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetDepartments_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *learnControlClient) GetEmployees(ctx context.Context, in *GetEmployeesRequest, opts ...grpc.CallOption) (*GetEmployeesResponse, error) {
-	out := new(GetEmployeesResponse)
-	err := c.cc.Invoke(ctx, LearnControl_GetEmployees_FullMethodName, in, out, opts...)
+func (c *learnControlClient) GetPositions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetPositionsResponse, error) {
+	out := new(GetPositionsResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetPositions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) GetTrainings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTrainingsResponse, error) {
+	out := new(GetTrainingsResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetTrainings_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) GetEmployeesByFilters(ctx context.Context, in *GetEmployeesByFiltersRequest, opts ...grpc.CallOption) (*GetEmployeesByFiltersResponse, error) {
+	out := new(GetEmployeesByFiltersResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetEmployeesByFilters_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -106,11 +129,13 @@ func (c *learnControlClient) GetEmployees(ctx context.Context, in *GetEmployeesR
 // for forward compatibility
 type LearnControlServer interface {
 	GetEmployeesByName(context.Context, *GetEmployeesByNameRequest) (*GetEmployeesByNameResponse, error)
-	GetEmployee(context.Context, *GetEmployeeRequest) (*GetEmployeeResponse, error)
+	GetEmployeePersonalCard(context.Context, *GetEmployeePersonalCardRequest) (*GetEmployeePersonalCardResponse, error)
 	SetEmployeeTrainingDate(context.Context, *SetEmployeeTrainingDateRequest) (*SetEmployeeTrainingDateResponse, error)
 	UpdateEmployeeTrainingDate(context.Context, *UpdateEmployeeTrainingDateRequest) (*UpdateEmployeeTrainingDateResponse, error)
-	GetFilters(context.Context, *GetFiltersRequest) (*GetFiltersResponse, error)
-	GetEmployees(context.Context, *GetEmployeesRequest) (*GetEmployeesResponse, error)
+	GetDepartments(context.Context, *emptypb.Empty) (*GetDepartmentsResponse, error)
+	GetPositions(context.Context, *emptypb.Empty) (*GetPositionsResponse, error)
+	GetTrainings(context.Context, *emptypb.Empty) (*GetTrainingsResponse, error)
+	GetEmployeesByFilters(context.Context, *GetEmployeesByFiltersRequest) (*GetEmployeesByFiltersResponse, error)
 	mustEmbedUnimplementedLearnControlServer()
 }
 
@@ -121,8 +146,8 @@ type UnimplementedLearnControlServer struct {
 func (UnimplementedLearnControlServer) GetEmployeesByName(context.Context, *GetEmployeesByNameRequest) (*GetEmployeesByNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeesByName not implemented")
 }
-func (UnimplementedLearnControlServer) GetEmployee(context.Context, *GetEmployeeRequest) (*GetEmployeeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetEmployee not implemented")
+func (UnimplementedLearnControlServer) GetEmployeePersonalCard(context.Context, *GetEmployeePersonalCardRequest) (*GetEmployeePersonalCardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeePersonalCard not implemented")
 }
 func (UnimplementedLearnControlServer) SetEmployeeTrainingDate(context.Context, *SetEmployeeTrainingDateRequest) (*SetEmployeeTrainingDateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetEmployeeTrainingDate not implemented")
@@ -130,11 +155,17 @@ func (UnimplementedLearnControlServer) SetEmployeeTrainingDate(context.Context, 
 func (UnimplementedLearnControlServer) UpdateEmployeeTrainingDate(context.Context, *UpdateEmployeeTrainingDateRequest) (*UpdateEmployeeTrainingDateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmployeeTrainingDate not implemented")
 }
-func (UnimplementedLearnControlServer) GetFilters(context.Context, *GetFiltersRequest) (*GetFiltersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFilters not implemented")
+func (UnimplementedLearnControlServer) GetDepartments(context.Context, *emptypb.Empty) (*GetDepartmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDepartments not implemented")
 }
-func (UnimplementedLearnControlServer) GetEmployees(context.Context, *GetEmployeesRequest) (*GetEmployeesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetEmployees not implemented")
+func (UnimplementedLearnControlServer) GetPositions(context.Context, *emptypb.Empty) (*GetPositionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPositions not implemented")
+}
+func (UnimplementedLearnControlServer) GetTrainings(context.Context, *emptypb.Empty) (*GetTrainingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrainings not implemented")
+}
+func (UnimplementedLearnControlServer) GetEmployeesByFilters(context.Context, *GetEmployeesByFiltersRequest) (*GetEmployeesByFiltersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeesByFilters not implemented")
 }
 func (UnimplementedLearnControlServer) mustEmbedUnimplementedLearnControlServer() {}
 
@@ -167,20 +198,20 @@ func _LearnControl_GetEmployeesByName_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LearnControl_GetEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetEmployeeRequest)
+func _LearnControl_GetEmployeePersonalCard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEmployeePersonalCardRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LearnControlServer).GetEmployee(ctx, in)
+		return srv.(LearnControlServer).GetEmployeePersonalCard(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LearnControl_GetEmployee_FullMethodName,
+		FullMethod: LearnControl_GetEmployeePersonalCard_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LearnControlServer).GetEmployee(ctx, req.(*GetEmployeeRequest))
+		return srv.(LearnControlServer).GetEmployeePersonalCard(ctx, req.(*GetEmployeePersonalCardRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -221,38 +252,74 @@ func _LearnControl_UpdateEmployeeTrainingDate_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LearnControl_GetFilters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFiltersRequest)
+func _LearnControl_GetDepartments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LearnControlServer).GetFilters(ctx, in)
+		return srv.(LearnControlServer).GetDepartments(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LearnControl_GetFilters_FullMethodName,
+		FullMethod: LearnControl_GetDepartments_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LearnControlServer).GetFilters(ctx, req.(*GetFiltersRequest))
+		return srv.(LearnControlServer).GetDepartments(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LearnControl_GetEmployees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetEmployeesRequest)
+func _LearnControl_GetPositions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LearnControlServer).GetEmployees(ctx, in)
+		return srv.(LearnControlServer).GetPositions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LearnControl_GetEmployees_FullMethodName,
+		FullMethod: LearnControl_GetPositions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LearnControlServer).GetEmployees(ctx, req.(*GetEmployeesRequest))
+		return srv.(LearnControlServer).GetPositions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_GetTrainings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).GetTrainings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_GetTrainings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).GetTrainings(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_GetEmployeesByFilters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEmployeesByFiltersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).GetEmployeesByFilters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_GetEmployeesByFilters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).GetEmployeesByFilters(ctx, req.(*GetEmployeesByFiltersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -269,8 +336,8 @@ var LearnControl_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LearnControl_GetEmployeesByName_Handler,
 		},
 		{
-			MethodName: "GetEmployee",
-			Handler:    _LearnControl_GetEmployee_Handler,
+			MethodName: "GetEmployeePersonalCard",
+			Handler:    _LearnControl_GetEmployeePersonalCard_Handler,
 		},
 		{
 			MethodName: "SetEmployeeTrainingDate",
@@ -281,12 +348,20 @@ var LearnControl_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LearnControl_UpdateEmployeeTrainingDate_Handler,
 		},
 		{
-			MethodName: "GetFilters",
-			Handler:    _LearnControl_GetFilters_Handler,
+			MethodName: "GetDepartments",
+			Handler:    _LearnControl_GetDepartments_Handler,
 		},
 		{
-			MethodName: "GetEmployees",
-			Handler:    _LearnControl_GetEmployees_Handler,
+			MethodName: "GetPositions",
+			Handler:    _LearnControl_GetPositions_Handler,
+		},
+		{
+			MethodName: "GetTrainings",
+			Handler:    _LearnControl_GetTrainings_Handler,
+		},
+		{
+			MethodName: "GetEmployeesByFilters",
+			Handler:    _LearnControl_GetEmployeesByFilters_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

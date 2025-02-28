@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getEmployees } from '../api/learnControlApi';
+import { getEmployeesByName } from '../api/learnControlApi';
 
 interface Employee {
   id: number;
@@ -14,13 +14,26 @@ interface Props {
 const EmployeeSearch: React.FC<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Employee[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (query.length < 2) return;
+    if (query.length < 2) {
+      setResults([]);
+      return;
+    }
+
     const fetchEmployees = async () => {
-      const employees = await getEmployees(query);
-      setResults(employees);
+      try {
+        const employees = await getEmployeesByName(query);
+        setResults(employees || []);
+        setError(null);
+      } catch (err) {
+        console.error('Ошибка при загрузке сотрудников:', err);
+        setError('Не удалось загрузить сотрудников');
+        setResults([]);
+      }
     };
+
     fetchEmployees();
   }, [query]);
 
@@ -32,6 +45,7 @@ const EmployeeSearch: React.FC<Props> = ({ onSelect }) => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
+      {error && <p className="text-danger mt-2">{error}</p>}
       {results.length > 0 && (
         <ul className="list-group mt-2">
           {results.map((emp) => (

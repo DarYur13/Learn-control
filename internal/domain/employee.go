@@ -7,15 +7,16 @@ type EmployeeBaseInfo struct {
 }
 
 type EmployeePersonalCard struct {
-	FullName   string
-	BirthDate  string
-	Snils      string
-	Department string
-	Position   string
-	Trainings  []Training
+	FullName       string
+	BirthDate      string
+	Snils          string
+	Department     string
+	Position       string
+	EmploymentDate string
+	Trainings      []Training
 }
 
-type EmployeeWorkInfo struct {
+type EmployeeInfo struct {
 	FullName   string
 	Department string
 	Position   string

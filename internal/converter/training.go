@@ -12,3 +12,18 @@ func TrainingToDesc(t domain.Training) *desc.Training {
 		RePassDate: t.RePassDate,
 	}
 }
+
+func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *desc.GetTrainingsResponse {
+	result := &desc.GetTrainingsResponse{}
+
+	for _, t := range trainings {
+		training := &desc.TrainingBaseInfo{
+			Id:   int64(t.ID),
+			Name: t.Name,
+		}
+
+		result.Trainings = append(result.Trainings, training)
+	}
+
+	return result
+}

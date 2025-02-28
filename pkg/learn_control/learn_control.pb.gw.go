@@ -21,6 +21,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Suppress "imported and not used" errors
@@ -57,38 +58,28 @@ func local_request_LearnControl_GetEmployeesByName_0(ctx context.Context, marsha
 
 }
 
-var (
-	filter_LearnControl_GetEmployee_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
-func request_LearnControl_GetEmployee_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetEmployeeRequest
+func request_LearnControl_GetEmployeePersonalCard_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetEmployeePersonalCardRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployee_0); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetEmployee(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetEmployeePersonalCard(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_LearnControl_GetEmployee_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetEmployeeRequest
+func local_request_LearnControl_GetEmployeePersonalCard_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetEmployeePersonalCardRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployee_0); err != nil {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetEmployee(ctx, &protoReq)
+	msg, err := server.GetEmployeePersonalCard(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -145,56 +136,92 @@ func local_request_LearnControl_UpdateEmployeeTrainingDate_0(ctx context.Context
 
 }
 
-func request_LearnControl_GetFilters_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetFiltersRequest
+func request_LearnControl_GetDepartments_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
-	msg, err := client.GetFilters(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetDepartments(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_LearnControl_GetFilters_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetFiltersRequest
+func local_request_LearnControl_GetDepartments_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
-	msg, err := server.GetFilters(ctx, &protoReq)
+	msg, err := server.GetDepartments(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_LearnControl_GetPositions_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.GetPositions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_LearnControl_GetPositions_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := server.GetPositions(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_LearnControl_GetTrainings_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.GetTrainings(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_LearnControl_GetTrainings_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq emptypb.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := server.GetTrainings(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_LearnControl_GetEmployees_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_LearnControl_GetEmployeesByFilters_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_LearnControl_GetEmployees_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetEmployeesRequest
+func request_LearnControl_GetEmployeesByFilters_0(ctx context.Context, marshaler runtime.Marshaler, client LearnControlClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetEmployeesByFiltersRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployees_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployeesByFilters_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetEmployees(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetEmployeesByFilters(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_LearnControl_GetEmployees_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetEmployeesRequest
+func local_request_LearnControl_GetEmployeesByFilters_0(ctx context.Context, marshaler runtime.Marshaler, server LearnControlServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetEmployeesByFiltersRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployees_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_LearnControl_GetEmployeesByFilters_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetEmployees(ctx, &protoReq)
+	msg, err := server.GetEmployeesByFilters(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -214,7 +241,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get/by_name"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -231,7 +258,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("POST", pattern_LearnControl_GetEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_LearnControl_GetEmployeePersonalCard_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -239,12 +266,12 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployee", runtime.WithHTTPPathPattern("/employee/personal_card/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_LearnControl_GetEmployee_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_LearnControl_GetEmployeePersonalCard_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -252,7 +279,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_LearnControl_GetEmployee_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetEmployeePersonalCard_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -264,7 +291,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employee/training_date/set"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/set_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -289,7 +316,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employee/training_date/change"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -306,7 +333,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_LearnControl_GetFilters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_LearnControl_GetDepartments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -314,12 +341,12 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetFilters", runtime.WithHTTPPathPattern("/employees/filters/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_LearnControl_GetFilters_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_LearnControl_GetDepartments_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -327,11 +354,11 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_LearnControl_GetFilters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetDepartments_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_LearnControl_GetEmployees_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_LearnControl_GetPositions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -339,12 +366,12 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployees", runtime.WithHTTPPathPattern("/employees/get/by_filters"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_LearnControl_GetEmployees_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_LearnControl_GetPositions_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -352,7 +379,57 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_LearnControl_GetEmployees_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetPositions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_LearnControl_GetTrainings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_LearnControl_GetTrainings_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_LearnControl_GetTrainings_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_LearnControl_GetEmployeesByFilters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_LearnControl_GetEmployeesByFilters_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_LearnControl_GetEmployeesByFilters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -403,7 +480,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get/by_name"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -419,25 +496,25 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("POST", pattern_LearnControl_GetEmployee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_LearnControl_GetEmployeePersonalCard_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployee", runtime.WithHTTPPathPattern("/employee/personal_card/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_LearnControl_GetEmployee_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_LearnControl_GetEmployeePersonalCard_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_LearnControl_GetEmployee_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetEmployeePersonalCard_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -447,7 +524,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employee/training_date/set"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/set_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -469,7 +546,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employee/training_date/change"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -485,47 +562,91 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_LearnControl_GetFilters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_LearnControl_GetDepartments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetFilters", runtime.WithHTTPPathPattern("/employees/filters/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_LearnControl_GetFilters_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_LearnControl_GetDepartments_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_LearnControl_GetFilters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetDepartments_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_LearnControl_GetEmployees_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_LearnControl_GetPositions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployees", runtime.WithHTTPPathPattern("/employees/get/by_filters"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_LearnControl_GetEmployees_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_LearnControl_GetPositions_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_LearnControl_GetEmployees_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_LearnControl_GetPositions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_LearnControl_GetTrainings_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_LearnControl_GetTrainings_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_LearnControl_GetTrainings_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_LearnControl_GetEmployeesByFilters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_LearnControl_GetEmployeesByFilters_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_LearnControl_GetEmployeesByFilters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -533,29 +654,37 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_LearnControl_GetEmployeesByName_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employees", "get", "by_name"}, ""))
+	pattern_LearnControl_GetEmployeesByName_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"employees", "get_list_by_name"}, ""))
 
-	pattern_LearnControl_GetEmployee_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employee", "personal_card", "get"}, ""))
+	pattern_LearnControl_GetEmployeePersonalCard_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"employees", "get_personal_card"}, ""))
 
-	pattern_LearnControl_SetEmployeeTrainingDate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employee", "training_date", "set"}, ""))
+	pattern_LearnControl_SetEmployeeTrainingDate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"employees", "set_training_date"}, ""))
 
-	pattern_LearnControl_UpdateEmployeeTrainingDate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employee", "training_date", "change"}, ""))
+	pattern_LearnControl_UpdateEmployeeTrainingDate_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"employees", "update_training_date"}, ""))
 
-	pattern_LearnControl_GetFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employees", "filters", "get"}, ""))
+	pattern_LearnControl_GetDepartments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"departments", "get"}, ""))
 
-	pattern_LearnControl_GetEmployees_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"employees", "get", "by_filters"}, ""))
+	pattern_LearnControl_GetPositions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"positions", "get"}, ""))
+
+	pattern_LearnControl_GetTrainings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"trainings", "get"}, ""))
+
+	pattern_LearnControl_GetEmployeesByFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"employees", "get_list_by_filters"}, ""))
 )
 
 var (
 	forward_LearnControl_GetEmployeesByName_0 = runtime.ForwardResponseMessage
 
-	forward_LearnControl_GetEmployee_0 = runtime.ForwardResponseMessage
+	forward_LearnControl_GetEmployeePersonalCard_0 = runtime.ForwardResponseMessage
 
 	forward_LearnControl_SetEmployeeTrainingDate_0 = runtime.ForwardResponseMessage
 
 	forward_LearnControl_UpdateEmployeeTrainingDate_0 = runtime.ForwardResponseMessage
 
-	forward_LearnControl_GetFilters_0 = runtime.ForwardResponseMessage
+	forward_LearnControl_GetDepartments_0 = runtime.ForwardResponseMessage
 
-	forward_LearnControl_GetEmployees_0 = runtime.ForwardResponseMessage
+	forward_LearnControl_GetPositions_0 = runtime.ForwardResponseMessage
+
+	forward_LearnControl_GetTrainings_0 = runtime.ForwardResponseMessage
+
+	forward_LearnControl_GetEmployeesByFilters_0 = runtime.ForwardResponseMessage
 )

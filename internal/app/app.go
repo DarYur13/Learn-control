@@ -64,7 +64,7 @@ func (a *App) Run(ctx context.Context) error {
 
 		// Настройки CORS
 		c := cors.New(cors.Options{
-			AllowedOrigins:   []string{"*", "http://localhost:5173", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
+			AllowedOrigins:   []string{"http://localhost:5173", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 			AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
 			ExposedHeaders:   []string{"Content-Length"},

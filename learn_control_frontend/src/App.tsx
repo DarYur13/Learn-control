@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Menu from './pages/Menu';
 import Overview from './pages/Overview';
-import EmployeeDetails from './components/EmployeeDetails';
+import PersonalCards from './pages/PersonalCards';
 
 const App: React.FC = () => {
   return (
@@ -11,7 +11,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Menu />} />
           <Route path="/overview" element={<Overview />} />
-          <Route path="/personal-card" element={<EmployeeDetails id={1} />} />
+          <Route path="/personal-cards" element={<PersonalCards />} />
         </Routes>
       </div>
     </Router>

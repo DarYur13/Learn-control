@@ -7,25 +7,27 @@ import (
 
 type IStorage interface {
 	GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error)
-	GetEmployee(ctx context.Context, id int) (*Employee, error)
+	GetEmployeePersonalCard(ctx context.Context, id int) (*Employee, error)
 	GetPositions(ctx context.Context) ([]string, error)
 	GetDepartments(ctx context.Context) ([]string, error)
 	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
+	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
 }
 
 type Employee struct {
-	FullName   string `db:"full_name"`
-	BirthDate  string `db:"birth_date"`
-	Snils      string `db:"snils"`
-	Department string `db:"department"`
-	Position   string `db:"position"`
-	Trainings  []Training
+	FullName       string `db:"full_name"`
+	BirthDate      string `db:"birth_date"`
+	Snils          string `db:"snils"`
+	Department     string `db:"department"`
+	Position       string `db:"position"`
+	EmploymentDate string `db:"employment_date"`
+	Trainings      []Training
 }
 
 type Training struct {
-	Name       string       `db:"training"`
-	PassDate   sql.NullTime `db:"pass_date"`
-	RePassDate sql.NullTime `db:"repass_date"`
+	Name       string       `db:"training" json:"name"`
+	PassDate   sql.NullTime `db:"pass_date" json:"pass_date"`
+	RePassDate sql.NullTime `db:"repass_date" json:"repass_date"`
 }
 
 type EmployeeBaseInfo struct {
@@ -37,4 +39,21 @@ type EmployeeBaseInfo struct {
 type TrainigBaseInfo struct {
 	ID   int    `db:"id"`
 	Name string `db:"training"`
+}
+
+type EmployeeInfo struct {
+	FullName   string     `db:"full_name" json:"full_name"`
+	Department string     `db:"department" json:"department"`
+	Position   string     `db:"position" json:"position"`
+	Trainings  []Training `json:"trainings"`
+}
+
+type Filters struct {
+	Department         sql.NullString
+	Position           sql.NullString
+	TrainingID         sql.NullInt64
+	DateFrom           sql.NullTime
+	DateTo             sql.NullTime
+	TrainingsNotPassed sql.NullBool
+	RetrainingIn       sql.NullInt64
 }

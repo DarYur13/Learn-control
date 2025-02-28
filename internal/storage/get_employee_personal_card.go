@@ -12,6 +12,7 @@ const (
 			e.snils, 
 			e.department, 
 			e.position, 
+			e.employment_date,
 			t.training, 
 			et.training_date AS pass_date,       -- добавляем алиас
 			et.retraining_date AS repass_date    -- добавляем алиас
@@ -23,7 +24,7 @@ const (
 	`
 )
 
-func (s *Storage) GetEmployee(ctx context.Context, id int) (*Employee, error) {
+func (s *Storage) GetEmployeePersonalCard(ctx context.Context, id int) (*Employee, error) {
 	var (
 		result Employee
 	)
@@ -43,6 +44,7 @@ func (s *Storage) GetEmployee(ctx context.Context, id int) (*Employee, error) {
 			&result.Snils,
 			&result.Department,
 			&result.Position,
+			&result.EmploymentDate,
 			&trainings.Name,
 			&trainings.PassDate,
 			&trainings.RePassDate,
