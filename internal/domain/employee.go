@@ -22,14 +22,14 @@ type EmployeesBaseInfo struct {
 	Employees []EmployeeBaseInfo
 }
 
-func (e *EmployeesBaseInfo) ToDesc() *desc.GetEmployeesResponse {
+func (e *EmployeesBaseInfo) ToDesc() *desc.GetEmployeesByNameResponse {
 	var result []*desc.EmployeeBaseInfo
 
 	for _, employee := range e.Employees {
 		result = append(result, employee.ToDesc())
 	}
 
-	return &desc.GetEmployeesResponse{Employees: result}
+	return &desc.GetEmployeesByNameResponse{Employees: result}
 }
 
 type Employee struct {

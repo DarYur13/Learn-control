@@ -2,8 +2,6 @@ package storage
 
 import (
 	"context"
-
-	"github.com/DarYur13/learn-control/internal/domain"
 )
 
 const (
@@ -25,7 +23,7 @@ const (
 	`
 )
 
-func (s *Storage) GetEmployee(ctx context.Context, id int) (*domain.Employee, error) {
+func (s *Storage) GetEmployee(ctx context.Context, id int) (*Employee, error) {
 	var (
 		result Employee
 	)
@@ -52,5 +50,5 @@ func (s *Storage) GetEmployee(ctx context.Context, id int) (*domain.Employee, er
 		result.Trainings = append(result.Trainings, trainings)
 	}
 
-	return result.toDomain(), nil
+	return &result, nil
 }
