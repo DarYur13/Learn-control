@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import EmployeeSearch from './components/EmployeeSearch';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Menu from './pages/Menu';
+import Overview from './pages/Overview';
 import EmployeeDetails from './components/EmployeeDetails';
 
 const App: React.FC = () => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-
   return (
-    <div className="container py-4">
-      <h2 className="mb-4">Поиск сотрудников</h2>
-      <EmployeeSearch onSelect={setSelectedId} />
-      {selectedId && <EmployeeDetails id={selectedId} />}
-    </div>
+    <Router>
+      <div className="container py-4">
+        <Routes>
+          <Route path="/" element={<Menu />} />
+          <Route path="/overview" element={<Overview />} />
+          <Route path="/personal-card" element={<EmployeeDetails id={1} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
