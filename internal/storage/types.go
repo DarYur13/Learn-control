@@ -8,7 +8,7 @@ import (
 )
 
 type IStorage interface {
-	GetEmployees(ctx context.Context, name string) (*domain.EmployeesBaseInfo, error)
+	GetEmployeesByName(ctx context.Context, name string) (*domain.EmployeesBaseInfo, error)
 	GetEmployee(ctx context.Context, id int) (*Employee, error)
 }
 

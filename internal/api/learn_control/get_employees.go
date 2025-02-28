@@ -8,8 +8,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (i *Implementation) GetEmployees(ctx context.Context, req *desc.GetEmployeesRequest) (*desc.GetEmployeesResponse, error) {
-	employees, err := i.learnControlSrv.GetEmployees(ctx, req.GetName())
+func (i *Implementation) GetEmployeesByName(ctx context.Context, req *desc.GetEmployeesByNameRequest) (*desc.GetEmployeesByNameResponse, error) {
+	employees, err := i.learnControlSrv.GetEmployeesByName(ctx, req.GetName())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "internal service error: %s", err.Error())
 	}

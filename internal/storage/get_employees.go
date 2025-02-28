@@ -19,7 +19,7 @@ const (
 	`
 )
 
-func (s *Storage) GetEmployees(ctx context.Context, name string) (*domain.EmployeesBaseInfo, error) {
+func (s *Storage) GetEmployeesByName(ctx context.Context, name string) (*domain.EmployeesBaseInfo, error) {
 	var (
 		result           domain.EmployeesBaseInfo
 		employeeBaseInfo domain.EmployeeBaseInfo
