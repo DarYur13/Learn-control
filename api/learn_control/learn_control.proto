@@ -6,26 +6,62 @@ option go_package = "github.com/DarYur13/learn_control/pkg/learn_control";
 
 import "validate/validate.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 service LearnControl {
-    rpc GetEmployees (GetEmployeesRequest) returns (GetEmployeesResponse) {
+    rpc GetEmployeesByName (GetEmployeesByNameRequest) returns (GetEmployeesByNameResponse) {
         option (google.api.http) = {
-            post: "/employees/get"
+            post: "/employees/get_list_by_name"
             body: "*"
           };
     };
-    rpc GetEmployee (GetEmployeeRequest) returns (GetEmployeeResponse) {
+
+    rpc GetEmployeePersonalCard (GetEmployeePersonalCardRequest) returns (GetEmployeePersonalCardResponse) {
         option (google.api.http) = {
-            get: "/employee/{id}"
+            post: "/employees/get_personal_card"
+            body: "*"
           };
     };
+
+    rpc UpdateEmployeeTrainingDate (UpdateEmployeeTrainingDateRequest) returns (UpdateEmployeeTrainingDateResponse) {
+        option (google.api.http) = {
+            post: "/employees/update_training_date"
+            body: "*"
+          };
+    };
+
+    rpc GetDepartments (google.protobuf.Empty) returns (GetDepartmentsResponse) {
+        option (google.api.http) = {
+            get: "/departments/get"
+        };
+    }
+
+    rpc GetPositions (google.protobuf.Empty) returns (GetPositionsResponse) {
+        option (google.api.http) = {
+            get: "/positions/get"
+        };
+    }
+
+    rpc GetTrainings (google.protobuf.Empty) returns (GetTrainingsResponse) {
+        option (google.api.http) = {
+            get: "/trainings/get"
+        };
+    }
+
+    rpc GetEmployeesByFilters (GetEmployeesByFiltersRequest) returns (GetEmployeesByFiltersResponse) {
+        option (google.api.http) = {
+            post: "/employees/get_list_by_filters"
+            body: "*"
+        };
+    }
 }
 
-message GetEmployeesRequest {
+message GetEmployeesByNameRequest {
     string name = 1;
 }
 
-message GetEmployeesResponse {
+message GetEmployeesByNameResponse {
     repeated EmployeeBaseInfo employees = 1;
 }
 
@@ -35,21 +71,71 @@ message EmployeeBaseInfo {
     string birthdate = 3;
 }
 
-message GetEmployeeRequest {
+message GetEmployeePersonalCardRequest {
     int64 id = 1 [(validate.rules).int64.gt = 0];
 }
 
-message GetEmployeeResponse {
+message GetEmployeePersonalCardResponse {
     string fullname = 1;
     string birthdate = 2;
     string department = 3;
     string position = 4;
-    string snils = 5;
-    repeated Training trainings = 6;
+    string employmentDate = 5;
+    string snils = 6;
+    repeated Training trainings = 7;
 }
 
 message Training {
     string name = 1;
-    string date = 2;
-    string nextdate = 3;
+    string passDate = 2;
+    string rePassDate = 3;
+}
+
+message UpdateEmployeeTrainingDateRequest {
+    int64 employeeID = 1;
+    int64 trainingID = 2;
+    google.protobuf.Timestamp date = 3;
+}
+
+message UpdateEmployeeTrainingDateResponse {
+    string passDate = 3;
+    string rePassDate = 4;
+}
+
+message GetEmployeesByFiltersRequest {
+    optional string department = 1;
+    optional string position = 2;
+    optional int64 trainingID = 3;
+    optional int64 retrainingIn = 4; 
+    optional bool trainigsNotPassed = 5;
+    optional google.protobuf.Timestamp dateFrom = 6;
+    optional google.protobuf.Timestamp dateTo = 7;
+}
+
+message GetEmployeesByFiltersResponse {
+    repeated EmployeeInfo employees = 1;
+}
+
+message EmployeeInfo {
+    string fullname = 1;
+    string department = 2;
+    string position = 3;
+    repeated Training trainings = 4;
+}
+
+message GetDepartmentsResponse {
+    repeated string departments = 1;
+}
+
+message GetPositionsResponse {
+    repeated string positions = 1;
+}
+
+message GetTrainingsResponse {
+    repeated TrainingBaseInfo trainings = 3;
+}
+
+message TrainingBaseInfo {
+    int64 id = 1;
+    string name = 2;
 }

@@ -64,7 +64,7 @@ func (a *App) Run(ctx context.Context) error {
 
 		// Настройки CORS
 		c := cors.New(cors.Options{
-			AllowedOrigins:   []string{"*", "http://localhost:5173", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
+			AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
 			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 			AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
 			ExposedHeaders:   []string{"Content-Length"},
@@ -113,7 +113,7 @@ func (a *App) initConfig(_ context.Context) error {
 }
 
 func (a *App) initLogger(_ context.Context) error {
-	newLogger, err := logger.New()
+	newLogger, err := logger.New(config.LogFilePath())
 	if err != nil {
 		log.Fatalf("logger settingup error: %s", err.Error())
 	}

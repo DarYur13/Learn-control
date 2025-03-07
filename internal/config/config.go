@@ -69,6 +69,10 @@ func LogLevel() string {
 	return globalConfig.Log.Level
 }
 
+func LogFilePath() string {
+	return globalConfig.Log.FilePath
+}
+
 func PgPort() string {
 	return globalConfig.Pg.Port
 }

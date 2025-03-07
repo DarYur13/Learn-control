@@ -57,6 +57,11 @@ local-migration-up:
 local-migration-down:
 	goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} down
 
+# usage make local-migration-down-to V=5
+.PHONY: local-migration-down-to
+local-migration-down-to:
+	goose -dir ${LOCAL_MIGRATION_DIR} postgres ${LOCAL_MIGRATION_DSN} down-to ${V}
+
 # usage make local-migration-up-to V=5
 .PHONY: local-migration-up-to
 local-migration-up-to:
