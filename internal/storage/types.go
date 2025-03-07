@@ -3,6 +3,7 @@ package storage
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 type IStorage interface {
@@ -12,6 +13,7 @@ type IStorage interface {
 	GetDepartments(ctx context.Context) ([]string, error)
 	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
 	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
+	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*TrainingDates, error)
 }
 
 type Employee struct {
@@ -25,9 +27,13 @@ type Employee struct {
 }
 
 type Training struct {
-	Name       string       `db:"training" json:"name"`
-	PassDate   sql.NullTime `db:"pass_date" json:"pass_date"`
-	RePassDate sql.NullTime `db:"repass_date" json:"repass_date"`
+	Name string `db:"training" json:"name"`
+	TrainingDates
+}
+
+type TrainingDates struct {
+	PassDate   sql.NullTime `db:"training_date" json:"pass_date"`
+	RePassDate sql.NullTime `db:"retraining_date" json:"repass_date"`
 }
 
 type EmployeeBaseInfo struct {

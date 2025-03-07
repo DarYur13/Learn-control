@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/DarYur13/learn-control/internal/domain"
 )
@@ -22,4 +23,5 @@ type ILearnControlService interface {
 	GetTrainings(ctx context.Context) ([]domain.TrainingBaseInfo, error)
 	GetDepartments(ctx context.Context) ([]string, error)
 	GetPositions(ctx context.Context) ([]string, error)
+	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*domain.TrainingDates, error)
 }

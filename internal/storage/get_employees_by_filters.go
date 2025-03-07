@@ -2,71 +2,44 @@ package storage
 
 import (
 	"context"
-	"encoding/json"
+	"database/sql"
 )
 
 const (
 	queryGetEmployeesByFilters = `
-	WITH EmployeeTrainings AS (
-    SELECT 
-        et.employee_id,
-        t.training AS name,
-        et.training_date AS pass_date,
-        et.retraining_date AS re_pass_date
-    FROM employee_trainings et
-    JOIN trainings t ON et.training_id = t.id
-    WHERE 
-        ($3 IS NULL OR et.training_date >= $3)
-        AND ($4 IS NULL OR et.training_date <= $4)
-	)
 	SELECT 
-		e.full_name,
-		e.department,
-		e.position,
-		COALESCE(
-			json_agg(
-				json_build_object(
-					'name', et.name,
-					'pass_date', et.pass_date,
-					're_pass_date', et.re_pass_date
-				)
-			) FILTER (WHERE et.name IS NOT NULL),
-			'[]'
-		) AS trainings
+		e.id, 
+		e.full_name, 
+		e.department, 
+		e.position, 
+		COALESCE(t.training, 'Нет обучения') AS training, 
+		et.training_date, 
+		et.retraining_date
 	FROM employees e
-	LEFT JOIN EmployeeTrainings et ON e.id = et.employee_id
+	LEFT JOIN employee_trainings et ON e.id = et.employee_id
+	LEFT JOIN trainings t ON et.training_id = t.id
 	WHERE 
-		($1 IS NULL OR e.department = $1)
-		AND ($2 IS NULL OR e.position = $2)
-		AND ($5 IS NULL OR e.id IN (
-			SELECT et.employee_id FROM employee_trainings et WHERE et.training_id = $5
-		))
-		AND ($6 IS NULL OR (
-			$6 = TRUE AND e.id IN (
-				SELECT DISTINCT et.employee_id 
-				FROM employee_trainings et 
-				WHERE et.training_date IS NULL -- У сотрудника нет даты прохождения обучения
-			)
-		))
-		AND ($7 IS NULL OR e.id IN (
-			SELECT et.employee_id FROM employee_trainings et 
-			WHERE et.retraining_date IS NOT NULL 
-			AND et.retraining_date <= CURRENT_DATE + ($7 || ' days')::INTERVAL
-		))
-	GROUP BY e.id
-	ORDER BY e.full_name;
+		(COALESCE($1::TEXT, '') = '' OR e.department = $1::TEXT)
+		AND (COALESCE($2::TEXT, '') = '' OR e.position = $2::TEXT)
+		AND (COALESCE($3::INTEGER, -1) = -1 OR et.training_id = $3::INTEGER)
+		AND (
+			(COALESCE($4::DATE, '1000-01-01') = '1000-01-01' AND COALESCE($5::DATE, '9999-12-31') = '9999-12-31')
+			OR (COALESCE($4::DATE, '1000-01-01') != '1000-01-01' AND et.training_date >= $4::DATE)
+			OR (COALESCE($5::DATE, '9999-12-31') != '9999-12-31' AND et.training_date <= $5::DATE)
+		)
+		AND (COALESCE($6::BOOLEAN, FALSE) = FALSE OR (et.training_id IS NOT NULL AND et.training_date IS NULL))
+		AND (COALESCE($7::INTEGER, -1) = -1 OR (et.retraining_date IS NOT NULL AND et.retraining_date <= CURRENT_DATE + INTERVAL '1 day' * $7::INTEGER))
+	ORDER BY e.id;
 	`
 )
 
 func (s *Storage) GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error) {
-	var employees []EmployeeInfo
-
 	rows, err := s.db.QueryContext(ctx, queryGetEmployeesByFilters,
 		filters.Department,
-		filters.Position,
+		filters.Position.String,
+		filters.TrainingID,
 		filters.DateFrom,
 		filters.DateTo,
-		filters.TrainingID,
 		filters.TrainingsNotPassed,
 		filters.RetrainingIn,
 	)
@@ -75,24 +48,50 @@ func (s *Storage) GetEmployeesByFilters(ctx context.Context, filters Filters) ([
 	}
 	defer rows.Close()
 
+	// Хранение данных сотрудников
+	employeesMap := make(map[string]*EmployeeInfo)
+
 	for rows.Next() {
-		var employee EmployeeInfo
-		var trainingsJSON string
+		var (
+			id         int
+			fullName   string
+			department string
+			position   string
+			training   sql.NullString
+			passDate   sql.NullTime
+			rePassDate sql.NullTime
+		)
 
-		if err := rows.Scan(
-			&employee.FullName,
-			&employee.Department,
-			&employee.Position,
-			&trainingsJSON,
-		); err != nil {
+		if err := rows.Scan(&id, &fullName, &department, &position, &training, &passDate, &rePassDate); err != nil {
 			return nil, err
 		}
 
-		if err := json.Unmarshal([]byte(trainingsJSON), &employee.Trainings); err != nil {
-			return nil, err
+		empKey := fullName + department + position // Ключ для группировки сотрудников
+		if _, exists := employeesMap[empKey]; !exists {
+			employeesMap[empKey] = &EmployeeInfo{
+				FullName:   fullName,
+				Department: department,
+				Position:   position,
+				Trainings:  []Training{},
+			}
 		}
 
-		employees = append(employees, employee)
+		// Добавляем обучение, если оно есть
+		if training.Valid {
+			employeesMap[empKey].Trainings = append(employeesMap[empKey].Trainings, Training{
+				Name: training.String,
+				TrainingDates: TrainingDates{
+					PassDate:   passDate,
+					RePassDate: rePassDate,
+				},
+			})
+		}
+	}
+
+	// Преобразуем map в slice
+	employees := make([]EmployeeInfo, 0, len(employeesMap))
+	for _, emp := range employeesMap {
+		employees = append(employees, *emp)
 	}
 
 	return employees, nil

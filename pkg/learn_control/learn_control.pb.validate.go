@@ -749,222 +749,6 @@ var _ interface {
 	ErrorName() string
 } = TrainingValidationError{}
 
-// Validate checks the field values on SetEmployeeTrainingDateRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SetEmployeeTrainingDateRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on SetEmployeeTrainingDateRequest with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// SetEmployeeTrainingDateRequestMultiError, or nil if none found.
-func (m *SetEmployeeTrainingDateRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *SetEmployeeTrainingDateRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for EmployeeID
-
-	// no validation rules for TrainigID
-
-	// no validation rules for Date
-
-	if len(errors) > 0 {
-		return SetEmployeeTrainingDateRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// SetEmployeeTrainingDateRequestMultiError is an error wrapping multiple
-// validation errors returned by SetEmployeeTrainingDateRequest.ValidateAll()
-// if the designated constraints aren't met.
-type SetEmployeeTrainingDateRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m SetEmployeeTrainingDateRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m SetEmployeeTrainingDateRequestMultiError) AllErrors() []error { return m }
-
-// SetEmployeeTrainingDateRequestValidationError is the validation error
-// returned by SetEmployeeTrainingDateRequest.Validate if the designated
-// constraints aren't met.
-type SetEmployeeTrainingDateRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e SetEmployeeTrainingDateRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e SetEmployeeTrainingDateRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e SetEmployeeTrainingDateRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e SetEmployeeTrainingDateRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e SetEmployeeTrainingDateRequestValidationError) ErrorName() string {
-	return "SetEmployeeTrainingDateRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e SetEmployeeTrainingDateRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sSetEmployeeTrainingDateRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = SetEmployeeTrainingDateRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = SetEmployeeTrainingDateRequestValidationError{}
-
-// Validate checks the field values on SetEmployeeTrainingDateResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SetEmployeeTrainingDateResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on SetEmployeeTrainingDateResponse with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// SetEmployeeTrainingDateResponseMultiError, or nil if none found.
-func (m *SetEmployeeTrainingDateResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *SetEmployeeTrainingDateResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for PassDate
-
-	// no validation rules for RePassDate
-
-	if len(errors) > 0 {
-		return SetEmployeeTrainingDateResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// SetEmployeeTrainingDateResponseMultiError is an error wrapping multiple
-// validation errors returned by SetEmployeeTrainingDateResponse.ValidateAll()
-// if the designated constraints aren't met.
-type SetEmployeeTrainingDateResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m SetEmployeeTrainingDateResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m SetEmployeeTrainingDateResponseMultiError) AllErrors() []error { return m }
-
-// SetEmployeeTrainingDateResponseValidationError is the validation error
-// returned by SetEmployeeTrainingDateResponse.Validate if the designated
-// constraints aren't met.
-type SetEmployeeTrainingDateResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e SetEmployeeTrainingDateResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e SetEmployeeTrainingDateResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e SetEmployeeTrainingDateResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e SetEmployeeTrainingDateResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e SetEmployeeTrainingDateResponseValidationError) ErrorName() string {
-	return "SetEmployeeTrainingDateResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e SetEmployeeTrainingDateResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sSetEmployeeTrainingDateResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = SetEmployeeTrainingDateResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = SetEmployeeTrainingDateResponseValidationError{}
-
 // Validate checks the field values on UpdateEmployeeTrainingDateRequest with
 // the rules defined in the proto definition for this message. If any rules
 // are violated, the first error encountered is returned, or nil if there are
@@ -990,9 +774,36 @@ func (m *UpdateEmployeeTrainingDateRequest) validate(all bool) error {
 
 	// no validation rules for EmployeeID
 
-	// no validation rules for TrainigID
+	// no validation rules for TrainingID
 
-	// no validation rules for Date
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateEmployeeTrainingDateRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return UpdateEmployeeTrainingDateRequestMultiError(errors)

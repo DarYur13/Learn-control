@@ -27,3 +27,10 @@ func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *desc.GetTrainingsResp
 
 	return result
 }
+
+func TrainingDatesToDesc(dates *domain.TrainingDates) *desc.UpdateEmployeeTrainingDateResponse {
+	return &desc.UpdateEmployeeTrainingDateResponse{
+		PassDate:   dates.PassDate,
+		RePassDate: dates.RePassDate,
+	}
+}

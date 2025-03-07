@@ -24,13 +24,6 @@ service LearnControl {
           };
     };
 
-    rpc SetEmployeeTrainingDate (SetEmployeeTrainingDateRequest) returns (SetEmployeeTrainingDateResponse) {
-        option (google.api.http) = {
-            post: "/employees/set_training_date"
-            body: "*"
-          };
-    };
-
     rpc UpdateEmployeeTrainingDate (UpdateEmployeeTrainingDateRequest) returns (UpdateEmployeeTrainingDateResponse) {
         option (google.api.http) = {
             post: "/employees/update_training_date"
@@ -58,7 +51,8 @@ service LearnControl {
 
     rpc GetEmployeesByFilters (GetEmployeesByFiltersRequest) returns (GetEmployeesByFiltersResponse) {
         option (google.api.http) = {
-            get: "/employees/get_list_by_filters"
+            post: "/employees/get_list_by_filters"
+            body: "*"
         };
     }
 }
@@ -97,21 +91,10 @@ message Training {
     string rePassDate = 3;
 }
 
-message SetEmployeeTrainingDateRequest {
-    int64 employeeID = 1;
-    int64 trainigID = 2;
-    string date = 3;
-}
-
-message SetEmployeeTrainingDateResponse {
-    string passDate = 3;
-    string rePassDate = 4;
-}
-
 message UpdateEmployeeTrainingDateRequest {
     int64 employeeID = 1;
-    int64 trainigID = 2;
-    string date = 3;
+    int64 trainingID = 2;
+    google.protobuf.Timestamp date = 3;
 }
 
 message UpdateEmployeeTrainingDateResponse {

@@ -1,13 +1,13 @@
 package domain
 
-import "time"
+import "database/sql"
 
 type Filters struct {
-	Deparment          string
-	Position           string
-	TrainingID         int
-	DateFrom           time.Time
-	DateTo             time.Time
-	TrainingsNotPassed bool
-	RetrainingIn       int
+	Department         sql.NullString
+	Position           sql.NullString
+	TrainingID         sql.NullInt64
+	DateFrom           sql.NullTime
+	DateTo             sql.NullTime
+	TrainingsNotPassed sql.NullBool
+	RetrainingIn       sql.NullInt64
 }

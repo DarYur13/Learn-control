@@ -22,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	LearnControl_GetEmployeesByName_FullMethodName         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
 	LearnControl_GetEmployeePersonalCard_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
-	LearnControl_SetEmployeeTrainingDate_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/SetEmployeeTrainingDate"
 	LearnControl_UpdateEmployeeTrainingDate_FullMethodName = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
 	LearnControl_GetDepartments_FullMethodName             = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments"
 	LearnControl_GetPositions_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
@@ -36,7 +35,6 @@ const (
 type LearnControlClient interface {
 	GetEmployeesByName(ctx context.Context, in *GetEmployeesByNameRequest, opts ...grpc.CallOption) (*GetEmployeesByNameResponse, error)
 	GetEmployeePersonalCard(ctx context.Context, in *GetEmployeePersonalCardRequest, opts ...grpc.CallOption) (*GetEmployeePersonalCardResponse, error)
-	SetEmployeeTrainingDate(ctx context.Context, in *SetEmployeeTrainingDateRequest, opts ...grpc.CallOption) (*SetEmployeeTrainingDateResponse, error)
 	UpdateEmployeeTrainingDate(ctx context.Context, in *UpdateEmployeeTrainingDateRequest, opts ...grpc.CallOption) (*UpdateEmployeeTrainingDateResponse, error)
 	GetDepartments(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetDepartmentsResponse, error)
 	GetPositions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetPositionsResponse, error)
@@ -64,15 +62,6 @@ func (c *learnControlClient) GetEmployeesByName(ctx context.Context, in *GetEmpl
 func (c *learnControlClient) GetEmployeePersonalCard(ctx context.Context, in *GetEmployeePersonalCardRequest, opts ...grpc.CallOption) (*GetEmployeePersonalCardResponse, error) {
 	out := new(GetEmployeePersonalCardResponse)
 	err := c.cc.Invoke(ctx, LearnControl_GetEmployeePersonalCard_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *learnControlClient) SetEmployeeTrainingDate(ctx context.Context, in *SetEmployeeTrainingDateRequest, opts ...grpc.CallOption) (*SetEmployeeTrainingDateResponse, error) {
-	out := new(SetEmployeeTrainingDateResponse)
-	err := c.cc.Invoke(ctx, LearnControl_SetEmployeeTrainingDate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +119,6 @@ func (c *learnControlClient) GetEmployeesByFilters(ctx context.Context, in *GetE
 type LearnControlServer interface {
 	GetEmployeesByName(context.Context, *GetEmployeesByNameRequest) (*GetEmployeesByNameResponse, error)
 	GetEmployeePersonalCard(context.Context, *GetEmployeePersonalCardRequest) (*GetEmployeePersonalCardResponse, error)
-	SetEmployeeTrainingDate(context.Context, *SetEmployeeTrainingDateRequest) (*SetEmployeeTrainingDateResponse, error)
 	UpdateEmployeeTrainingDate(context.Context, *UpdateEmployeeTrainingDateRequest) (*UpdateEmployeeTrainingDateResponse, error)
 	GetDepartments(context.Context, *emptypb.Empty) (*GetDepartmentsResponse, error)
 	GetPositions(context.Context, *emptypb.Empty) (*GetPositionsResponse, error)
@@ -148,9 +136,6 @@ func (UnimplementedLearnControlServer) GetEmployeesByName(context.Context, *GetE
 }
 func (UnimplementedLearnControlServer) GetEmployeePersonalCard(context.Context, *GetEmployeePersonalCardRequest) (*GetEmployeePersonalCardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeePersonalCard not implemented")
-}
-func (UnimplementedLearnControlServer) SetEmployeeTrainingDate(context.Context, *SetEmployeeTrainingDateRequest) (*SetEmployeeTrainingDateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetEmployeeTrainingDate not implemented")
 }
 func (UnimplementedLearnControlServer) UpdateEmployeeTrainingDate(context.Context, *UpdateEmployeeTrainingDateRequest) (*UpdateEmployeeTrainingDateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmployeeTrainingDate not implemented")
@@ -212,24 +197,6 @@ func _LearnControl_GetEmployeePersonalCard_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LearnControlServer).GetEmployeePersonalCard(ctx, req.(*GetEmployeePersonalCardRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _LearnControl_SetEmployeeTrainingDate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetEmployeeTrainingDateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LearnControlServer).SetEmployeeTrainingDate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: LearnControl_SetEmployeeTrainingDate_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LearnControlServer).SetEmployeeTrainingDate(ctx, req.(*SetEmployeeTrainingDateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -338,10 +305,6 @@ var LearnControl_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetEmployeePersonalCard",
 			Handler:    _LearnControl_GetEmployeePersonalCard_Handler,
-		},
-		{
-			MethodName: "SetEmployeeTrainingDate",
-			Handler:    _LearnControl_SetEmployeeTrainingDate_Handler,
 		},
 		{
 			MethodName: "UpdateEmployeeTrainingDate",

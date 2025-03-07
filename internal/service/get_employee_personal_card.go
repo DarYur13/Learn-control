@@ -24,10 +24,9 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 
 	for _, t := range employee.Trainings {
 		training := domain.Training{
-			Name: t.Name,
+			Name:          t.Name,
+			TrainingDates: s.formatTrainingDates(t.TrainingDates),
 		}
-
-		s.validateTrainingDates(t, &training)
 
 		result.Trainings = append(result.Trainings, training)
 	}
@@ -35,7 +34,8 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 	return &result, nil
 }
 
-func (s *Service) validateTrainingDates(st storage.Training, dt *domain.Training) {
+func (s *Service) formatTrainingDates(st storage.TrainingDates) domain.TrainingDates {
+	dt := domain.TrainingDates{}
 	if st.PassDate.Valid {
 		dt.PassDate = st.PassDate.Time.Format(dateFormat)
 
@@ -44,9 +44,10 @@ func (s *Service) validateTrainingDates(st storage.Training, dt *domain.Training
 		} else {
 			dt.RePassDate = noNeedRepassDate
 		}
-
 	} else {
 		dt.PassDate = noPassDate
 		dt.RePassDate = noRepassDate
 	}
+
+	return dt
 }
