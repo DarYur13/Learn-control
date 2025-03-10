@@ -37,6 +37,10 @@ func FiltersToDomain(req *desc.GetEmployeesByFiltersRequest) domain.Filters {
 			Valid: req.RetrainingIn != nil,
 			Int64: req.GetRetrainingIn(),
 		},
+		HasProtocol: sql.NullBool{
+			Valid: req.HasProtocol != nil,
+			Bool:  req.GetHasProtocol(),
+		},
 	}
 
 	return filters

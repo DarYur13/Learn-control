@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/DarYur13/learn-control/internal/storage"
@@ -25,7 +26,8 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 	for _, t := range employee.Trainings {
 		training := domain.Training{
 			Name:          t.Name,
-			TrainingDates: s.formatTrainingDates(t.TrainingDates),
+			TrainingDates: formatTrainingDates(t.TrainingDates),
+			HasProtocol:   formatTrainingHasProtocol(t.HasProtocol),
 		}
 
 		result.Trainings = append(result.Trainings, training)
@@ -34,7 +36,7 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 	return &result, nil
 }
 
-func (s *Service) formatTrainingDates(st storage.TrainingDates) domain.TrainingDates {
+func formatTrainingDates(st storage.TrainingDates) domain.TrainingDates {
 	dt := domain.TrainingDates{}
 	if st.PassDate.Valid {
 		dt.PassDate = st.PassDate.Time.Format(dateFormat)
@@ -50,4 +52,16 @@ func (s *Service) formatTrainingDates(st storage.TrainingDates) domain.TrainingD
 	}
 
 	return dt
+}
+
+func formatTrainingHasProtocol(hp sql.NullBool) string {
+	if hp.Valid {
+		if hp.Bool {
+			return "Получен"
+		}
+
+		return "Ожидается"
+	}
+
+	return "Не требуется"
 }

@@ -26,7 +26,8 @@ func (s *Service) GetEmployeesByFilters(ctx context.Context, filters domain.Filt
 		for _, t := range e.Trainings {
 			training := domain.Training{
 				Name:          t.Name,
-				TrainingDates: s.formatTrainingDates(t.TrainingDates),
+				TrainingDates: formatTrainingDates(t.TrainingDates),
+				HasProtocol:   formatTrainingHasProtocol(t.HasProtocol),
 			}
 
 			employee.Trainings = append(employee.Trainings, training)

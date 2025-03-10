@@ -13,7 +13,7 @@ func (s *Service) UpdateEmployeeTrainingDate(ctx context.Context, employeeID int
 		return nil, err
 	}
 
-	result := s.formatTrainingDates(*dates)
+	result := formatTrainingDates(*dates)
 
 	return &result, nil
 }

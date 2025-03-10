@@ -10,4 +10,5 @@ type Filters struct {
 	DateTo             sql.NullTime
 	TrainingsNotPassed sql.NullBool
 	RetrainingIn       sql.NullInt64
+	HasProtocol        sql.NullBool
 }

@@ -672,6 +672,8 @@ func (m *Training) validate(all bool) error {
 
 	// no validation rules for RePassDate
 
+	// no validation rules for HasProtocol
+
 	if len(errors) > 0 {
 		return TrainingMultiError(errors)
 	}
@@ -1102,6 +1104,10 @@ func (m *GetEmployeesByFiltersRequest) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.HasProtocol != nil {
+		// no validation rules for HasProtocol
 	}
 
 	if len(errors) > 0 {

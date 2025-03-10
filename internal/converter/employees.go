@@ -53,9 +53,10 @@ func EmployeesInfoToDesc(e []domain.EmployeeInfo) *desc.GetEmployeesByFiltersRes
 
 		for _, t := range empl.Trainings {
 			training := &desc.Training{
-				Name:       t.Name,
-				PassDate:   t.PassDate,
-				RePassDate: t.RePassDate,
+				Name:        t.Name,
+				PassDate:    t.PassDate,
+				RePassDate:  t.RePassDate,
+				HasProtocol: t.HasProtocol,
 			}
 
 			employee.Trainings = append(employee.Trainings, training)

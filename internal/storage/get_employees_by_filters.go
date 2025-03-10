@@ -7,28 +7,34 @@ import (
 
 const (
 	queryGetEmployeesByFilters = `
+	WITH filtered_employees AS (
+		SELECT * FROM employees
+		WHERE ($1 IS NULL OR department = $1)
+		AND ($2 IS NULL OR position = $2)
+	),
+	filtered_trainings AS (
+		SELECT * FROM employee_trainings
+		WHERE ($3 IS NULL OR training_id = $3)
+		AND (
+			($4 IS NULL AND $5 IS NULL)
+			OR ($4 IS NOT NULL AND training_date >= $4)
+			OR ($5 IS NOT NULL AND training_date <= $5)
+		)
+		AND ($7 IS NULL OR (retraining_date IS NOT NULL AND retraining_date <= CURRENT_DATE + INTERVAL '1 day' * $7))
+		AND ($8 IS NULL OR has_protocol = $8)
+	)
 	SELECT 
 		e.id, 
 		e.full_name, 
 		e.department, 
 		e.position, 
-		COALESCE(t.training, 'Нет обучения') AS training, 
+		t.training, 
 		et.training_date, 
-		et.retraining_date
-	FROM employees e
-	LEFT JOIN employee_trainings et ON e.id = et.employee_id
+		et.retraining_date,
+		et.has_protocol
+	FROM filtered_employees e
+	LEFT JOIN filtered_trainings et ON e.id = et.employee_id
 	LEFT JOIN trainings t ON et.training_id = t.id
-	WHERE 
-		(COALESCE($1::TEXT, '') = '' OR e.department = $1::TEXT)
-		AND (COALESCE($2::TEXT, '') = '' OR e.position = $2::TEXT)
-		AND (COALESCE($3::INTEGER, -1) = -1 OR et.training_id = $3::INTEGER)
-		AND (
-			(COALESCE($4::DATE, '1000-01-01') = '1000-01-01' AND COALESCE($5::DATE, '9999-12-31') = '9999-12-31')
-			OR (COALESCE($4::DATE, '1000-01-01') != '1000-01-01' AND et.training_date >= $4::DATE)
-			OR (COALESCE($5::DATE, '9999-12-31') != '9999-12-31' AND et.training_date <= $5::DATE)
-		)
-		AND (COALESCE($6::BOOLEAN, FALSE) = FALSE OR (et.training_id IS NOT NULL AND et.training_date IS NULL))
-		AND (COALESCE($7::INTEGER, -1) = -1 OR (et.retraining_date IS NOT NULL AND et.retraining_date <= CURRENT_DATE + INTERVAL '1 day' * $7::INTEGER))
 	ORDER BY e.id;
 	`
 )
@@ -42,6 +48,7 @@ func (s *Storage) GetEmployeesByFilters(ctx context.Context, filters Filters) ([
 		filters.DateTo,
 		filters.TrainingsNotPassed,
 		filters.RetrainingIn,
+		filters.HasProtocol,
 	)
 	if err != nil {
 		return nil, err
@@ -53,16 +60,26 @@ func (s *Storage) GetEmployeesByFilters(ctx context.Context, filters Filters) ([
 
 	for rows.Next() {
 		var (
-			id         int
-			fullName   string
-			department string
-			position   string
-			training   sql.NullString
-			passDate   sql.NullTime
-			rePassDate sql.NullTime
+			id          int
+			fullName    string
+			department  string
+			position    string
+			training    sql.NullString
+			passDate    sql.NullTime
+			rePassDate  sql.NullTime
+			hasProtocol sql.NullBool
 		)
 
-		if err := rows.Scan(&id, &fullName, &department, &position, &training, &passDate, &rePassDate); err != nil {
+		if err := rows.Scan(
+			&id,
+			&fullName,
+			&department,
+			&position,
+			&training,
+			&passDate,
+			&rePassDate,
+			&hasProtocol,
+		); err != nil {
 			return nil, err
 		}
 
@@ -84,6 +101,7 @@ func (s *Storage) GetEmployeesByFilters(ctx context.Context, filters Filters) ([
 					PassDate:   passDate,
 					RePassDate: rePassDate,
 				},
+				HasProtocol: hasProtocol,
 			})
 		}
 	}
