@@ -89,6 +89,7 @@ message Training {
     string name = 1;
     string passDate = 2;
     string rePassDate = 3;
+    string hasProtocol = 4;
 }
 
 message UpdateEmployeeTrainingDateRequest {
@@ -110,6 +111,7 @@ message GetEmployeesByFiltersRequest {
     optional bool trainigsNotPassed = 5;
     optional google.protobuf.Timestamp dateFrom = 6;
     optional google.protobuf.Timestamp dateTo = 7;
+    optional bool hasProtocol = 8;
 }
 
 message GetEmployeesByFiltersResponse {

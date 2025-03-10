@@ -27,7 +27,8 @@ type Employee struct {
 }
 
 type Training struct {
-	Name string `db:"training" json:"name"`
+	Name        string       `db:"training" json:"name"`
+	HasProtocol sql.NullBool `db:"has_protocol" json:"has_protocol"`
 	TrainingDates
 }
 
@@ -62,4 +63,5 @@ type Filters struct {
 	DateTo             sql.NullTime
 	TrainingsNotPassed sql.NullBool
 	RetrainingIn       sql.NullInt64
+	HasProtocol        sql.NullBool
 }

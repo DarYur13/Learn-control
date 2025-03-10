@@ -7,9 +7,10 @@ import (
 
 func TrainingToDesc(t domain.Training) *desc.Training {
 	return &desc.Training{
-		Name:       t.Name,
-		PassDate:   t.PassDate,
-		RePassDate: t.RePassDate,
+		Name:        t.Name,
+		PassDate:    t.PassDate,
+		RePassDate:  t.RePassDate,
+		HasProtocol: t.HasProtocol,
 	}
 }
 

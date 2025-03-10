@@ -1,7 +1,8 @@
 package domain
 
 type Training struct {
-	Name string
+	Name        string
+	HasProtocol string
 	TrainingDates
 }
 

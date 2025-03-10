@@ -14,8 +14,9 @@ const (
 			e.position, 
 			e.employment_date,
 			t.training, 
-			et.training_date AS pass_date,       -- добавляем алиас
-			et.retraining_date AS repass_date    -- добавляем алиас
+			et.training_date AS pass_date,
+			et.retraining_date AS repass_date,
+			et.has_protocol
 		FROM employees e
 		JOIN employee_trainings et ON e.id = et.employee_id
 		JOIN trainings t ON et.training_id = t.id
@@ -48,6 +49,7 @@ func (s *Storage) GetEmployeePersonalCard(ctx context.Context, id int) (*Employe
 			&trainings.Name,
 			&trainings.PassDate,
 			&trainings.RePassDate,
+			&trainings.HasProtocol,
 		)
 
 		result.Trainings = append(result.Trainings, trainings)
