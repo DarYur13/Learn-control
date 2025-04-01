@@ -11,12 +11,14 @@ import (
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
 	cmdService "github.com/DarYur13/learn-control/internal/service"
-	cmdStor "github.com/DarYur13/learn-control/internal/storage"
+	cmdStor "github.com/DarYur13/learn-control/internal/storage/learn_control"
+	cmdTxManager "github.com/DarYur13/learn-control/internal/storage/txManager"
 )
 
 // serviceProvider di-container
 type serviceProvider struct {
 	db             *sql.DB
+	txManager      cmdTxManager.IManager
 	storage        cmdStor.IStorage
 	service        cmdService.ILearnControlService
 	implementation *cmdImpl.Implementation
@@ -54,9 +56,16 @@ func (s *serviceProvider) getStorage(ctx context.Context) cmdStor.IStorage {
 	return s.storage
 }
 
+func (s *serviceProvider) getTxManager(ctx context.Context) cmdTxManager.IManager {
+	if s.txManager == nil {
+		s.txManager = cmdTxManager.New(s.getDbConn(ctx))
+	}
+	return s.txManager
+}
+
 func (s *serviceProvider) getService(ctx context.Context) cmdService.ILearnControlService {
 	if s.service == nil {
-		s.service = cmdService.New(s.getStorage(ctx))
+		s.service = cmdService.New(s.getStorage(ctx), s.getTxManager(ctx))
 	}
 	return s.service
 }

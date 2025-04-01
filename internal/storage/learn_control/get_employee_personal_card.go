@@ -25,9 +25,9 @@ const (
 	`
 )
 
-func (s *Storage) GetEmployeePersonalCard(ctx context.Context, id int) (*Employee, error) {
+func (s *Storage) GetEmployeePersonalCard(ctx context.Context, id int) (*EmployeePersonalCard, error) {
 	var (
-		result Employee
+		result EmployeePersonalCard
 	)
 
 	rows, err := s.db.QueryContext(ctx, queryGetEmployee, id)

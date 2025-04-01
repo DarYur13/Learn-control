@@ -8,15 +8,27 @@ import (
 
 type IStorage interface {
 	GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error)
-	GetEmployeePersonalCard(ctx context.Context, id int) (*Employee, error)
+	GetEmployeePersonalCard(ctx context.Context, id int) (*EmployeePersonalCard, error)
 	GetPositions(ctx context.Context) ([]string, error)
 	GetDepartments(ctx context.Context) ([]string, error)
 	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
 	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
-	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*TrainingDates, error)
+	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*TrainingDates, error)
+	AddEmployeeTx(ctx context.Context, tx *sql.Tx, employee Employee) (int, error)
+	GetTrainingsForPosition(ctx context.Context, department, position string) ([]int, error)
+	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingsIDs []int) error
 }
 
 type Employee struct {
+	FullName       string `db:"full_name"`
+	BirthDate      string `db:"birth_date"`
+	Snils          string `db:"snils"`
+	Department     string `db:"department"`
+	Position       string `db:"position"`
+	EmploymentDate string `db:"employment_date"`
+}
+
+type EmployeePersonalCard struct {
 	FullName       string `db:"full_name"`
 	BirthDate      string `db:"birth_date"`
 	Snils          string `db:"snils"`

@@ -24,4 +24,5 @@ type ILearnControlService interface {
 	GetDepartments(ctx context.Context) ([]string, error)
 	GetPositions(ctx context.Context) ([]string, error)
 	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*domain.TrainingDates, error)
+	AddEmployee(ctx context.Context, employee domain.Employee) error
 }
