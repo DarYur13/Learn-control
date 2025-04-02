@@ -27,6 +27,7 @@ const (
 	LearnControl_GetPositions_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
 	LearnControl_GetTrainings_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings"
 	LearnControl_GetEmployeesByFilters_FullMethodName      = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
+	LearnControl_AddEmployee_FullMethodName                = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee"
 )
 
 // LearnControlClient is the client API for LearnControl service.
@@ -40,6 +41,7 @@ type LearnControlClient interface {
 	GetPositions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetPositionsResponse, error)
 	GetTrainings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTrainingsResponse, error)
 	GetEmployeesByFilters(ctx context.Context, in *GetEmployeesByFiltersRequest, opts ...grpc.CallOption) (*GetEmployeesByFiltersResponse, error)
+	AddEmployee(ctx context.Context, in *AddEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type learnControlClient struct {
@@ -113,6 +115,15 @@ func (c *learnControlClient) GetEmployeesByFilters(ctx context.Context, in *GetE
 	return out, nil
 }
 
+func (c *learnControlClient) AddEmployee(ctx context.Context, in *AddEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, LearnControl_AddEmployee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LearnControlServer is the server API for LearnControl service.
 // All implementations must embed UnimplementedLearnControlServer
 // for forward compatibility
@@ -124,6 +135,7 @@ type LearnControlServer interface {
 	GetPositions(context.Context, *emptypb.Empty) (*GetPositionsResponse, error)
 	GetTrainings(context.Context, *emptypb.Empty) (*GetTrainingsResponse, error)
 	GetEmployeesByFilters(context.Context, *GetEmployeesByFiltersRequest) (*GetEmployeesByFiltersResponse, error)
+	AddEmployee(context.Context, *AddEmployeeRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedLearnControlServer()
 }
 
@@ -151,6 +163,9 @@ func (UnimplementedLearnControlServer) GetTrainings(context.Context, *emptypb.Em
 }
 func (UnimplementedLearnControlServer) GetEmployeesByFilters(context.Context, *GetEmployeesByFiltersRequest) (*GetEmployeesByFiltersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployeesByFilters not implemented")
+}
+func (UnimplementedLearnControlServer) AddEmployee(context.Context, *AddEmployeeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddEmployee not implemented")
 }
 func (UnimplementedLearnControlServer) mustEmbedUnimplementedLearnControlServer() {}
 
@@ -291,6 +306,24 @@ func _LearnControl_GetEmployeesByFilters_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LearnControl_AddEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddEmployeeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).AddEmployee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_AddEmployee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).AddEmployee(ctx, req.(*AddEmployeeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LearnControl_ServiceDesc is the grpc.ServiceDesc for LearnControl service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -325,6 +358,10 @@ var LearnControl_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetEmployeesByFilters",
 			Handler:    _LearnControl_GetEmployeesByFilters_Handler,
+		},
+		{
+			MethodName: "AddEmployee",
+			Handler:    _LearnControl_AddEmployee_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

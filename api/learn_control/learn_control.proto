@@ -55,7 +55,29 @@ service LearnControl {
             body: "*"
         };
     }
+
+    rpc AddEmployee (AddEmployeeRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/employees/add"
+            body: "*"
+        };
+    }
 }
+
+message AddEmployeeRequest {
+    string fullname = 1 [(validate.rules).string = {min_len: 1}];
+    string birthdate = 2 [(validate.rules).string = {min_len: 10}];
+    string department = 3 [(validate.rules).string = {min_len: 1}];
+    string position = 4 [(validate.rules).string = {min_len: 1}];
+    string employmentDate = 5 [(validate.rules).string = {min_len: 10}];
+    string snils = 6 [(validate.rules).string = {pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}$"}];
+}
+
+// message AddEmployeeResponse{
+//     int64 id = 1;
+//     bool trainingsAssigned = 2;
+//     repeated TrainingBaseInfo trainings = 3;
+// }
 
 message GetEmployeesByNameRequest {
     string name = 1;

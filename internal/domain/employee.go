@@ -1,5 +1,14 @@
 package domain
 
+type Employee struct {
+	FullName       string
+	BirthDate      string
+	Snils          string
+	Department     string
+	Position       string
+	EmploymentDate string
+}
+
 type EmployeeBaseInfo struct {
 	ID        int64
 	FullName  string

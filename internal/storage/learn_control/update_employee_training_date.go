@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"database/sql"
 	"time"
 )
 
@@ -14,10 +15,10 @@ const (
 	`
 )
 
-func (s *Storage) UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*TrainingDates, error) {
+func (s *Storage) UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*TrainingDates, error) {
 	var trainingDates TrainingDates
 
-	err := s.db.QueryRowContext(ctx, queryUpdateEmployeeTrainingDate,
+	err := tx.QueryRowContext(ctx, queryUpdateEmployeeTrainingDate,
 		date,
 		employeeID,
 		trainingID,

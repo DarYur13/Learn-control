@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/DarYur13/learn-control/internal/domain"
-	"github.com/DarYur13/learn-control/internal/storage"
+	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
 )
 
 func (s *Service) GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error) {
