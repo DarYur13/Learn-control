@@ -17,6 +17,7 @@ type IStorage interface {
 	AddEmployeeTx(ctx context.Context, tx *sql.Tx, employee Employee) (int, error)
 	GetTrainingsForPosition(ctx context.Context, department, position string) ([]int, error)
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingsIDs []int) error
+	AddPositionTx(ctx context.Context, tx *sql.Tx, position, department string) (int, error)
 }
 
 type Employee struct {

@@ -68,10 +68,10 @@ func (m *AddEmployeeRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.GetBirthdate() == nil {
+	if utf8.RuneCountInString(m.GetBirthdate()) < 10 {
 		err := AddEmployeeRequestValidationError{
 			field:  "Birthdate",
-			reason: "value is required",
+			reason: "value length must be at least 10 runes",
 		}
 		if !all {
 			return err
@@ -101,10 +101,10 @@ func (m *AddEmployeeRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.GetEmploymentDate() == nil {
+	if utf8.RuneCountInString(m.GetEmploymentDate()) < 10 {
 		err := AddEmployeeRequestValidationError{
 			field:  "EmploymentDate",
-			reason: "value is required",
+			reason: "value length must be at least 10 runes",
 		}
 		if !all {
 			return err

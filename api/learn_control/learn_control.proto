@@ -66,10 +66,10 @@ service LearnControl {
 
 message AddEmployeeRequest {
     string fullname = 1 [(validate.rules).string = {min_len: 1}];
-    google.protobuf.Timestamp birthdate = 2 [(validate.rules).timestamp = {required: true}];
+    string birthdate = 2 [(validate.rules).string = {min_len: 10}];
     string department = 3 [(validate.rules).string = {min_len: 1}];
     string position = 4 [(validate.rules).string = {min_len: 1}];
-    google.protobuf.Timestamp employmentDate = 5 [(validate.rules).timestamp = {required: true}];
+    string employmentDate = 5 [(validate.rules).string = {min_len: 10}];
     string snils = 6 [(validate.rules).string = {pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}$"}];
 }
 

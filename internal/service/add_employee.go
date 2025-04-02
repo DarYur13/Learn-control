@@ -28,6 +28,12 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 
 			// создать задачу на назначение обучений
 		} else {
+			positionID, txErr := s.storage.AddPositionTx(ctx, tx, employee.Position, employee.Department)
+			if txErr != nil {
+				return errors.WithMessage(txErr, "set employee trainings")
+			}
+
+			_ = positionID
 			// создать задачу на определние обучений для должности
 		}
 

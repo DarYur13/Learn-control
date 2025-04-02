@@ -2,7 +2,6 @@ package learncontrol
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/DarYur13/learn-control/internal/domain"
 	desc "github.com/DarYur13/learn-control/pkg/learn_control"
@@ -18,14 +17,12 @@ func (i *Implementation) AddEmployee(ctx context.Context, req *desc.AddEmployeeR
 
 	employee := domain.Employee{
 		FullName:       req.GetFullname(),
-		BirthDate:      req.GetBirthdate().AsTime().Format("02.01.2006"),
+		BirthDate:      req.GetBirthdate(),
 		Snils:          req.GetSnils(),
 		Department:     req.GetDepartment(),
 		Position:       req.GetPosition(),
-		EmploymentDate: req.GetEmploymentDate().AsTime().Format("02.01.2006"),
+		EmploymentDate: req.GetEmploymentDate(),
 	}
-
-	fmt.Println(employee)
 
 	if err := i.learnControlSrv.AddEmployee(ctx, employee); err != nil {
 		return nil, err
