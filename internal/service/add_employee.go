@@ -26,15 +26,40 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 				return errors.WithMessage(txErr, "set employee trainings")
 			}
 
-			// создать задачу на назначение обучений
+			for _, trainingID := range trainingsIDs {
+				var task *domain.TaskBaseInfo
+
+				if trainingID == 2 {
+					task, txErr = s.CreateProvideTask(ctx, employeeID, trainingID)
+					if txErr != nil {
+						return errors.WithMessage(txErr, "create assign task")
+					}
+				} else {
+					task, txErr = s.CreateAssignTask(ctx, employeeID, trainingID)
+					if txErr != nil {
+						return errors.WithMessage(txErr, "create assign task")
+					}
+				}
+
+				if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+					return errors.WithMessage(txErr, "add assign task")
+				}
+			}
+
 		} else {
 			positionID, txErr := s.storage.AddPositionTx(ctx, tx, employee.Position, employee.Department)
 			if txErr != nil {
 				return errors.WithMessage(txErr, "set employee trainings")
 			}
 
-			_ = positionID
-			// создать задачу на определние обучений для должности
+			task, txErr := s.CreateChooseTask(ctx, positionID)
+			if txErr != nil {
+				return errors.WithMessage(txErr, "create choose task")
+			}
+
+			if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+				return errors.WithMessage(txErr, "add assign task")
+			}
 		}
 
 		return nil

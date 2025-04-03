@@ -18,6 +18,9 @@ type IStorage interface {
 	GetTrainingsForPosition(ctx context.Context, department, position string) ([]int, error)
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingsIDs []int) error
 	AddPositionTx(ctx context.Context, tx *sql.Tx, position, department string) (int, error)
+	AddTaskTx(ctx context.Context, tx *sql.Tx, task TaskBaseInfo) error
+	AddTask(ctx context.Context, task TaskBaseInfo) error
+	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]Task, error)
 }
 
 type Employee struct {
@@ -77,4 +80,22 @@ type Filters struct {
 	TrainingsNotPassed sql.NullBool
 	RetrainingIn       sql.NullInt64
 	HasProtocol        sql.NullBool
+}
+
+type TaskBaseInfo struct {
+	Type       string
+	TrainingID sql.NullInt64
+	EmployeeID sql.NullInt64
+	ExecutorID sql.NullInt64
+	PositionID sql.NullInt64
+}
+
+type Task struct {
+	Type        string
+	Description string
+	Employee    sql.NullString
+	Training    sql.NullString
+	Position    sql.NullString
+	Department  sql.NullString
+	Executor    sql.NullString
 }

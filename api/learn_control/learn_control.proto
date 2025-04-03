@@ -9,6 +9,16 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
+enum taskType {
+    UNSPECIFIED = 0;
+    PROVIDE = 1;
+    ASSIGN = 2;
+    CHOOSE = 3;
+    SET = 4;
+    CONFIRM = 5;
+}
+
+
 service LearnControl {
     rpc GetEmployeesByName (GetEmployeesByNameRequest) returns (GetEmployeesByNameResponse) {
         option (google.api.http) = {
@@ -62,6 +72,30 @@ service LearnControl {
             body: "*"
         };
     }
+
+    rpc GetTasksByFilters (GetTasksByFiltersRequest) returns (GetTasksByFiltersResponse){
+        option (google.api.http) = {
+            get: "/tasks/get"
+        };
+    }
+}
+
+message GetTasksByFiltersRequest {
+    optional bool done = 1;    
+}
+
+message GetTasksByFiltersResponse{
+    repeated Task tasks = 1;
+}
+
+message Task {
+    taskType type = 1;
+    string description = 2;
+    string employee = 3;
+    string training = 4;
+    string position = 5;
+    string department = 6;
+    string executor = 7;
 }
 
 message AddEmployeeRequest {

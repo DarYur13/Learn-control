@@ -29,6 +29,7 @@ require (
 
 require (
 	github.com/go-chi/jwtauth v1.2.0
+	github.com/golang-sql/sqlexp v0.1.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/kelseyhightower/envconfig v1.4.0

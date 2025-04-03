@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/DarYur13/learn-control/internal/domain"
@@ -25,4 +26,5 @@ type ILearnControlService interface {
 	GetPositions(ctx context.Context) ([]string, error)
 	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*domain.TrainingDates, error)
 	AddEmployee(ctx context.Context, employee domain.Employee) error
+	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]domain.Task, error)
 }
