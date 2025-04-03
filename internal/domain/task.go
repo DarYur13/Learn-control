@@ -19,6 +19,7 @@ type TaskBaseInfo struct {
 }
 
 type Task struct {
+	ID          int
 	Type        string
 	Description string
 	Employee    sql.NullString
@@ -26,4 +27,5 @@ type Task struct {
 	Position    sql.NullString
 	Department  sql.NullString
 	Executor    sql.NullString
+	Done        bool
 }

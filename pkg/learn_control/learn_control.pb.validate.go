@@ -298,6 +298,8 @@ func (m *Task) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	// no validation rules for Type
 
 	// no validation rules for Description
@@ -311,6 +313,8 @@ func (m *Task) validate(all bool) error {
 	// no validation rules for Department
 
 	// no validation rules for Executor
+
+	// no validation rules for Done
 
 	if len(errors) > 0 {
 		return TaskMultiError(errors)

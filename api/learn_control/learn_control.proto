@@ -89,13 +89,15 @@ message GetTasksByFiltersResponse{
 }
 
 message Task {
-    taskType type = 1;
-    string description = 2;
-    string employee = 3;
-    string training = 4;
-    string position = 5;
-    string department = 6;
-    string executor = 7;
+    int64 id = 1;
+    taskType type = 2;
+    string description = 3;
+    string employee = 4;
+    string training = 5;
+    string position = 6;
+    string department = 7;
+    string executor = 8;
+    bool done = 9;
 }
 
 message AddEmployeeRequest {

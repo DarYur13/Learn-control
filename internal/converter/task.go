@@ -10,8 +10,10 @@ func TasksToDesc(tasks []domain.Task) *desc.GetTasksByFiltersResponse {
 
 	for _, t := range tasks {
 		task := &desc.Task{
+			Id:          int64(t.ID),
 			Type:        TypeToDesc(t.Type),
 			Description: t.Description,
+			Done:        t.Done,
 		}
 
 		if t.Employee.Valid {
