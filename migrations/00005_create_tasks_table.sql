@@ -1,12 +1,12 @@
 -- +goose Up
 -- +goose StatementBegin
 
-CREATE TYPE task_type AS ENUM ('PROVIDE', 'ASSIGN', 'CHOOSE', 'SET', 'CONFIRM');
+CREATE TYPE task_type AS ENUM ('PROVIDE', 'ASSIGN', 'CHOOSE', 'SET', 'CONFIRM', 'CONTROL');
 
 -- Создание таблицы типов задач
 CREATE TABLE IF NOT EXISTS task_types_texts (
     task_type task_type NOT NULL PRIMARY KEY,
-    template_text VARCHAR(255) NOT NULL
+    task_text VARCHAR(255) NOT NULL
 );
 
 -- Создание таблицы задач
@@ -22,12 +22,13 @@ CREATE TABLE IF NOT EXISTS tasks (
     done_at DATE
 );
 
-INSERT INTO task_types_texts (task_type, template_text) VALUES
-    ('PROVIDE', 'провести @training'),
-    ('ASSIGN', 'назначить @training'),
+INSERT INTO task_types_texts (task_type, task_text) VALUES
+    ('PROVIDE', 'провести обучение'),
+    ('ASSIGN', 'назначить обучение'),
     ('CHOOSE', 'определить перечень необходимых обучающих мероприятий для новой должности'),
-    ('SET', 'внести дату, когда сотрудник прошел @training'),
-    ('CONFIRM', 'подтвердить получение протокола')
+    ('SET', 'внести дату проверки знаний'),
+    ('CONFIRM', 'подтвердить получение протокола'),
+    ('CONTROL', 'проконтролировать проведение обучения')
 ON CONFLICT DO NOTHING;
 
 -- +goose StatementEnd
