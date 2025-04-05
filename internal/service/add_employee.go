@@ -30,19 +30,19 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 				var task *domain.TaskBaseInfo
 
 				if trainingID == 2 {
-					task, txErr = s.CreateProvideTask(ctx, employeeID, trainingID)
+					task, txErr = s.createProvideTask(ctx, employeeID, trainingID)
 					if txErr != nil {
-						return errors.WithMessage(txErr, "create assign task")
+						return errors.WithMessage(txErr, "create provide task")
 					}
 				} else {
-					task, txErr = s.CreateAssignTask(ctx, employeeID, trainingID)
+					task, txErr = s.createAssignTask(ctx, employeeID, trainingID)
 					if txErr != nil {
 						return errors.WithMessage(txErr, "create assign task")
 					}
 				}
 
 				if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
-					return errors.WithMessage(txErr, "add assign task")
+					return errors.WithMessage(txErr, "add task")
 				}
 			}
 
@@ -52,7 +52,7 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 				return errors.WithMessage(txErr, "set employee trainings")
 			}
 
-			task, txErr := s.CreateChooseTask(ctx, positionID)
+			task, txErr := s.createChooseTask(ctx, positionID)
 			if txErr != nil {
 				return errors.WithMessage(txErr, "create choose task")
 			}

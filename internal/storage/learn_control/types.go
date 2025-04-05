@@ -9,18 +9,27 @@ import (
 type IStorage interface {
 	GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*EmployeePersonalCard, error)
-	GetPositions(ctx context.Context) ([]string, error)
-	GetDepartments(ctx context.Context) ([]string, error)
-	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
 	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
 	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*TrainingDates, error)
 	AddEmployeeTx(ctx context.Context, tx *sql.Tx, employee Employee) (int, error)
+	GetEmployeesWithoutTrainings(ctx context.Context, positionID int) ([]int, error)
+	GetEmployeesWithoutTrainingsTx(ctx context.Context, tx *sql.Tx, positionID int) ([]int, error)
+
+	GetPositions(ctx context.Context) ([]string, error)
+	GetDepartments(ctx context.Context) ([]string, error)
+	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
 	GetTrainingsForPosition(ctx context.Context, department, position string) ([]int, error)
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingsIDs []int) error
 	AddPositionTx(ctx context.Context, tx *sql.Tx, position, department string) (int, error)
+	SetPositionTrainingsTx(ctx context.Context, tx *sql.Tx, positionID int, trainingsIDs []int) error
+	SetHasProtocol(ctx context.Context, employeeID, trainingID int) error
+	SetHasProtocolTx(ctx context.Context, tx *sql.Tx, employeeID, trainingID int) error
+
 	AddTaskTx(ctx context.Context, tx *sql.Tx, task TaskBaseInfo) error
 	AddTask(ctx context.Context, task TaskBaseInfo) error
 	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]Task, error)
+	CloseTask(ctx context.Context, taskID int) error
+	CloseTaskTx(ctx context.Context, tx *sql.Tx, taskID int) error
 }
 
 type Employee struct {

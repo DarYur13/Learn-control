@@ -78,6 +78,61 @@ service LearnControl {
             get: "/tasks/get"
         };
     }
+
+    rpc CloseAssignTask (CloseAssignTaskRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithTrainingDateSet(CloseTaskWithTrainingDateSetRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_training_date_set"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithPositionTrainingsSet (CloseTaskWithPositionTrainingsSetRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_position_trainings_set"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithTrainingProtocolConfirm(CloseTaskWithTrainingProtocolConfirmRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_training_protocol_confirm"
+            body: "*"
+        };
+    }
+}
+
+message CloseTaskWithTrainingProtocolConfirmRequest {
+    int64 taskID = 1;
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+}
+
+message CloseTaskWithPositionTrainingsSetRequest {
+    int64 taskID = 1;
+    int64 positionID = 2;
+    repeated int64 trainingsIDs = 3;
+}
+
+message CloseTaskWithTrainingDateSetRequest {
+    int64 taskID = 1;
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+    google.protobuf.Timestamp date = 4;
+    taskType taskType = 5;
+}
+
+message CloseAssignTaskRequest {
+    int64 taskID = 1; 
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+    taskType taskType = 4;
 }
 
 message GetTasksByFiltersRequest {

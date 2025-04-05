@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     training_id INTEGER REFERENCES trainings(id),
     employee_id BIGINT REFERENCES employees(id),
     executor_id BIGINT REFERENCES employees(id),
-    position_id BIGINT REFERENCES positions(id),
+    position_id BIGINT REFERENCES positions(id) UNIQUE,
     task_type task_type NOT NULL REFERENCES task_types_texts(task_type),
     done BOOLEAN NOT NULL DEFAULT false,
     created_at DATE NOT NULL DEFAULT CURRENT_DATE,

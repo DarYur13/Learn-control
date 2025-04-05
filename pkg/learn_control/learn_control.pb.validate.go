@@ -35,6 +35,480 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on
+// CloseTaskWithTrainingProtocolConfirmRequest with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *CloseTaskWithTrainingProtocolConfirmRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on
+// CloseTaskWithTrainingProtocolConfirmRequest with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in
+// CloseTaskWithTrainingProtocolConfirmRequestMultiError, or nil if none found.
+func (m *CloseTaskWithTrainingProtocolConfirmRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloseTaskWithTrainingProtocolConfirmRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TaskID
+
+	// no validation rules for EmployeeID
+
+	// no validation rules for TrainingID
+
+	if len(errors) > 0 {
+		return CloseTaskWithTrainingProtocolConfirmRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CloseTaskWithTrainingProtocolConfirmRequestMultiError is an error wrapping
+// multiple validation errors returned by
+// CloseTaskWithTrainingProtocolConfirmRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CloseTaskWithTrainingProtocolConfirmRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloseTaskWithTrainingProtocolConfirmRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloseTaskWithTrainingProtocolConfirmRequestMultiError) AllErrors() []error { return m }
+
+// CloseTaskWithTrainingProtocolConfirmRequestValidationError is the validation
+// error returned by CloseTaskWithTrainingProtocolConfirmRequest.Validate if
+// the designated constraints aren't met.
+type CloseTaskWithTrainingProtocolConfirmRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) ErrorName() string {
+	return "CloseTaskWithTrainingProtocolConfirmRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CloseTaskWithTrainingProtocolConfirmRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCloseTaskWithTrainingProtocolConfirmRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CloseTaskWithTrainingProtocolConfirmRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CloseTaskWithTrainingProtocolConfirmRequestValidationError{}
+
+// Validate checks the field values on CloseTaskWithPositionTrainingsSetRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *CloseTaskWithPositionTrainingsSetRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on
+// CloseTaskWithPositionTrainingsSetRequest with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in
+// CloseTaskWithPositionTrainingsSetRequestMultiError, or nil if none found.
+func (m *CloseTaskWithPositionTrainingsSetRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloseTaskWithPositionTrainingsSetRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TaskID
+
+	// no validation rules for PositionID
+
+	if len(errors) > 0 {
+		return CloseTaskWithPositionTrainingsSetRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CloseTaskWithPositionTrainingsSetRequestMultiError is an error wrapping
+// multiple validation errors returned by
+// CloseTaskWithPositionTrainingsSetRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CloseTaskWithPositionTrainingsSetRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloseTaskWithPositionTrainingsSetRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloseTaskWithPositionTrainingsSetRequestMultiError) AllErrors() []error { return m }
+
+// CloseTaskWithPositionTrainingsSetRequestValidationError is the validation
+// error returned by CloseTaskWithPositionTrainingsSetRequest.Validate if the
+// designated constraints aren't met.
+type CloseTaskWithPositionTrainingsSetRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) ErrorName() string {
+	return "CloseTaskWithPositionTrainingsSetRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CloseTaskWithPositionTrainingsSetRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCloseTaskWithPositionTrainingsSetRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CloseTaskWithPositionTrainingsSetRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CloseTaskWithPositionTrainingsSetRequestValidationError{}
+
+// Validate checks the field values on CloseTaskWithTrainingDateSetRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *CloseTaskWithTrainingDateSetRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CloseTaskWithTrainingDateSetRequest
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// CloseTaskWithTrainingDateSetRequestMultiError, or nil if none found.
+func (m *CloseTaskWithTrainingDateSetRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloseTaskWithTrainingDateSetRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TaskID
+
+	// no validation rules for EmployeeID
+
+	// no validation rules for TrainingID
+
+	if all {
+		switch v := interface{}(m.GetDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CloseTaskWithTrainingDateSetRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CloseTaskWithTrainingDateSetRequestValidationError{
+					field:  "Date",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CloseTaskWithTrainingDateSetRequestValidationError{
+				field:  "Date",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for TaskType
+
+	if len(errors) > 0 {
+		return CloseTaskWithTrainingDateSetRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CloseTaskWithTrainingDateSetRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// CloseTaskWithTrainingDateSetRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CloseTaskWithTrainingDateSetRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloseTaskWithTrainingDateSetRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloseTaskWithTrainingDateSetRequestMultiError) AllErrors() []error { return m }
+
+// CloseTaskWithTrainingDateSetRequestValidationError is the validation error
+// returned by CloseTaskWithTrainingDateSetRequest.Validate if the designated
+// constraints aren't met.
+type CloseTaskWithTrainingDateSetRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CloseTaskWithTrainingDateSetRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CloseTaskWithTrainingDateSetRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CloseTaskWithTrainingDateSetRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CloseTaskWithTrainingDateSetRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CloseTaskWithTrainingDateSetRequestValidationError) ErrorName() string {
+	return "CloseTaskWithTrainingDateSetRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CloseTaskWithTrainingDateSetRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCloseTaskWithTrainingDateSetRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CloseTaskWithTrainingDateSetRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CloseTaskWithTrainingDateSetRequestValidationError{}
+
+// Validate checks the field values on CloseAssignTaskRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CloseAssignTaskRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CloseAssignTaskRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CloseAssignTaskRequestMultiError, or nil if none found.
+func (m *CloseAssignTaskRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloseAssignTaskRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TaskID
+
+	// no validation rules for EmployeeID
+
+	// no validation rules for TrainingID
+
+	// no validation rules for TaskType
+
+	if len(errors) > 0 {
+		return CloseAssignTaskRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CloseAssignTaskRequestMultiError is an error wrapping multiple validation
+// errors returned by CloseAssignTaskRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CloseAssignTaskRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloseAssignTaskRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloseAssignTaskRequestMultiError) AllErrors() []error { return m }
+
+// CloseAssignTaskRequestValidationError is the validation error returned by
+// CloseAssignTaskRequest.Validate if the designated constraints aren't met.
+type CloseAssignTaskRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CloseAssignTaskRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CloseAssignTaskRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CloseAssignTaskRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CloseAssignTaskRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CloseAssignTaskRequestValidationError) ErrorName() string {
+	return "CloseAssignTaskRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CloseAssignTaskRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCloseAssignTaskRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CloseAssignTaskRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CloseAssignTaskRequestValidationError{}
+
 // Validate checks the field values on GetTasksByFiltersRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

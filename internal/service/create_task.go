@@ -6,7 +6,7 @@ import (
 	"github.com/DarYur13/learn-control/internal/domain"
 )
 
-func (s *Service) CreateProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
 	ids := map[string]int{
 		"employee": employeeID,
 		"training": trainingID,
@@ -14,7 +14,7 @@ func (s *Service) CreateProvideTask(ctx context.Context, employeeID, trainingID 
 	return s.createTask(ctx, "PROVIDE", ids)
 }
 
-func (s *Service) CreateAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
 	ids := map[string]int{
 		"employee": employeeID,
 		"training": trainingID,
@@ -22,14 +22,14 @@ func (s *Service) CreateAssignTask(ctx context.Context, employeeID, trainingID i
 	return s.createTask(ctx, "ASSIGN", ids)
 }
 
-func (s *Service) CreateChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error) {
 	ids := map[string]int{
 		"position": positionID,
 	}
 	return s.createTask(ctx, "CHOOSE", ids)
 }
 
-func (s *Service) CreateSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
 	ids := map[string]int{
 		"employee": employeeID,
 		"training": trainingID,
@@ -37,7 +37,7 @@ func (s *Service) CreateSetTask(ctx context.Context, employeeID, trainingID int)
 	return s.createTask(ctx, "SET", ids)
 }
 
-func (s *Service) CreateConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
 	ids := map[string]int{
 		"employee": employeeID,
 		"training": trainingID,
