@@ -9,6 +9,16 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
+enum taskType {
+    UNSPECIFIED = 0;
+    PROVIDE = 1;
+    ASSIGN = 2;
+    CHOOSE = 3;
+    SET = 4;
+    CONFIRM = 5;
+}
+
+
 service LearnControl {
     rpc GetEmployeesByName (GetEmployeesByNameRequest) returns (GetEmployeesByNameResponse) {
         option (google.api.http) = {
@@ -62,6 +72,87 @@ service LearnControl {
             body: "*"
         };
     }
+
+    rpc GetTasksByFilters (GetTasksByFiltersRequest) returns (GetTasksByFiltersResponse){
+        option (google.api.http) = {
+            get: "/tasks/get"
+        };
+    }
+
+    rpc CloseAssignTask (CloseAssignTaskRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithTrainingDateSet(CloseTaskWithTrainingDateSetRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_training_date_set"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithPositionTrainingsSet (CloseTaskWithPositionTrainingsSetRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_position_trainings_set"
+            body: "*"
+        };
+    }
+
+    rpc CloseTaskWithTrainingProtocolConfirm(CloseTaskWithTrainingProtocolConfirmRequest) returns (google.protobuf.Empty){
+        option (google.api.http) = {
+            post: "/tasks/close_with_training_protocol_confirm"
+            body: "*"
+        };
+    }
+}
+
+message CloseTaskWithTrainingProtocolConfirmRequest {
+    int64 taskID = 1;
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+}
+
+message CloseTaskWithPositionTrainingsSetRequest {
+    int64 taskID = 1;
+    int64 positionID = 2;
+    repeated int64 trainingsIDs = 3;
+}
+
+message CloseTaskWithTrainingDateSetRequest {
+    int64 taskID = 1;
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+    google.protobuf.Timestamp date = 4;
+    taskType taskType = 5;
+}
+
+message CloseAssignTaskRequest {
+    int64 taskID = 1; 
+    int64 employeeID = 2;
+    int64 trainingID = 3;
+    taskType taskType = 4;
+}
+
+message GetTasksByFiltersRequest {
+    optional bool done = 1;    
+}
+
+message GetTasksByFiltersResponse{
+    repeated Task tasks = 1;
+}
+
+message Task {
+    int64 id = 1;
+    taskType type = 2;
+    string description = 3;
+    string employee = 4;
+    string training = 5;
+    string position = 6;
+    string department = 7;
+    string executor = 8;
+    bool done = 9;
 }
 
 message AddEmployeeRequest {

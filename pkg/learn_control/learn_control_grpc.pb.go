@@ -20,14 +20,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	LearnControl_GetEmployeesByName_FullMethodName         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
-	LearnControl_GetEmployeePersonalCard_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
-	LearnControl_UpdateEmployeeTrainingDate_FullMethodName = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
-	LearnControl_GetDepartments_FullMethodName             = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments"
-	LearnControl_GetPositions_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
-	LearnControl_GetTrainings_FullMethodName               = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings"
-	LearnControl_GetEmployeesByFilters_FullMethodName      = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
-	LearnControl_AddEmployee_FullMethodName                = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee"
+	LearnControl_GetEmployeesByName_FullMethodName                   = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
+	LearnControl_GetEmployeePersonalCard_FullMethodName              = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
+	LearnControl_UpdateEmployeeTrainingDate_FullMethodName           = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
+	LearnControl_GetDepartments_FullMethodName                       = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments"
+	LearnControl_GetPositions_FullMethodName                         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
+	LearnControl_GetTrainings_FullMethodName                         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings"
+	LearnControl_GetEmployeesByFilters_FullMethodName                = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
+	LearnControl_AddEmployee_FullMethodName                          = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee"
+	LearnControl_GetTasksByFilters_FullMethodName                    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTasksByFilters"
+	LearnControl_CloseAssignTask_FullMethodName                      = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseAssignTask"
+	LearnControl_CloseTaskWithTrainingDateSet_FullMethodName         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet"
+	LearnControl_CloseTaskWithPositionTrainingsSet_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet"
+	LearnControl_CloseTaskWithTrainingProtocolConfirm_FullMethodName = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm"
 )
 
 // LearnControlClient is the client API for LearnControl service.
@@ -42,6 +47,11 @@ type LearnControlClient interface {
 	GetTrainings(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetTrainingsResponse, error)
 	GetEmployeesByFilters(ctx context.Context, in *GetEmployeesByFiltersRequest, opts ...grpc.CallOption) (*GetEmployeesByFiltersResponse, error)
 	AddEmployee(ctx context.Context, in *AddEmployeeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetTasksByFilters(ctx context.Context, in *GetTasksByFiltersRequest, opts ...grpc.CallOption) (*GetTasksByFiltersResponse, error)
+	CloseAssignTask(ctx context.Context, in *CloseAssignTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CloseTaskWithTrainingDateSet(ctx context.Context, in *CloseTaskWithTrainingDateSetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CloseTaskWithPositionTrainingsSet(ctx context.Context, in *CloseTaskWithPositionTrainingsSetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CloseTaskWithTrainingProtocolConfirm(ctx context.Context, in *CloseTaskWithTrainingProtocolConfirmRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type learnControlClient struct {
@@ -124,6 +134,51 @@ func (c *learnControlClient) AddEmployee(ctx context.Context, in *AddEmployeeReq
 	return out, nil
 }
 
+func (c *learnControlClient) GetTasksByFilters(ctx context.Context, in *GetTasksByFiltersRequest, opts ...grpc.CallOption) (*GetTasksByFiltersResponse, error) {
+	out := new(GetTasksByFiltersResponse)
+	err := c.cc.Invoke(ctx, LearnControl_GetTasksByFilters_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) CloseAssignTask(ctx context.Context, in *CloseAssignTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, LearnControl_CloseAssignTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) CloseTaskWithTrainingDateSet(ctx context.Context, in *CloseTaskWithTrainingDateSetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, LearnControl_CloseTaskWithTrainingDateSet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) CloseTaskWithPositionTrainingsSet(ctx context.Context, in *CloseTaskWithPositionTrainingsSetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, LearnControl_CloseTaskWithPositionTrainingsSet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *learnControlClient) CloseTaskWithTrainingProtocolConfirm(ctx context.Context, in *CloseTaskWithTrainingProtocolConfirmRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, LearnControl_CloseTaskWithTrainingProtocolConfirm_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LearnControlServer is the server API for LearnControl service.
 // All implementations must embed UnimplementedLearnControlServer
 // for forward compatibility
@@ -136,6 +191,11 @@ type LearnControlServer interface {
 	GetTrainings(context.Context, *emptypb.Empty) (*GetTrainingsResponse, error)
 	GetEmployeesByFilters(context.Context, *GetEmployeesByFiltersRequest) (*GetEmployeesByFiltersResponse, error)
 	AddEmployee(context.Context, *AddEmployeeRequest) (*emptypb.Empty, error)
+	GetTasksByFilters(context.Context, *GetTasksByFiltersRequest) (*GetTasksByFiltersResponse, error)
+	CloseAssignTask(context.Context, *CloseAssignTaskRequest) (*emptypb.Empty, error)
+	CloseTaskWithTrainingDateSet(context.Context, *CloseTaskWithTrainingDateSetRequest) (*emptypb.Empty, error)
+	CloseTaskWithPositionTrainingsSet(context.Context, *CloseTaskWithPositionTrainingsSetRequest) (*emptypb.Empty, error)
+	CloseTaskWithTrainingProtocolConfirm(context.Context, *CloseTaskWithTrainingProtocolConfirmRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedLearnControlServer()
 }
 
@@ -166,6 +226,21 @@ func (UnimplementedLearnControlServer) GetEmployeesByFilters(context.Context, *G
 }
 func (UnimplementedLearnControlServer) AddEmployee(context.Context, *AddEmployeeRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddEmployee not implemented")
+}
+func (UnimplementedLearnControlServer) GetTasksByFilters(context.Context, *GetTasksByFiltersRequest) (*GetTasksByFiltersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTasksByFilters not implemented")
+}
+func (UnimplementedLearnControlServer) CloseAssignTask(context.Context, *CloseAssignTaskRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseAssignTask not implemented")
+}
+func (UnimplementedLearnControlServer) CloseTaskWithTrainingDateSet(context.Context, *CloseTaskWithTrainingDateSetRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseTaskWithTrainingDateSet not implemented")
+}
+func (UnimplementedLearnControlServer) CloseTaskWithPositionTrainingsSet(context.Context, *CloseTaskWithPositionTrainingsSetRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseTaskWithPositionTrainingsSet not implemented")
+}
+func (UnimplementedLearnControlServer) CloseTaskWithTrainingProtocolConfirm(context.Context, *CloseTaskWithTrainingProtocolConfirmRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseTaskWithTrainingProtocolConfirm not implemented")
 }
 func (UnimplementedLearnControlServer) mustEmbedUnimplementedLearnControlServer() {}
 
@@ -324,6 +399,96 @@ func _LearnControl_AddEmployee_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LearnControl_GetTasksByFilters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTasksByFiltersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).GetTasksByFilters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_GetTasksByFilters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).GetTasksByFilters(ctx, req.(*GetTasksByFiltersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_CloseAssignTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseAssignTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).CloseAssignTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_CloseAssignTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).CloseAssignTask(ctx, req.(*CloseAssignTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_CloseTaskWithTrainingDateSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseTaskWithTrainingDateSetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).CloseTaskWithTrainingDateSet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_CloseTaskWithTrainingDateSet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).CloseTaskWithTrainingDateSet(ctx, req.(*CloseTaskWithTrainingDateSetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_CloseTaskWithPositionTrainingsSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseTaskWithPositionTrainingsSetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).CloseTaskWithPositionTrainingsSet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_CloseTaskWithPositionTrainingsSet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).CloseTaskWithPositionTrainingsSet(ctx, req.(*CloseTaskWithPositionTrainingsSetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LearnControl_CloseTaskWithTrainingProtocolConfirm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseTaskWithTrainingProtocolConfirmRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LearnControlServer).CloseTaskWithTrainingProtocolConfirm(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LearnControl_CloseTaskWithTrainingProtocolConfirm_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LearnControlServer).CloseTaskWithTrainingProtocolConfirm(ctx, req.(*CloseTaskWithTrainingProtocolConfirmRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LearnControl_ServiceDesc is the grpc.ServiceDesc for LearnControl service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -362,6 +527,26 @@ var LearnControl_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddEmployee",
 			Handler:    _LearnControl_AddEmployee_Handler,
+		},
+		{
+			MethodName: "GetTasksByFilters",
+			Handler:    _LearnControl_GetTasksByFilters_Handler,
+		},
+		{
+			MethodName: "CloseAssignTask",
+			Handler:    _LearnControl_CloseAssignTask_Handler,
+		},
+		{
+			MethodName: "CloseTaskWithTrainingDateSet",
+			Handler:    _LearnControl_CloseTaskWithTrainingDateSet_Handler,
+		},
+		{
+			MethodName: "CloseTaskWithPositionTrainingsSet",
+			Handler:    _LearnControl_CloseTaskWithPositionTrainingsSet_Handler,
+		},
+		{
+			MethodName: "CloseTaskWithTrainingProtocolConfirm",
+			Handler:    _LearnControl_CloseTaskWithTrainingProtocolConfirm_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
