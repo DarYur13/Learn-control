@@ -9,9 +9,19 @@ const (
 	querySetEmployeeTrainings = `
 	INSERT INTO employee_trainings (
 		employee_id,
-		training_id
-	) VALUES ($1, $2)
-	ON CONFLICT (employee_id, training_id) DO NOTHING
+		training_id,
+		has_protocol
+	)
+	SELECT 
+		$1,
+		$2,
+		CASE 
+			WHEN t.need_protocol THEN FALSE
+			ELSE NULL
+		END
+	FROM trainings t
+	WHERE t.id = $2
+	ON CONFLICT (employee_id, training_id) DO NOTHING;
 	`
 )
 

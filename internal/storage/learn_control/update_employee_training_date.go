@@ -8,9 +8,15 @@ import (
 
 const (
 	queryUpdateEmployeeTrainingDate = `
-	UPDATE employee_trainings 
-	SET training_date = $1
-	WHERE employee_id = $2 AND training_id = $3
+	UPDATE employee_trainings et
+	SET 
+		et.training_date = $1,
+		et.retraining_date = $1 + (t.valid_period || ' months')::interval
+	FROM trainings t
+	WHERE 
+		et.training_id = t.id AND
+		et.employee_id = $2 AND 
+		et.training_id = $3
 	RETURNING training_date, retraining_date;
 	`
 )
