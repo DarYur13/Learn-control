@@ -8,7 +8,7 @@ import (
 )
 
 func (s *Service) GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]domain.Task, error) {
-	tasks, err := s.storage.GetTasksByFilters(ctx, done)
+	tasks, err := s.tasksStorage.GetTasksByFilters(ctx, done)
 	if err != nil {
 		return nil, err
 	}

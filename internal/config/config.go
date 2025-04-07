@@ -17,9 +17,10 @@ const (
 )
 
 type config struct {
-	Pg  *modules.Pg
-	Log *modules.Log
-	Api *modules.Api
+	Pg    *modules.Pg
+	Log   *modules.Log
+	Api   *modules.Api
+	Minio *modules.Minio
 }
 
 var globalConfig config
@@ -46,10 +47,16 @@ func LoadAll() {
 		log.Fatalf("failed to load api config")
 	}
 
+	fileStor, err := modules.LoadMinio()
+	if err != nil {
+		log.Fatalf("failed to load minio config")
+	}
+
 	globalConfig = config{
-		Log: logger,
-		Pg:  db,
-		Api: api,
+		Log:   logger,
+		Pg:    db,
+		Api:   api,
+		Minio: fileStor,
 	}
 }
 
@@ -91,4 +98,20 @@ func PgPassword() string {
 
 func PgDatabase() string {
 	return globalConfig.Pg.Database
+}
+
+func MinioPort() string {
+	return globalConfig.Minio.Port
+}
+
+func MinioHost() string {
+	return globalConfig.Minio.Host
+}
+
+func MinioUser() string {
+	return globalConfig.Minio.User
+}
+
+func MinioPassword() string {
+	return globalConfig.Minio.Password
 }

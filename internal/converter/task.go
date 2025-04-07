@@ -2,14 +2,14 @@ package converter
 
 import (
 	"github.com/DarYur13/learn-control/internal/domain"
-	desc "github.com/DarYur13/learn-control/pkg/learn_control"
+	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 )
 
-func TasksToDesc(tasks []domain.Task) *desc.GetTasksByFiltersResponse {
-	result := make([]*desc.Task, 0, len(tasks))
+func TasksToDesc(tasks []domain.Task) *pb.GetTasksByFiltersResponse {
+	result := make([]*pb.Task, 0, len(tasks))
 
 	for _, t := range tasks {
-		task := &desc.Task{
+		task := &pb.Task{
 			Id:          int64(t.ID),
 			Type:        TypeToDesc(t.Type),
 			Description: t.Description,
@@ -39,13 +39,13 @@ func TasksToDesc(tasks []domain.Task) *desc.GetTasksByFiltersResponse {
 		result = append(result, task)
 	}
 
-	return &desc.GetTasksByFiltersResponse{Tasks: result}
+	return &pb.GetTasksByFiltersResponse{Tasks: result}
 }
 
-func TypeToDesc(taskType string) desc.TaskType {
-	if value, found := desc.TaskType_value[taskType]; found {
-		return desc.TaskType(value)
+func TypeToDesc(taskType string) pb.TaskType {
+	if value, found := pb.TaskType_value[taskType]; found {
+		return pb.TaskType(value)
 	}
 
-	return desc.TaskType_UNSPECIFIED
+	return pb.TaskType_UNSPECIFIED
 }

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
+	tasksStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
 	"github.com/pkg/errors"
 )
 
@@ -16,17 +16,17 @@ func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID, empl
 	}
 
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
-		_, txErr := s.storage.UpdateEmployeeTrainingDateTx(ctx, tx, emplID, trainingID, date)
+		_, txErr := s.employeesStorage.UpdateEmployeeTrainingDateTx(ctx, tx, emplID, trainingID, date)
 		if txErr != nil {
 			return errors.WithMessage(txErr, "set training date")
 		}
 
-		if txErr := s.storage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
+		if txErr := s.tasksStorage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
 			return errors.WithMessage(txErr, "close task")
 		}
 
 		if needNextTask {
-			if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+			if txErr := s.tasksStorage.AddTaskTx(ctx, tx, tasksStorage.TaskBaseInfo(*task)); txErr != nil {
 				return errors.WithMessage(txErr, "add task")
 			}
 		}

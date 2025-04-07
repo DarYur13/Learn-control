@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 
+	emplStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	"github.com/DarYur13/learn-control/internal/domain"
-	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
 )
 
 func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.EmployeePersonalCard, error) {
-	employee, err := s.storage.GetEmployeePersonalCard(ctx, id)
+	employee, err := s.employeesStorage.GetEmployeePersonalCard(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 	return &result, nil
 }
 
-func formatTrainingDates(st storage.TrainingDates) domain.TrainingDates {
+func formatTrainingDates(st emplStorage.TrainingDates) domain.TrainingDates {
 	dt := domain.TrainingDates{}
 	if st.PassDate.Valid {
 		dt.PassDate = st.PassDate.Time.Format(dateFormat)

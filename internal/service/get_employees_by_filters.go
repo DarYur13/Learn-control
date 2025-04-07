@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 
+	emplStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	"github.com/DarYur13/learn-control/internal/domain"
-	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
 )
 
 func (s *Service) GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error) {
 
-	employees, err := s.storage.GetEmployeesByFilters(ctx, storage.Filters(filters))
+	employees, err := s.employeesStorage.GetEmployeesByFilters(ctx, emplStorage.Filters(filters))
 	if err != nil {
 		return nil, err
 	}

@@ -16,8 +16,7 @@ const (
 	noNeedRepassDate = "Не требуется"
 )
 
-// ILearnControlService is the interface of the service layer
-type ILearnControlService interface {
+type Servicer interface {
 	GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*domain.EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error)

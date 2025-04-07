@@ -4,25 +4,26 @@ import (
 	"context"
 	"database/sql"
 
+	emplStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
+	tasksStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
 	"github.com/DarYur13/learn-control/internal/domain"
-	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
 	"github.com/pkg/errors"
 )
 
 func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) error {
-	trainingsIDs, err := s.storage.GetTrainingsForPosition(ctx, employee.Department, employee.Position)
+	trainingsIDs, err := s.positionsStorage.GetPositionTrainings(ctx, employee.Department, employee.Position)
 	if err != nil {
 		return err
 	}
 
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
-		employeeID, txErr := s.storage.AddEmployeeTx(ctx, tx, storage.Employee(employee))
+		employeeID, txErr := s.employeesStorage.AddEmployeeTx(ctx, tx, emplStorage.Employee(employee))
 		if txErr != nil {
 			return errors.WithMessage(txErr, "add employee")
 		}
 
 		if trainingsIDs != nil {
-			if txErr := s.storage.SetEmployeeTrainingsTx(ctx, tx, employeeID, trainingsIDs); txErr != nil {
+			if txErr := s.employeesStorage.SetEmployeeTrainingsTx(ctx, tx, employeeID, trainingsIDs); txErr != nil {
 				return errors.WithMessage(txErr, "set employee trainings")
 			}
 
@@ -41,13 +42,13 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 					}
 				}
 
-				if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+				if txErr := s.tasksStorage.AddTaskTx(ctx, tx, tasksStorage.TaskBaseInfo(*task)); txErr != nil {
 					return errors.WithMessage(txErr, "add task")
 				}
 			}
 
 		} else {
-			positionID, txErr := s.storage.AddPositionTx(ctx, tx, employee.Position, employee.Department)
+			positionID, txErr := s.positionsStorage.AddPositionTx(ctx, tx, employee.Position, employee.Department)
 			if txErr != nil {
 				return errors.WithMessage(txErr, "set employee trainings")
 			}
@@ -57,7 +58,7 @@ func (s *Service) AddEmployee(ctx context.Context, employee domain.Employee) err
 				return errors.WithMessage(txErr, "create choose task")
 			}
 
-			if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+			if txErr := s.tasksStorage.AddTaskTx(ctx, tx, tasksStorage.TaskBaseInfo(*task)); txErr != nil {
 				return errors.WithMessage(txErr, "add assign task")
 			}
 		}

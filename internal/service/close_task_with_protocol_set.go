@@ -9,11 +9,11 @@ import (
 
 func (s *Service) CloseTaskWithTrainingProtocolConfirm(ctx context.Context, taskID, employeeID, trainingID int) error {
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
-		if txErr := s.storage.SetHasProtocolTx(ctx, tx, employeeID, trainingID); txErr != nil {
+		if txErr := s.employeesStorage.SetHasProtocolTx(ctx, tx, employeeID, trainingID); txErr != nil {
 			return errors.WithMessage(txErr, "set has protocol")
 		}
 
-		if txErr := s.storage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
+		if txErr := s.tasksStorage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
 			return errors.WithMessage(txErr, "close task")
 		}
 

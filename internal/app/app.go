@@ -9,7 +9,7 @@ import (
 
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
-	desc "github.com/DarYur13/learn-control/pkg/learn_control"
+	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/rs/cors"
 	"golang.org/x/sync/errgroup"
@@ -57,7 +57,7 @@ func (a *App) Run(ctx context.Context) error {
 		mux := runtime.NewServeMux()
 		opts := []grpc.DialOption{grpc.WithInsecure()} // nolint: staticcheck
 
-		err := desc.RegisterLearnControlHandlerFromEndpoint(groupCtx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts)
+		err := pb.RegisterLearnControlHandlerFromEndpoint(groupCtx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts)
 		if err != nil {
 			return err
 		}
@@ -138,7 +138,7 @@ func (a *App) initServiceProvider(_ context.Context) error {
 // initGrpcServer initialize gRPC server
 func (a *App) initGrpcServer(ctx context.Context) error {
 	s := grpc.NewServer()
-	desc.RegisterLearnControlServer(s, a.serviceProvider.getLearnControl(ctx))
+	pb.RegisterLearnControlServer(s, a.serviceProvider.getLearnControl(ctx))
 
 	reflection.Register(s)
 

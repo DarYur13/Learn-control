@@ -6,22 +6,29 @@ import (
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 
-	cmdImpl "github.com/DarYur13/learn-control/internal/api/learn_control"
+	impl "github.com/DarYur13/learn-control/internal/adapter/controller/learn_control"
+	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
+	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
+	tasksRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	txManager "github.com/DarYur13/learn-control/internal/adapter/repository/txManager"
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
-	cmdService "github.com/DarYur13/learn-control/internal/service"
-	cmdStor "github.com/DarYur13/learn-control/internal/storage/learn_control"
-	cmdTxManager "github.com/DarYur13/learn-control/internal/storage/txManager"
+	service "github.com/DarYur13/learn-control/internal/service"
 )
 
 // serviceProvider di-container
 type serviceProvider struct {
 	db             *sql.DB
-	txManager      cmdTxManager.IManager
-	storage        cmdStor.IStorage
-	service        cmdService.ILearnControlService
-	implementation *cmdImpl.Implementation
+	txManager      *txManager.Manager
+	EmployeesRepo  emplRepo.EmoloyeesStorager
+	PositionsRepo  posRepo.PositionsStorager
+	TasksRepo      tasksRepo.TasksStorager
+	service        service.Servicer
+	implementation *impl.Implementation
+	minioCli       *minio.Client
 }
 
 func newServiceProvider() *serviceProvider {
@@ -49,30 +56,71 @@ func (s *serviceProvider) getDbConn(_ context.Context) *sql.DB {
 	return s.db
 }
 
-func (s *serviceProvider) getStorage(ctx context.Context) cmdStor.IStorage {
-	if s.storage == nil {
-		s.storage = cmdStor.New(s.getDbConn(ctx))
+func (s *serviceProvider) getEmplRepo(ctx context.Context) emplRepo.EmoloyeesStorager {
+	if s.EmployeesRepo == nil {
+		s.EmployeesRepo = emplRepo.New(s.getDbConn(ctx))
 	}
-	return s.storage
+	return s.EmployeesRepo
 }
 
-func (s *serviceProvider) getTxManager(ctx context.Context) cmdTxManager.IManager {
+func (s *serviceProvider) getPosRepo(ctx context.Context) posRepo.PositionsStorager {
+	if s.PositionsRepo == nil {
+		s.PositionsRepo = posRepo.New(s.getDbConn(ctx))
+	}
+	return s.PositionsRepo
+}
+
+func (s *serviceProvider) getTasksRepo(ctx context.Context) tasksRepo.TasksStorager {
+	if s.TasksRepo == nil {
+		s.TasksRepo = tasksRepo.New(s.getDbConn(ctx))
+	}
+	return s.TasksRepo
+}
+
+func (s *serviceProvider) getTxManager(ctx context.Context) *txManager.Manager {
 	if s.txManager == nil {
-		s.txManager = cmdTxManager.New(s.getDbConn(ctx))
+		s.txManager = txManager.New(s.getDbConn(ctx))
 	}
 	return s.txManager
 }
 
-func (s *serviceProvider) getService(ctx context.Context) cmdService.ILearnControlService {
+func (s *serviceProvider) getMinioCli(_ context.Context) *minio.Client {
+	if s.minioCli == nil {
+		minioEndpoint := fmt.Sprintf("%s:%s", config.MinioHost(), config.MinioPort())
+
+		minioAccessKey := config.MinioUser()
+		minioSecretKey := config.MinioPassword()
+
+		minioClient, err := minio.New(minioEndpoint, &minio.Options{
+			Creds:  credentials.NewStaticV4(minioAccessKey, minioSecretKey, ""),
+			Secure: false,
+		})
+		if err != nil {
+			logger.Fatalf("failed to create MinIO client: %s", err.Error())
+		}
+
+		s.minioCli = minioClient
+	}
+
+	return s.minioCli
+}
+
+func (s *serviceProvider) getService(ctx context.Context) service.Servicer {
 	if s.service == nil {
-		s.service = cmdService.New(s.getStorage(ctx), s.getTxManager(ctx))
+		s.service = service.New(
+			s.getEmplRepo(ctx),
+			s.getPosRepo(ctx),
+			s.getTasksRepo(ctx),
+			s.getTxManager(ctx),
+			s.getMinioCli(ctx),
+		)
 	}
 	return s.service
 }
 
-func (s *serviceProvider) getLearnControl(ctx context.Context) *cmdImpl.Implementation {
+func (s *serviceProvider) getLearnControl(ctx context.Context) *impl.Implementation {
 	if s.implementation == nil {
-		s.implementation = cmdImpl.NewLearnControl(s.getService(ctx))
+		s.implementation = impl.NewLearnControl(s.getService(ctx))
 	}
 	return s.implementation
 }
