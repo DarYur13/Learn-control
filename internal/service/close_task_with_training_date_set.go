@@ -6,10 +6,11 @@ import (
 	"time"
 
 	tasksStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/pkg/errors"
 )
 
-func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType string, date time.Time) error {
+func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType domain.TaskType, date time.Time) error {
 	task, needNextTask, err := s.nextTask(ctx, emplID, trainingID, taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")
@@ -27,7 +28,7 @@ func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID, empl
 
 		if needNextTask {
 			if txErr := s.tasksStorage.AddTaskTx(ctx, tx, tasksStorage.TaskBaseInfo(*task)); txErr != nil {
-				return errors.WithMessage(txErr, "add task")
+				return errors.WithMessage(txErr, "save task")
 			}
 		}
 

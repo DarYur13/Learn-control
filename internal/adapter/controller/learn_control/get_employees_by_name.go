@@ -15,5 +15,5 @@ func (i *Implementation) GetEmployeesByName(ctx context.Context, req *pb.GetEmpl
 		return nil, status.Errorf(codes.Internal, "internal service error: %s", err.Error())
 	}
 
-	return converter.EmployeesBaseInfoToDesc(employees), nil
+	return converter.EmployeesBaseInfoToPb(employees), nil
 }

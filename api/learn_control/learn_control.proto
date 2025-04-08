@@ -16,6 +16,7 @@ enum taskType {
     CHOOSE = 3;
     SET = 4;
     CONFIRM = 5;
+    CONTROL = 6;
 }
 
 

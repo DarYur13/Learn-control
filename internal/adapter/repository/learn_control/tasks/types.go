@@ -3,9 +3,11 @@ package learncontrol
 import (
 	"context"
 	"database/sql"
+
+	"github.com/DarYur13/learn-control/internal/domain"
 )
 
-type TasksStorager interface {
+type TasksRepository interface {
 	AddTaskTx(ctx context.Context, tx *sql.Tx, task TaskBaseInfo) error
 	AddTask(ctx context.Context, task TaskBaseInfo) error
 	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]Task, error)
@@ -14,7 +16,7 @@ type TasksStorager interface {
 }
 
 type TaskBaseInfo struct {
-	Type       string
+	Type       domain.TaskType
 	TrainingID sql.NullInt64
 	EmployeeID sql.NullInt64
 	ExecutorID sql.NullInt64
@@ -23,7 +25,7 @@ type TaskBaseInfo struct {
 
 type Task struct {
 	ID          int
-	Type        string
+	Type        domain.TaskType
 	Description string
 	Employee    sql.NullString
 	Training    sql.NullString

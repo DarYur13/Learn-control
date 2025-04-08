@@ -19,5 +19,5 @@ func (i *Implementation) GetEmployeePersonalCard(ctx context.Context, req *pb.Ge
 		return nil, status.Errorf(codes.Internal, "internal service error: %s", err.Error())
 	}
 
-	return converter.EmployeePersonalCardToDesc(employee), nil
+	return converter.EmployeePersonalCardToPb(employee), nil
 }

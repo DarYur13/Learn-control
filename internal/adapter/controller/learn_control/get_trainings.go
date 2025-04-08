@@ -14,5 +14,5 @@ func (i *Implementation) GetTrainings(ctx context.Context, _ *emptypb.Empty) (*p
 		return nil, err
 	}
 
-	return converter.TrainingsToDesc(trainings), nil
+	return converter.TrainingsToPb(trainings), nil
 }

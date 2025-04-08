@@ -21,5 +21,5 @@ func (i *Implementation) GetTasksByFilters(ctx context.Context, req *pb.GetTasks
 		return nil, err
 	}
 
-	return converter.TasksToDesc(tasks), nil
+	return converter.TasksToPb(tasks), nil
 }

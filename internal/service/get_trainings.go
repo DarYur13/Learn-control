@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Service) GetTrainings(ctx context.Context) ([]domain.TrainingBaseInfo, error) {
-	trainigs, err := s.employeesStorage.GetTrainings(ctx)
+	trainigs, err := s.trainingsStorage.GetTrainings(ctx)
 	if err != nil {
 		return nil, err
 	}

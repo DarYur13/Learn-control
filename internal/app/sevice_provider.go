@@ -13,6 +13,7 @@ import (
 	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
 	tasksRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	trainingsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 	txManager "github.com/DarYur13/learn-control/internal/adapter/repository/txManager"
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
@@ -23,9 +24,10 @@ import (
 type serviceProvider struct {
 	db             *sql.DB
 	txManager      *txManager.Manager
-	EmployeesRepo  emplRepo.EmoloyeesStorager
-	PositionsRepo  posRepo.PositionsStorager
-	TasksRepo      tasksRepo.TasksStorager
+	EmployeesRepo  emplRepo.EmployeesRepository
+	PositionsRepo  posRepo.PositionsRepository
+	TasksRepo      tasksRepo.TasksRepository
+	TrainingsRepo  trainingsRepo.TrainingsRepository
 	service        service.Servicer
 	implementation *impl.Implementation
 	minioCli       *minio.Client
@@ -56,25 +58,32 @@ func (s *serviceProvider) getDbConn(_ context.Context) *sql.DB {
 	return s.db
 }
 
-func (s *serviceProvider) getEmplRepo(ctx context.Context) emplRepo.EmoloyeesStorager {
+func (s *serviceProvider) getEmplRepo(ctx context.Context) emplRepo.EmployeesRepository {
 	if s.EmployeesRepo == nil {
 		s.EmployeesRepo = emplRepo.New(s.getDbConn(ctx))
 	}
 	return s.EmployeesRepo
 }
 
-func (s *serviceProvider) getPosRepo(ctx context.Context) posRepo.PositionsStorager {
+func (s *serviceProvider) getPosRepo(ctx context.Context) posRepo.PositionsRepository {
 	if s.PositionsRepo == nil {
 		s.PositionsRepo = posRepo.New(s.getDbConn(ctx))
 	}
 	return s.PositionsRepo
 }
 
-func (s *serviceProvider) getTasksRepo(ctx context.Context) tasksRepo.TasksStorager {
+func (s *serviceProvider) getTasksRepo(ctx context.Context) tasksRepo.TasksRepository {
 	if s.TasksRepo == nil {
 		s.TasksRepo = tasksRepo.New(s.getDbConn(ctx))
 	}
 	return s.TasksRepo
+}
+
+func (s *serviceProvider) getTrainingsRepo(ctx context.Context) trainingsRepo.TrainingsRepository {
+	if s.TrainingsRepo == nil {
+		s.TrainingsRepo = trainingsRepo.New(s.getDbConn(ctx))
+	}
+	return s.TrainingsRepo
 }
 
 func (s *serviceProvider) getTxManager(ctx context.Context) *txManager.Manager {
@@ -111,6 +120,7 @@ func (s *serviceProvider) getService(ctx context.Context) service.Servicer {
 			s.getEmplRepo(ctx),
 			s.getPosRepo(ctx),
 			s.getTasksRepo(ctx),
+			s.getTrainingsRepo(ctx),
 			s.getTxManager(ctx),
 			s.getMinioCli(ctx),
 		)

@@ -5,7 +5,7 @@ import (
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 )
 
-func TrainingToDesc(t domain.Training) *pb.Training {
+func TrainingToPb(t domain.Training) *pb.Training {
 	return &pb.Training{
 		Name:        t.Name,
 		PassDate:    t.PassDate,
@@ -14,7 +14,7 @@ func TrainingToDesc(t domain.Training) *pb.Training {
 	}
 }
 
-func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *pb.GetTrainingsResponse {
+func TrainingsToPb(trainings []domain.TrainingBaseInfo) *pb.GetTrainingsResponse {
 	result := &pb.GetTrainingsResponse{}
 
 	for _, t := range trainings {
@@ -29,7 +29,7 @@ func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *pb.GetTrainingsRespon
 	return result
 }
 
-func TrainingDatesToDesc(dates *domain.TrainingDates) *pb.UpdateEmployeeTrainingDateResponse {
+func TrainingDatesToPb(dates *domain.TrainingDates) *pb.UpdateEmployeeTrainingDateResponse {
 	return &pb.UpdateEmployeeTrainingDateResponse{
 		PassDate:   dates.PassDate,
 		RePassDate: dates.RePassDate,

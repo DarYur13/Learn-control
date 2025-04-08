@@ -2,6 +2,8 @@ package learncontrol
 
 import (
 	"context"
+
+	trainingsStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 )
 
 const (
@@ -37,7 +39,7 @@ func (es *EmployeesStorage) GetEmployeePersonalCard(ctx context.Context, id int)
 	defer rows.Close()
 
 	for rows.Next() {
-		var trainings Training
+		var trainings trainingsStorage.Training
 
 		rows.Scan(
 			&result.FullName,

@@ -8,7 +8,7 @@ const (
 	queryGetDepartments = `SELECT DISTINCT department FROM positions`
 )
 
-func (ps *PositionsStorage) GetDepartments(ctx context.Context) ([]string, error) {
+func (ps *PositionsStorage) GetPositionsDepartments(ctx context.Context) ([]string, error) {
 	rows, err := ps.db.QueryContext(ctx, queryGetDepartments)
 	if err != nil {
 		return nil, err

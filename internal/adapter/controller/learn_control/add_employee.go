@@ -3,7 +3,7 @@ package learncontrol
 import (
 	"context"
 
-	"github.com/DarYur13/learn-control/internal/domain"
+	"github.com/DarYur13/learn-control/internal/converter"
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -15,14 +15,7 @@ func (i *Implementation) AddEmployee(ctx context.Context, req *pb.AddEmployeeReq
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %s", err.Error())
 	}
 
-	employee := domain.Employee{
-		FullName:       req.GetFullname(),
-		BirthDate:      req.GetBirthdate(),
-		Snils:          req.GetSnils(),
-		Department:     req.GetDepartment(),
-		Position:       req.GetPosition(),
-		EmploymentDate: req.GetEmploymentDate(),
-	}
+	employee := converter.PbEmployeeToDomain(req)
 
 	if err := i.service.AddEmployee(ctx, employee); err != nil {
 		return nil, err

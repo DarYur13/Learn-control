@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"time"
+
+	trainingsStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 )
 
 const (
@@ -21,8 +23,8 @@ const (
 	`
 )
 
-func (es *EmployeesStorage) UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*TrainingDates, error) {
-	var trainingDates TrainingDates
+func (es *EmployeesStorage) UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsStorage.TrainingDates, error) {
+	var trainingDates trainingsStorage.TrainingDates
 
 	err := tx.QueryRowContext(ctx, queryUpdateEmployeeTrainingDate,
 		date,

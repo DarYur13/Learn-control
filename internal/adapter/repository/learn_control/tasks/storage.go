@@ -8,7 +8,7 @@ type TasksStorage struct {
 	db *sql.DB
 }
 
-func New(db *sql.DB) TasksStorager {
+func New(db *sql.DB) TasksRepository {
 	return &TasksStorage{
 		db: db,
 	}

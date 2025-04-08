@@ -5,5 +5,5 @@ import (
 )
 
 func (s *Service) GetDepartments(ctx context.Context) ([]string, error) {
-	return s.positionsStorage.GetDepartments(ctx)
+	return s.positionsStorage.GetPositionsDepartments(ctx)
 }

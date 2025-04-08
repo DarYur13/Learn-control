@@ -5,7 +5,7 @@ import (
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 )
 
-func EmployeeBaseInfoToDesc(e *domain.EmployeeBaseInfo) *pb.EmployeeBaseInfo {
+func EmployeeBaseInfoToPb(e *domain.EmployeeBaseInfo) *pb.EmployeeBaseInfo {
 	return &pb.EmployeeBaseInfo{
 		Id:        e.ID,
 		Fullname:  e.FullName,
@@ -13,17 +13,17 @@ func EmployeeBaseInfoToDesc(e *domain.EmployeeBaseInfo) *pb.EmployeeBaseInfo {
 	}
 }
 
-func EmployeesBaseInfoToDesc(e []domain.EmployeeBaseInfo) *pb.GetEmployeesByNameResponse {
+func EmployeesBaseInfoToPb(e []domain.EmployeeBaseInfo) *pb.GetEmployeesByNameResponse {
 	var result []*pb.EmployeeBaseInfo
 
 	for _, employee := range e {
-		result = append(result, EmployeeBaseInfoToDesc(&employee))
+		result = append(result, EmployeeBaseInfoToPb(&employee))
 	}
 
 	return &pb.GetEmployeesByNameResponse{Employees: result}
 }
 
-func EmployeePersonalCardToDesc(e *domain.EmployeePersonalCard) *pb.GetEmployeePersonalCardResponse {
+func EmployeePersonalCardToPb(e *domain.EmployeePersonalCard) *pb.GetEmployeePersonalCardResponse {
 	result := &pb.GetEmployeePersonalCardResponse{
 		Fullname:       e.FullName,
 		Birthdate:      e.BirthDate,
@@ -34,13 +34,13 @@ func EmployeePersonalCardToDesc(e *domain.EmployeePersonalCard) *pb.GetEmployeeP
 	}
 
 	for _, training := range e.Trainings {
-		result.Trainings = append(result.Trainings, TrainingToDesc(training))
+		result.Trainings = append(result.Trainings, TrainingToPb(training))
 	}
 
 	return result
 }
 
-func EmployeesInfoToDesc(e []domain.EmployeeInfo) *pb.GetEmployeesByFiltersResponse {
+func EmployeesInfoToPb(e []domain.EmployeeInfo) *pb.GetEmployeesByFiltersResponse {
 	employees := make([]*pb.EmployeeInfo, 0, len(e))
 
 	for _, empl := range e {
@@ -66,4 +66,15 @@ func EmployeesInfoToDesc(e []domain.EmployeeInfo) *pb.GetEmployeesByFiltersRespo
 	}
 
 	return &pb.GetEmployeesByFiltersResponse{Employees: employees}
+}
+
+func PbEmployeeToDomain(req *pb.AddEmployeeRequest) domain.Employee {
+	return domain.Employee{
+		FullName:       req.GetFullname(),
+		BirthDate:      req.GetBirthdate(),
+		Snils:          req.GetSnils(),
+		Department:     req.GetDepartment(),
+		Position:       req.GetPosition(),
+		EmploymentDate: req.GetEmploymentDate(),
+	}
 }

@@ -5,13 +5,13 @@ import (
 	"database/sql"
 	"time"
 
-	emplStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
+	trainingsStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/pkg/errors"
 )
 
 func (s *Service) UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*domain.TrainingDates, error) {
-	var dates *emplStorage.TrainingDates
+	var dates *trainingsStorage.TrainingDates
 
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
 		var txErr error

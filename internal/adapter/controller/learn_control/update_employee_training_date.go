@@ -17,5 +17,5 @@ func (i *Implementation) UpdateEmployeeTrainingDate(ctx context.Context, req *pb
 		return nil, err
 	}
 
-	return converter.TrainingDatesToDesc(newDates), nil
+	return converter.TrainingDatesToPb(newDates), nil
 }

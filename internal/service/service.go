@@ -4,6 +4,7 @@ import (
 	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
 	tasksRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	trainingsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 	txManager "github.com/DarYur13/learn-control/internal/adapter/repository/txManager"
 	"github.com/minio/minio-go/v7"
 )
@@ -11,17 +12,19 @@ import (
 // Service
 type Service struct {
 	txManager        *txManager.Manager
-	employeesStorage emplRepo.EmoloyeesStorager
-	positionsStorage posRepo.PositionsStorager
-	tasksStorage     tasksRepo.TasksStorager
+	employeesStorage emplRepo.EmployeesRepository
+	positionsStorage posRepo.PositionsRepository
+	tasksStorage     tasksRepo.TasksRepository
+	trainingsStorage trainingsRepo.TrainingsRepository
 	minioFileStor    *minio.Client
 }
 
 // New creates new service
 func New(
-	employeesStorage emplRepo.EmoloyeesStorager,
-	positionsStorage posRepo.PositionsStorager,
-	tasksStorage tasksRepo.TasksStorager,
+	employeesStorage emplRepo.EmployeesRepository,
+	positionsStorage posRepo.PositionsRepository,
+	tasksStorage tasksRepo.TasksRepository,
+	trainingsStorage trainingsRepo.TrainingsRepository,
 	txManager *txManager.Manager,
 	minioCli *minio.Client,
 ) *Service {
@@ -29,6 +32,7 @@ func New(
 		employeesStorage: employeesStorage,
 		positionsStorage: positionsStorage,
 		tasksStorage:     tasksStorage,
+		trainingsStorage: trainingsStorage,
 		txManager:        txManager,
 		minioFileStor:    minioCli,
 	}

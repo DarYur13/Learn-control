@@ -7,7 +7,7 @@ import (
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 )
 
-func FiltersToDomain(req *pb.GetEmployeesByFiltersRequest) domain.Filters {
+func PbFiltersToDomain(req *pb.GetEmployeesByFiltersRequest) domain.Filters {
 	filters := domain.Filters{
 		Department: sql.NullString{
 			Valid:  req.Department != nil,

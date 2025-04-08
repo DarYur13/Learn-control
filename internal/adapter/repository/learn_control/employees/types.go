@@ -4,22 +4,25 @@ import (
 	"context"
 	"database/sql"
 	"time"
+
+	trainingsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
 )
 
-type EmoloyeesStorager interface {
+type EmployeesRepository interface {
 	AddEmployeeTx(ctx context.Context, tx *sql.Tx, employee Employee) (int, error)
+
 	GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
 	GetEmployeesWithoutTrainings(ctx context.Context, positionID int) ([]int, error)
 	GetEmployeesWithoutTrainingsTx(ctx context.Context, tx *sql.Tx, positionID int) ([]int, error)
+	GetEmployeeLeader(ctx context.Context, employeeID int) (int, error)
+
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingIDs []int) error
-	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*TrainingDates, error)
+	SetEmployeeTrainnigProtocol(ctx context.Context, employeeID, trainingID int) error
+	SetEmployeeTrainnigProtocolTx(ctx context.Context, tx *sql.Tx, employeeID, trainingID int) error
 
-	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
-
-	SetHasProtocol(ctx context.Context, employeeID, trainingID int) error
-	SetHasProtocolTx(ctx context.Context, tx *sql.Tx, employeeID, trainingID int) error
+	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
 }
 
 type Employee struct {
@@ -38,18 +41,7 @@ type EmployeePersonalCard struct {
 	Department     string `db:"department"`
 	Position       string `db:"position"`
 	EmploymentDate string `db:"employment_date"`
-	Trainings      []Training
-}
-
-type Training struct {
-	Name        string       `db:"training" json:"name"`
-	HasProtocol sql.NullBool `db:"has_protocol" json:"has_protocol"`
-	TrainingDates
-}
-
-type TrainingDates struct {
-	PassDate   sql.NullTime `db:"training_date" json:"pass_date"`
-	RePassDate sql.NullTime `db:"retraining_date" json:"repass_date"`
+	Trainings      []trainingsRepo.Training
 }
 
 type EmployeeBaseInfo struct {
@@ -58,16 +50,11 @@ type EmployeeBaseInfo struct {
 	BirthDate string
 }
 
-type TrainigBaseInfo struct {
-	ID   int    `db:"id"`
-	Name string `db:"training"`
-}
-
 type EmployeeInfo struct {
-	FullName   string     `db:"full_name" json:"full_name"`
-	Department string     `db:"department" json:"department"`
-	Position   string     `db:"position" json:"position"`
-	Trainings  []Training `json:"trainings"`
+	FullName   string                   `db:"full_name" json:"full_name"`
+	Department string                   `db:"department" json:"department"`
+	Position   string                   `db:"position" json:"position"`
+	Trainings  []trainingsRepo.Training `json:"trainings"`
 }
 
 type Filters struct {

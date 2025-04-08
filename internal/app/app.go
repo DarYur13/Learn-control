@@ -3,7 +3,6 @@ package service_provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"net"
 	"net/http"
 
@@ -21,85 +20,70 @@ import (
 type App struct {
 	serviceProvider *serviceProvider
 	grpcServer      *grpc.Server
+	httpServer      *http.Server
 }
 
-// NewApp creates new App
+// NewApp creates a new App
 func NewApp(ctx context.Context) (*App, error) {
 	a := &App{}
-	err := a.initDeps(ctx)
-	if err != nil {
+	if err := a.initDeps(ctx); err != nil {
 		return nil, err
 	}
 
 	return a, nil
 }
 
-// Run starts app
+// Run starts the app (both gRPC and HTTP)
 func (a *App) Run(ctx context.Context) error {
-	group, groupCtx := errgroup.WithContext(ctx)
+	group, _ := errgroup.WithContext(ctx)
 
 	group.Go(func() error {
 		list, err := net.Listen("tcp", fmt.Sprintf(":%s", config.ApiGrpcPort()))
 		if err != nil {
-			return fmt.Errorf("failed to mapping port: %s", err.Error())
+			return fmt.Errorf("failed to listen: %w", err)
 		}
 
-		if err := a.grpcServer.Serve(list); err != nil {
-			return fmt.Errorf("failed to server: %s", err.Error())
-		}
+		logger.Info("gRPC сервер запущен на порту", config.ApiGrpcPort())
 
-		logger.Info("gRPC сервер запущен на порту", config.ApiHttpPort())
-
-		return nil
+		return a.grpcServer.Serve(list)
 	})
 
 	group.Go(func() error {
-		mux := runtime.NewServeMux()
-		opts := []grpc.DialOption{grpc.WithInsecure()} // nolint: staticcheck
-
-		err := pb.RegisterLearnControlHandlerFromEndpoint(groupCtx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts)
-		if err != nil {
-			return err
-		}
-
-		// Настройки CORS
-		c := cors.New(cors.Options{
-			AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
-			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-			AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
-			ExposedHeaders:   []string{"Content-Length"},
-			AllowCredentials: true,
-			Debug:            true, // Позволяет увидеть логи cors
-		})
-
-		handler := c.Handler(mux)
-
 		logger.Info("HTTP сервер запущен на порту", config.ApiHttpPort())
-		return http.ListenAndServe(
-			fmt.Sprintf("%s:%s", config.ApiHost(), config.ApiHttpPort()),
-			handler,
-		)
+
+		return a.httpServer.ListenAndServe()
 	})
 
-	if err := group.Wait(); err != nil {
-		return err
-	}
-
-	return nil
+	// Ждём завершения или ошибки
+	return group.Wait()
 }
 
-// initDeps initialize dependencies
+// Shutdown gracefully stops servers
+func (a *App) Shutdown(ctx context.Context) {
+	if a.grpcServer != nil {
+		logger.Info("Остановка gRPC сервера...")
+		a.grpcServer.GracefulStop()
+	}
+
+	if a.httpServer != nil {
+		logger.Info("Остановка HTTP сервера...")
+		if err := a.httpServer.Shutdown(ctx); err != nil {
+			logger.Error("ошибка при остановке HTTP сервера: ", err)
+		}
+	}
+}
+
 func (a *App) initDeps(ctx context.Context) error {
-	inits := []func(ctx context.Context) error{
+	initFns := []func(context.Context) error{
 		a.initConfig,
 		a.initLogger,
 		a.initServiceProvider,
 		a.initGrpcServer,
+		a.initHTTPServer,
 	}
 
-	for _, f := range inits {
-		err := f(ctx)
-		if err != nil {
+	for _, fn := range initFns {
+		if err := fn(ctx); err != nil {
 			return err
 		}
 	}
@@ -109,39 +93,64 @@ func (a *App) initDeps(ctx context.Context) error {
 
 func (a *App) initConfig(_ context.Context) error {
 	config.LoadAll()
+
 	return nil
 }
 
 func (a *App) initLogger(_ context.Context) error {
-	newLogger, err := logger.New(config.LogFilePath())
+	lg, err := logger.New(config.LogFilePath())
 	if err != nil {
-		log.Fatalf("logger settingup error: %s", err.Error())
+		return fmt.Errorf("logger setup error: %w", err)
 	}
 
-	logger.SetLogger(newLogger)
-
-	err = logger.SetLogLevel(config.LogLevel())
-	if err != nil {
-		log.Fatalf("logger settingup error: %s", err.Error())
+	logger.SetLogger(lg)
+	if err := logger.SetLogLevel(config.LogLevel()); err != nil {
+		return fmt.Errorf("log level error: %w", err)
 	}
 
 	logger.Sync()
+
 	return nil
 }
 
-// initServiceProvider initialize serviceProvider
 func (a *App) initServiceProvider(_ context.Context) error {
 	a.serviceProvider = newServiceProvider()
+
 	return nil
 }
 
-// initGrpcServer initialize gRPC server
 func (a *App) initGrpcServer(ctx context.Context) error {
 	s := grpc.NewServer()
-	pb.RegisterLearnControlServer(s, a.serviceProvider.getLearnControl(ctx))
 
+	pb.RegisterLearnControlServer(s, a.serviceProvider.getLearnControl(ctx))
 	reflection.Register(s)
 
 	a.grpcServer = s
+
+	return nil
+}
+
+func (a *App) initHTTPServer(ctx context.Context) error {
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()} // ⚠️ Не для продакшна
+
+	if err := pb.RegisterLearnControlHandlerFromEndpoint(ctx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts); err != nil {
+		return err
+	}
+
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
+		ExposedHeaders:   []string{"Content-Length"},
+		AllowCredentials: true,
+		Debug:            true,
+	})
+
+	a.httpServer = &http.Server{
+		Addr:    fmt.Sprintf("%s:%s", config.ApiHost(), config.ApiHttpPort()),
+		Handler: c.Handler(mux),
+	}
+
 	return nil
 }

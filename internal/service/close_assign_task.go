@@ -5,10 +5,11 @@ import (
 	"database/sql"
 
 	tasksStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/pkg/errors"
 )
 
-func (s *Service) CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType string) error {
+func (s *Service) CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType domain.TaskType) error {
 	task, needNextTask, err := s.nextTask(ctx, employeeID, trainingID, taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")

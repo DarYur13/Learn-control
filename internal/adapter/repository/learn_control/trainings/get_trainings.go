@@ -8,8 +8,8 @@ const (
 	queryGetTrainings = `SELECT DISTINCT id, training FROM trainings`
 )
 
-func (es *EmployeesStorage) GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error) {
-	rows, err := es.db.QueryContext(ctx, queryGetTrainings)
+func (ts *TrainingsStorage) GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error) {
+	rows, err := ts.db.QueryContext(ctx, queryGetTrainings)
 	if err != nil {
 		return nil, err
 	}
