@@ -27,5 +27,9 @@ func (ps *PositionsStorage) GetPositions(ctx context.Context) ([]string, error) 
 		positions = append(positions, position)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return positions, nil
 }

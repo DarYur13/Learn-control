@@ -55,6 +55,7 @@ func (ts *TasksStorage) GetTasksByFilters(ctx context.Context, done sql.NullBool
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		var task Task

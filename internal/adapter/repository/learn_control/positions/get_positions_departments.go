@@ -27,5 +27,9 @@ func (ps *PositionsStorage) GetPositionsDepartments(ctx context.Context) ([]stri
 		departments = append(departments, department)
 	}
 
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return departments, nil
 }

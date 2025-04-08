@@ -41,7 +41,7 @@ func (es *EmployeesStorage) GetEmployeePersonalCard(ctx context.Context, id int)
 	for rows.Next() {
 		var trainings trainingsStorage.Training
 
-		rows.Scan(
+		if err := rows.Scan(
 			&result.FullName,
 			&result.BirthDate,
 			&result.Snils,
@@ -52,9 +52,15 @@ func (es *EmployeesStorage) GetEmployeePersonalCard(ctx context.Context, id int)
 			&trainings.PassDate,
 			&trainings.RePassDate,
 			&trainings.HasProtocol,
-		)
+		); err != nil {
+			return nil, err
+		}
 
 		result.Trainings = append(result.Trainings, trainings)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &result, nil

@@ -53,7 +53,16 @@ func (es *EmployeesStorage) GetEmployeesByFilters(ctx context.Context, filters F
 			hasProtocol sql.NullBool
 		)
 
-		if err := rows.Scan(&id, &fullName, &department, &position, &training, &passDate, &rePassDate, &hasProtocol); err != nil {
+		if err := rows.Scan(
+			&id,
+			&fullName,
+			&department,
+			&position,
+			&training,
+			&passDate,
+			&rePassDate,
+			&hasProtocol,
+		); err != nil {
 			return nil, err
 		}
 
@@ -77,6 +86,10 @@ func (es *EmployeesStorage) GetEmployeesByFilters(ctx context.Context, filters F
 				HasProtocol: hasProtocol,
 			})
 		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	result := make([]EmployeeInfo, 0, len(employeesMap))
