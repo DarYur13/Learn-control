@@ -2,16 +2,19 @@ package domain
 
 import "database/sql"
 
+type TaskType string
+
 const (
-	TaskTypeProvide = "PROVIDE"
-	TaskTypeAssign  = "ASSIGN"
-	TaskTypeChoose  = "CHOOSE"
-	TaskTypeSet     = "SET"
-	TaskTypeConfirm = "CONFIRM"
+	TaskTypeAssign  TaskType = "ASSIGN"
+	TaskTypeSet     TaskType = "SET"
+	TaskTypeProvide TaskType = "PROVIDE"
+	TaskTypeConfirm TaskType = "CONFIRM"
+	TaskTypeControl TaskType = "CONTROL"
+	TaskTypeChoose  TaskType = "CHOOSE"
 )
 
 type TaskBaseInfo struct {
-	Type       string
+	Type       TaskType
 	TrainingID sql.NullInt64
 	EmployeeID sql.NullInt64
 	ExecutorID sql.NullInt64
@@ -20,7 +23,7 @@ type TaskBaseInfo struct {
 
 type Task struct {
 	ID          int
-	Type        string
+	Type        TaskType
 	Description string
 	Employee    sql.NullString
 	Training    sql.NullString

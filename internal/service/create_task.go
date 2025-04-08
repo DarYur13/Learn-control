@@ -7,65 +7,73 @@ import (
 )
 
 func (s *Service) createProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
-	ids := map[string]int{
-		"employee": employeeID,
-		"training": trainingID,
+	taskArgs := taskArgs{
+		EmployeeID: &employeeID,
+		TrainingID: &trainingID,
 	}
-	return s.createTask(ctx, "PROVIDE", ids)
+	return s.buildTask(ctx, domain.TaskTypeProvide, taskArgs)
 }
 
 func (s *Service) createAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
-	ids := map[string]int{
-		"employee": employeeID,
-		"training": trainingID,
+	taskArgs := taskArgs{
+		EmployeeID: &employeeID,
+		TrainingID: &trainingID,
 	}
-	return s.createTask(ctx, "ASSIGN", ids)
+	return s.buildTask(ctx, domain.TaskTypeAssign, taskArgs)
 }
 
 func (s *Service) createChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error) {
-	ids := map[string]int{
-		"position": positionID,
+	taskArgs := taskArgs{
+		PositionID: &positionID,
 	}
-	return s.createTask(ctx, "CHOOSE", ids)
+	return s.buildTask(ctx, domain.TaskTypeChoose, taskArgs)
 }
 
 func (s *Service) createSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
-	ids := map[string]int{
-		"employee": employeeID,
-		"training": trainingID,
+	taskArgs := taskArgs{
+		EmployeeID: &employeeID,
+		TrainingID: &trainingID,
 	}
-	return s.createTask(ctx, "SET", ids)
+	return s.buildTask(ctx, domain.TaskTypeSet, taskArgs)
 }
 
 func (s *Service) createConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
-	ids := map[string]int{
-		"employee": employeeID,
-		"training": trainingID,
+	taskArgs := taskArgs{
+		EmployeeID: &employeeID,
+		TrainingID: &trainingID,
 	}
-	return s.createTask(ctx, "CONFIRM", ids)
+	return s.buildTask(ctx, domain.TaskTypeConfirm, taskArgs)
 }
 
-func (s *Service) createTask(_ context.Context, taskType string, ids map[string]int) (*domain.TaskBaseInfo, error) {
+func (s *Service) createControlTask(ctx context.Context, employeeID, trainingID, executorID int) (*domain.TaskBaseInfo, error) {
+	taskArgs := taskArgs{
+		EmployeeID: &employeeID,
+		TrainingID: &trainingID,
+		ExecutorID: &executorID,
+	}
+	return s.buildTask(ctx, domain.TaskTypeControl, taskArgs)
+}
+
+func (s *Service) buildTask(_ context.Context, taskType domain.TaskType, args taskArgs) (*domain.TaskBaseInfo, error) {
 	task := &domain.TaskBaseInfo{
 		Type: taskType,
 	}
 
-	for key, val := range ids {
-		switch key {
-		case "employee":
-			task.EmployeeID.Valid = true
-			task.EmployeeID.Int64 = int64(val)
-		case "executor":
-			task.ExecutorID.Valid = true
-			task.ExecutorID.Int64 = int64(val)
-		case "training":
-			task.TrainingID.Valid = true
-			task.TrainingID.Int64 = int64(val)
-		case "position":
-			task.PositionID.Valid = true
-			task.PositionID.Int64 = int64(val)
-		}
-
+	if args.EmployeeID != nil {
+		task.EmployeeID.Valid = true
+		task.EmployeeID.Int64 = int64(*args.EmployeeID)
+	}
+	if args.ExecutorID != nil {
+		task.ExecutorID.Valid = true
+		task.ExecutorID.Int64 = int64(*args.ExecutorID)
+	}
+	if args.TrainingID != nil {
+		task.TrainingID.Valid = true
+		task.TrainingID.Int64 = int64(*args.TrainingID)
+	}
+	if args.PositionID != nil {
+		task.PositionID.Valid = true
+		task.PositionID.Int64 = int64(*args.PositionID)
 	}
 
 	return task, nil

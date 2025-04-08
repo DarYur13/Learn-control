@@ -16,8 +16,7 @@ const (
 	noNeedRepassDate = "Не требуется"
 )
 
-// ILearnControlService is the interface of the service layer
-type ILearnControlService interface {
+type Servicer interface {
 	GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*domain.EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error)
@@ -29,8 +28,15 @@ type ILearnControlService interface {
 	GetPositions(ctx context.Context) ([]string, error)
 
 	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]domain.Task, error)
-	CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType string) error
+	CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType domain.TaskType) error
 	CloseTaskWithPositionTrainingsSet(ctx context.Context, taskID, positionID int, trainingsIDs []int) error
 	CloseTaskWithTrainingProtocolConfirm(ctx context.Context, taskID, employeeID, trainingID int) error
-	CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType string, date time.Time) error
+	CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType domain.TaskType, date time.Time) error
+}
+
+type taskArgs struct {
+	EmployeeID *int
+	ExecutorID *int
+	TrainingID *int
+	PositionID *int
 }

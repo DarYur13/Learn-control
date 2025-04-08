@@ -2,11 +2,11 @@ package converter
 
 import (
 	"github.com/DarYur13/learn-control/internal/domain"
-	desc "github.com/DarYur13/learn-control/pkg/learn_control"
+	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 )
 
-func TrainingToDesc(t domain.Training) *desc.Training {
-	return &desc.Training{
+func TrainingToPb(t domain.Training) *pb.Training {
+	return &pb.Training{
 		Name:        t.Name,
 		PassDate:    t.PassDate,
 		RePassDate:  t.RePassDate,
@@ -14,11 +14,11 @@ func TrainingToDesc(t domain.Training) *desc.Training {
 	}
 }
 
-func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *desc.GetTrainingsResponse {
-	result := &desc.GetTrainingsResponse{}
+func TrainingsToPb(trainings []domain.TrainingBaseInfo) *pb.GetTrainingsResponse {
+	result := &pb.GetTrainingsResponse{}
 
 	for _, t := range trainings {
-		training := &desc.TrainingBaseInfo{
+		training := &pb.TrainingBaseInfo{
 			Id:   int64(t.ID),
 			Name: t.Name,
 		}
@@ -29,8 +29,8 @@ func TrainingsToDesc(trainings []domain.TrainingBaseInfo) *desc.GetTrainingsResp
 	return result
 }
 
-func TrainingDatesToDesc(dates *domain.TrainingDates) *desc.UpdateEmployeeTrainingDateResponse {
-	return &desc.UpdateEmployeeTrainingDateResponse{
+func TrainingDatesToPb(dates *domain.TrainingDates) *pb.UpdateEmployeeTrainingDateResponse {
+	return &pb.UpdateEmployeeTrainingDateResponse{
 		PassDate:   dates.PassDate,
 		RePassDate: dates.RePassDate,
 	}

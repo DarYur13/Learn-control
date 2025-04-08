@@ -4,23 +4,24 @@ import (
 	"context"
 	"database/sql"
 
-	storage "github.com/DarYur13/learn-control/internal/storage/learn_control"
+	tasksStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
+	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/pkg/errors"
 )
 
-func (s *Service) CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType string) error {
+func (s *Service) CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType domain.TaskType) error {
 	task, needNextTask, err := s.nextTask(ctx, employeeID, trainingID, taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")
 	}
 
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
-		if txErr := s.storage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
+		if txErr := s.tasksStorage.CloseTaskTx(ctx, tx, taskID); txErr != nil {
 			return errors.WithMessage(txErr, "close task")
 		}
 
 		if needNextTask {
-			if txErr := s.storage.AddTaskTx(ctx, tx, storage.TaskBaseInfo(*task)); txErr != nil {
+			if txErr := s.tasksStorage.AddTaskTx(ctx, tx, tasksStorage.TaskBaseInfo(*task)); txErr != nil {
 				return errors.WithMessage(txErr, "add task")
 			}
 		}

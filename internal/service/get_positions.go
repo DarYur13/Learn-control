@@ -5,5 +5,5 @@ import (
 )
 
 func (s *Service) GetPositions(ctx context.Context) ([]string, error) {
-	return s.storage.GetPositions(ctx)
+	return s.positionsStorage.GetPositions(ctx)
 }

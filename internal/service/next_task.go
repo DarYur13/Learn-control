@@ -2,13 +2,11 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/DarYur13/learn-control/internal/domain"
 )
 
-// TODO transaction
-func (s *Service) nextTask(ctx context.Context, employeeID, trainingID int, taskType string) (*domain.TaskBaseInfo, bool, error) {
+func (s *Service) nextTask(ctx context.Context, employeeID, trainingID int, taskType domain.TaskType) (*domain.TaskBaseInfo, bool, error) {
 	var task *domain.TaskBaseInfo
 	var err error
 
@@ -18,15 +16,15 @@ func (s *Service) nextTask(ctx context.Context, employeeID, trainingID int, task
 		if err != nil {
 			return nil, false, err
 		}
+
 	case domain.TaskTypeSet:
 		task, err = s.createConfirmTask(ctx, employeeID, trainingID)
 		if err != nil {
 			return nil, false, err
 		}
-	case domain.TaskTypeProvide:
-		return nil, false, nil
+
 	default:
-		return nil, false, fmt.Errorf("unknown task type")
+		return nil, false, nil
 	}
 
 	return task, true, nil

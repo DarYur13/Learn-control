@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Service) GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error) {
-	employeesBaseInfo, err := s.storage.GetEmployeesByName(ctx, name)
+	employeesBaseInfo, err := s.employeesStorage.GetEmployeesByName(ctx, name)
 	if err != nil {
 		return nil, err
 	}
