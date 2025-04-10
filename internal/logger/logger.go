@@ -66,6 +66,10 @@ func Info(args ...interface{}) {
 	globalLogger.Info(args)
 }
 
+func Infof(template string, args ...interface{}) {
+	globalLogger.Infof(template, args)
+}
+
 func Warn(args ...interface{}) {
 	globalLogger.Warn(args)
 }

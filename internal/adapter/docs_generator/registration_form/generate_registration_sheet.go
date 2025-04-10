@@ -12,8 +12,8 @@ import (
 	"github.com/nguyenthenguyen/docx"
 )
 
-func (g *docxGenerator) GenerateRegistrationSheet(ctx context.Context, employee domain.Employee, briefingInfo domain.BriefingInfo) (io.Reader, error) {
-	fileName, err := g.getTemplateFilename(briefingInfo.TrainingType)
+func (g *docxGenerator) GenerateRegistrationSheet(ctx context.Context, info domain.RegistrationSheetInfo) (io.Reader, error) {
+	fileName, err := g.getTemplateFilename(info.TrainingType)
 	if err != nil {
 		return nil, err
 	}
@@ -28,19 +28,19 @@ func (g *docxGenerator) GenerateRegistrationSheet(ctx context.Context, employee 
 
 	doc := r.Editable()
 
-	doc.Replace("{date}", time.Now().Format("02.01.2006"), -1)
-	doc.Replace("{full_name}", employee.FullName, -1)
-	doc.Replace("{position}", employee.Position, -1)
-	doc.Replace("{birth_date}", employee.BirthDate, -1)
-	doc.Replace("{executor}", briefingInfo.Instructor.FullName, -1)
-	doc.Replace("{executor_position}", briefingInfo.Instructor.Position, -1)
+	doc.Replace("{date}", time.Now().Format(domain.DateFormat), -1)
+	doc.Replace("{full_name}", info.EmployeeName, -1)
+	doc.Replace("{position}", info.EmployeePosition, -1)
+	doc.Replace("{birth_date}", info.EmployeeBirthDate.Format(domain.DateFormat), -1)
+	doc.Replace("{executor}", info.InstructorName, -1)
+	doc.Replace("{executor_position}", info.InstructorPosition, -1)
 
-	if briefingInfo.TrainingType == domain.TrainingTypeIntroductory {
-		doc.Replace("{department}", employee.Department, -1)
+	if info.TrainingType == domain.TrainingTypeIntroductory {
+		doc.Replace("{department}", info.EmployeeDepartment, -1)
 	}
 
-	if briefingInfo.TrainingType == domain.TrainingTypeInitial || briefingInfo.TrainingType == domain.TrainingTypeRefresher {
-		doc.Replace("{act}", briefingInfo.Act, -1)
+	if info.TrainingType == domain.TrainingTypeInitial || info.TrainingType == domain.TrainingTypeRefresher {
+		doc.Replace("{act}", info.Acts, -1)
 	}
 
 	buf := new(bytes.Buffer)

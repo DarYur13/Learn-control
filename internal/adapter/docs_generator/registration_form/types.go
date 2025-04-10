@@ -8,5 +8,5 @@ import (
 )
 
 type DocsGenerator interface {
-	GenerateRegistrationSheet(ctx context.Context, employee domain.Employee, briefingInfo domain.BriefingInfo) (io.Reader, error)
+	GenerateRegistrationSheet(ctx context.Context, info domain.RegistrationSheetInfo) (io.Reader, error)
 }

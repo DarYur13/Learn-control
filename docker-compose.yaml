@@ -10,19 +10,6 @@ services:
       - "POSTGRES_PASSWORD=postgres"
     ports:
       - "5432:5432"
-  
-  minio:
-    image: quay.io/minio/minio
-    container_name: "learn_control_minio"
-    environment:
-      - "MINIO_ROOT_USER=admin"
-      - "MINIO_ROOT_PASSWORD=supersecret"
-    ports:
-      - "9000:9000"  # S3 API
-      - "9090:9090"  # Web UI
-    volumes:
-      - ./minio/data:/data
-    command: server /data --console-address ":9090"
 
   # goose:
   #   build: ./migrations/

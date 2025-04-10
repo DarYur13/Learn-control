@@ -17,11 +17,12 @@ const (
 )
 
 type config struct {
-	Pg            *modules.Pg
-	Log           *modules.Log
-	Api           *modules.Api
-	DocsGenerator *modules.DocsGenerator
-	Notifier      *modules.Notifier
+	Pg                 *modules.Pg
+	Log                *modules.Log
+	Api                *modules.Api
+	DocsGenerator      *modules.DocsGenerator
+	Notifier           *modules.Notifier
+	NotificationWorker *modules.NotificationWorker
 }
 
 var globalConfig config
@@ -58,12 +59,18 @@ func LoadAll() {
 		log.Fatalf("failed to load notifier config")
 	}
 
+	notificationWorker, err := modules.LoadNotificationWorker()
+	if err != nil {
+		log.Fatalf("failed to load notification worker config")
+	}
+
 	globalConfig = config{
-		Log:           logger,
-		Pg:            db,
-		Api:           api,
-		DocsGenerator: docsGenerator,
-		Notifier:      notifier,
+		Log:                logger,
+		Pg:                 db,
+		Api:                api,
+		DocsGenerator:      docsGenerator,
+		Notifier:           notifier,
+		NotificationWorker: notificationWorker,
 	}
 }
 
@@ -114,15 +121,23 @@ func DocsGeneratorTamplatePath() string {
 func NotifierEmailFrom() string {
 	return globalConfig.Notifier.EmailFrom
 }
+
 func NotifierEmailPassword() string {
 	return globalConfig.Notifier.EmailPassword
 }
+
 func NotifierSMTPHost() string {
 	return globalConfig.Notifier.SMTPHost
 }
+
 func NotifierSMTPPort() string {
 	return globalConfig.Notifier.SMTPPort
 }
+
 func NotifierEmailUseTLS() string {
 	return globalConfig.Notifier.EmailUseTLS
+}
+
+func NotificationWorkerQueueCheckPeriod() int {
+	return globalConfig.NotificationWorker.QueueCheckPeriod
 }

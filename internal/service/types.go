@@ -17,6 +17,7 @@ const (
 )
 
 type Servicer interface {
+	GetEmployeeByID(ctx context.Context, employeeID int) (*domain.Employee, error)
 	GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*domain.EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error)

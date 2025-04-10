@@ -1,6 +1,9 @@
 package domain
 
-import "io"
+import (
+	"io"
+	"time"
+)
 
 type NotificationType string
 
@@ -12,7 +15,6 @@ const (
 )
 
 type SMTPNotification struct {
-	Type      NotificationType
 	Recipient string
 	Subject   string
 	Body      string
@@ -26,8 +28,18 @@ type SMTPNotificationTemplate struct {
 }
 
 type PendingNotification struct {
-	ID         int
-	EmployeeID int
-	TrainingID int
-	Type       NotificationType
+	ID                 int
+	Type               NotificationType
+	Subject            string
+	Body               string
+	InstructorName     string
+	InstructorEmail    string
+	InstructorPosition string
+	EmployeeName       string
+	EmployeeBirthDate  time.Time
+	EmployeePosition   string
+	EmployeeDepartment string
+	TrainingType       TrainingType
+	Acts               string
+	ReTrainingDate     time.Time
 }
