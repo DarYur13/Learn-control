@@ -7,6 +7,7 @@ type Employee struct {
 	Department     string
 	Position       string
 	EmploymentDate string
+	Email          string
 }
 
 type EmployeeBaseInfo struct {
