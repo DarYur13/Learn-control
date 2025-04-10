@@ -22,7 +22,11 @@ func (ts *TrainingsStorage) GetTrainings(ctx context.Context) ([]TrainigBaseInfo
 	for rows.Next() {
 		var training TrainigBaseInfo
 
-		if err := rows.Scan(&training.ID, &training.Name); err != nil {
+		if err := rows.Scan(
+			&training.ID,
+			&training.Type,
+			&training.Name,
+		); err != nil {
 			return nil, err
 		}
 

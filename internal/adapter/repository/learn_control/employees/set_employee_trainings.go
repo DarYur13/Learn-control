@@ -16,12 +16,11 @@ const (
 		$1,
 		$2,
 		CASE 
-			WHEN t.need_protocol THEN FALSE
-			ELSE NULL
+			WHEN t.training_type != 'REGULAR' THEN NULL
+			ELSE FALSE
 		END
 	FROM trainings t
-	WHERE t.id = $2
-	ON CONFLICT (employee_id, training_id) DO NOTHING;
+	WHERE t.id = $2;
 	`
 )
 

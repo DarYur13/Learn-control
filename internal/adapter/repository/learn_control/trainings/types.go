@@ -3,14 +3,18 @@ package learncontrol
 import (
 	"context"
 	"database/sql"
+
+	"github.com/DarYur13/learn-control/internal/domain"
 )
 
 type TrainingsRepository interface {
 	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
+	GetTrainingType(ctx context.Context, trainingID int) (domain.TrainingType, error)
+	GetTrainingAct(ctx context.Context, trainingID int) (string, error)
 }
 
 type Training struct {
-	Name        string       `db:"training" json:"name"`
+	Name        string       `db:"training_name" json:"name"`
 	HasProtocol sql.NullBool `db:"has_protocol" json:"has_protocol"`
 	TrainingDates
 }
@@ -21,6 +25,7 @@ type TrainingDates struct {
 }
 
 type TrainigBaseInfo struct {
-	ID   int    `db:"id"`
-	Name string `db:"training"`
+	ID   int                 `db:"id"`
+	Type domain.TrainingType `db:"training_type"`
+	Name string              `db:"training_name"`
 }
