@@ -23,22 +23,30 @@ func initLogger() *zap.SugaredLogger {
 }
 
 func New(pathToLogFile string) (*zap.SugaredLogger, error) {
-
 	level = zap.NewAtomicLevel()
 
-	globalLogger, err := zap.Config{
+	outputPaths := []string{pathToLogFile}
+	errorOutputPaths := []string{pathToLogFile}
+
+	if pathToLogFile == "stdout" || pathToLogFile == "" {
+		outputPaths = []string{"stdout"}
+		errorOutputPaths = []string{"stderr"}
+	}
+
+	cfg := zap.Config{
 		Encoding:         "console",
 		Level:            level,
 		EncoderConfig:    zap.NewDevelopmentEncoderConfig(),
-		OutputPaths:      []string{pathToLogFile},
-		ErrorOutputPaths: []string{pathToLogFile},
-	}.Build()
+		OutputPaths:      outputPaths,
+		ErrorOutputPaths: errorOutputPaths,
+	}
+
+	logger, err := cfg.Build()
 	if err != nil {
 		return nil, fmt.Errorf("globalLogger build config error: %s", err.Error())
 	}
 
-	return globalLogger.Sugar(), nil
-
+	return logger.Sugar(), nil
 }
 
 func SetLogger(logger *zap.SugaredLogger) {
