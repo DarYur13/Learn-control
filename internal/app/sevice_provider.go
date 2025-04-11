@@ -9,7 +9,8 @@ import (
 
 	impl "github.com/DarYur13/learn-control/internal/adapter/controller/learn_control"
 	docsgenerator "github.com/DarYur13/learn-control/internal/adapter/docs_generator/registration_form"
-	"github.com/DarYur13/learn-control/internal/adapter/notifier/email"
+	notifier "github.com/DarYur13/learn-control/internal/adapter/notifier/email"
+	downloadTokensRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/download_tokens"
 	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	notificationsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/notifications"
 	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
@@ -23,17 +24,18 @@ import (
 
 // serviceProvider di-container
 type serviceProvider struct {
-	db                *sql.DB
-	txManager         *txManager.Manager
-	EmployeesRepo     emplRepo.EmployeesRepository
-	PositionsRepo     posRepo.PositionsRepository
-	TasksRepo         tasksRepo.TasksRepository
-	TrainingsRepo     trainingsRepo.TrainingsRepository
-	service           service.Servicer
-	implementation    *impl.Implementation
-	docsGenerator     docsgenerator.DocsGenerator
-	notifyer          email.Notifier
-	notificationsRepo notificationsRepo.NotificationsRepository
+	db                 *sql.DB
+	txManager          *txManager.Manager
+	EmployeesRepo      emplRepo.EmployeesRepository
+	PositionsRepo      posRepo.PositionsRepository
+	TasksRepo          tasksRepo.TasksRepository
+	TrainingsRepo      trainingsRepo.TrainingsRepository
+	service            service.Servicer
+	implementation     *impl.Implementation
+	docsGenerator      docsgenerator.DocsGenerator
+	notifyer           notifier.Notifier
+	notificationsRepo  notificationsRepo.NotificationsRepository
+	downloadTokensRepo downloadTokensRepo.DownloadTokensRepository
 }
 
 func newServiceProvider() *serviceProvider {
@@ -96,6 +98,13 @@ func (s *serviceProvider) getNotificationsRepo(ctx context.Context) notification
 	return s.notificationsRepo
 }
 
+func (s *serviceProvider) getdownloadTokensRepo(ctx context.Context) downloadTokensRepo.DownloadTokensRepository {
+	if s.downloadTokensRepo == nil {
+		s.downloadTokensRepo = downloadTokensRepo.New(s.getDbConn(ctx))
+	}
+	return s.downloadTokensRepo
+}
+
 func (s *serviceProvider) getTxManager(ctx context.Context) *txManager.Manager {
 	if s.txManager == nil {
 		s.txManager = txManager.New(s.getDbConn(ctx))
@@ -112,9 +121,9 @@ func (s *serviceProvider) getDocsGenerator(_ context.Context) docsgenerator.Docs
 	return s.docsGenerator
 }
 
-func (s *serviceProvider) getNotifier(_ context.Context) email.Notifier {
+func (s *serviceProvider) getNotifier(_ context.Context) notifier.Notifier {
 	if s.notifyer == nil {
-		emailNotifier := email.New(
+		emailNotifier := notifier.New(
 			config.NotifierEmailFrom(),
 			config.NotifierEmailPassword(),
 			config.NotifierSMTPHost(),
@@ -138,6 +147,7 @@ func (s *serviceProvider) getService(ctx context.Context) service.Servicer {
 			s.getDocsGenerator(ctx),
 			s.getNotifier(ctx),
 			s.getNotificationsRepo(ctx),
+			s.getdownloadTokensRepo(ctx),
 		)
 	}
 	return s.service

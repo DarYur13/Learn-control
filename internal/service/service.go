@@ -2,7 +2,8 @@ package service
 
 import (
 	docsgenerator "github.com/DarYur13/learn-control/internal/adapter/docs_generator/registration_form"
-	"github.com/DarYur13/learn-control/internal/adapter/notifier/email"
+	notifier "github.com/DarYur13/learn-control/internal/adapter/notifier/email"
+	downloadTokensRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/download_tokens"
 	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
 	notificationsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/notifications"
 	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
@@ -13,14 +14,15 @@ import (
 
 // Service
 type Service struct {
-	txManager            *txManager.Manager
-	employeesStorage     emplRepo.EmployeesRepository
-	positionsStorage     posRepo.PositionsRepository
-	tasksStorage         tasksRepo.TasksRepository
-	trainingsStorage     trainingsRepo.TrainingsRepository
-	notificationsStorage notificationsRepo.NotificationsRepository
-	docsGenerator        docsgenerator.DocsGenerator
-	notifier             email.Notifier
+	txManager             *txManager.Manager
+	employeesStorage      emplRepo.EmployeesRepository
+	positionsStorage      posRepo.PositionsRepository
+	tasksStorage          tasksRepo.TasksRepository
+	trainingsStorage      trainingsRepo.TrainingsRepository
+	notificationsStorage  notificationsRepo.NotificationsRepository
+	docsGenerator         docsgenerator.DocsGenerator
+	notifier              notifier.Notifier
+	downloadTokensStorage downloadTokensRepo.DownloadTokensRepository
 }
 
 // New creates new service
@@ -31,17 +33,19 @@ func New(
 	trainingsStorage trainingsRepo.TrainingsRepository,
 	txManager *txManager.Manager,
 	docsGenerator docsgenerator.DocsGenerator,
-	notifier email.Notifier,
+	notifier notifier.Notifier,
 	notificationsStorage notificationsRepo.NotificationsRepository,
+	downloadTokensStorage downloadTokensRepo.DownloadTokensRepository,
 ) *Service {
 	return &Service{
-		employeesStorage:     employeesStorage,
-		positionsStorage:     positionsStorage,
-		tasksStorage:         tasksStorage,
-		trainingsStorage:     trainingsStorage,
-		txManager:            txManager,
-		docsGenerator:        docsGenerator,
-		notifier:             notifier,
-		notificationsStorage: notificationsStorage,
+		employeesStorage:      employeesStorage,
+		positionsStorage:      positionsStorage,
+		tasksStorage:          tasksStorage,
+		trainingsStorage:      trainingsStorage,
+		txManager:             txManager,
+		docsGenerator:         docsGenerator,
+		notifier:              notifier,
+		notificationsStorage:  notificationsStorage,
+		downloadTokensStorage: downloadTokensStorage,
 	}
 }

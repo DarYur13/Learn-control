@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	filesDownload "github.com/DarYur13/learn-control/internal/adapter/controller/files_download"
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
 	worker "github.com/DarYur13/learn-control/internal/worker/notification"
@@ -136,15 +137,15 @@ func (a *App) initGrpcServer(ctx context.Context) error {
 }
 
 func (a *App) initHTTPServer(ctx context.Context) error {
-	mux := runtime.NewServeMux()
-	opts := []grpc.DialOption{grpc.WithInsecure()} // ⚠️ Не для продакшна
+	grpcMux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()} // не для продакшна
 
-	if err := pb.RegisterLearnControlHandlerFromEndpoint(ctx, mux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts); err != nil {
+	if err := pb.RegisterLearnControlHandlerFromEndpoint(ctx, grpcMux, fmt.Sprintf(":%s", config.ApiGrpcPort()), opts); err != nil {
 		return err
 	}
 
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173", "http://localhost:3000", "https://6dnqnvhj-5173.uks1.devtunnels.ms"},
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization", "X-Requested-With"},
 		ExposedHeaders:   []string{"Content-Length"},
@@ -152,9 +153,16 @@ func (a *App) initHTTPServer(ctx context.Context) error {
 		Debug:            true,
 	})
 
+	filesMux := http.NewServeMux()
+	filesMux.Handle("/files/download", filesDownload.New(a.serviceProvider.getService(ctx)))
+
+	mainMux := http.NewServeMux()
+	mainMux.Handle("/", corsHandler.Handler(grpcMux))
+	mainMux.Handle("/files/download", filesMux)
+
 	a.httpServer = &http.Server{
 		Addr:    fmt.Sprintf("%s:%s", config.ApiHost(), config.ApiHttpPort()),
-		Handler: c.Handler(mux),
+		Handler: mainMux,
 	}
 
 	return nil
@@ -170,7 +178,7 @@ func (a *App) initNotificationWorker(ctx context.Context) error {
 		time.Duration(config.NotificationWorkerQueueCheckPeriod())*time.Minute,
 	)
 
-	logger.Infof("Notification worker initialized. Interval: %d minutes", a.notificationWorker.Interval())
+	logger.Infof("Notification worker initialized. Interval: %v minutes", a.notificationWorker.Interval())
 
 	return nil
 }

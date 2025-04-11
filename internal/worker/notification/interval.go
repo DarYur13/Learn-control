@@ -1,9 +1,5 @@
 package worker
 
-import (
-	"time"
-)
-
-func (nw *notificationWorker) Interval() time.Duration {
-	return nw.interval
+func (nw *notificationWorker) Interval() float64 {
+	return nw.interval.Minutes()
 }

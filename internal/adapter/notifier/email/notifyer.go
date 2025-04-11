@@ -1,4 +1,4 @@
-package email
+package notifier
 
 type notifier struct {
 	From     string

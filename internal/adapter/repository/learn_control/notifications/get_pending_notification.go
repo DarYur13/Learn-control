@@ -27,8 +27,8 @@ const queryGetPendingNotifications = `
 	JOIN employees e ON e.id = nq.employee_id
 	JOIN employees i ON i.department = e.department AND i.is_leader = TRUE
 	JOIN trainings t ON t.id = nq.training_id
-	JOIN acts_trainings at ON at.training_id = nq.training_id
-	JOIN local_acts la ON la.id = at.local_act_id
+	LEFT JOIN acts_trainings at ON at.training_id = nq.training_id
+	LEFT JOIN local_acts la ON la.id = at.local_act_id
 	LEFT JOIN employee_trainings et ON et.employee_id = nq.employee_id AND et.training_id = nq.training_id
 	WHERE nq.is_sent = FALSE
 	AND nq.created_at <= NOW()
