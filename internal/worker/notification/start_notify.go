@@ -150,5 +150,5 @@ func (nw *notificationWorker) generateDownloadLink(ctx context.Context, employee
 		}
 	}
 
-	return fmt.Sprintf("%s:%s/download?token=%s", config.ApiHost(), config.ApiHttpPort(), token.String()), nil
+	return fmt.Sprintf("%s:%s/files/download?token=%s", config.ApiHost(), config.ApiHttpPort(), token.String()), nil
 }

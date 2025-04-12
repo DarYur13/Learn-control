@@ -10,7 +10,8 @@ import (
 	filesDownload "github.com/DarYur13/learn-control/internal/adapter/controller/files_download"
 	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/logger"
-	worker "github.com/DarYur13/learn-control/internal/worker/notification"
+	notificationWorker "github.com/DarYur13/learn-control/internal/worker/notification"
+	retrainingControlWorker "github.com/DarYur13/learn-control/internal/worker/retraining_control"
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/rs/cors"
@@ -20,10 +21,11 @@ import (
 )
 
 type App struct {
-	serviceProvider    *serviceProvider
-	grpcServer         *grpc.Server
-	httpServer         *http.Server
-	notificationWorker worker.NotificationWorker
+	serviceProvider         *serviceProvider
+	grpcServer              *grpc.Server
+	httpServer              *http.Server
+	notificationWorker      notificationWorker.NotificationWorker
+	retrainingControlWorker retrainingControlWorker.RetrainingControlWorker
 }
 
 func NewApp(ctx context.Context) (*App, error) {
@@ -61,6 +63,12 @@ func (a *App) Run(ctx context.Context) error {
 		return nil
 	})
 
+	group.Go(func() error {
+		logger.Info("Retraining control worker started")
+		a.retrainingControlWorker.Start(ctx)
+		return nil
+	})
+
 	return group.Wait()
 }
 
@@ -86,6 +94,7 @@ func (a *App) initDeps(ctx context.Context) error {
 		a.initNotificationWorker,
 		a.initGrpcServer,
 		a.initHTTPServer,
+		a.initRetrainingControlWorker,
 	}
 
 	for _, fn := range initFns {
@@ -169,7 +178,7 @@ func (a *App) initHTTPServer(ctx context.Context) error {
 }
 
 func (a *App) initNotificationWorker(ctx context.Context) error {
-	a.notificationWorker = worker.New(
+	a.notificationWorker = notificationWorker.New(
 		a.serviceProvider.getEmplRepo(ctx),
 		a.serviceProvider.getTrainingsRepo(ctx),
 		a.serviceProvider.getNotificationsRepo(ctx),
@@ -180,6 +189,22 @@ func (a *App) initNotificationWorker(ctx context.Context) error {
 	)
 
 	logger.Infof("Notification worker initialized. Interval: %v minutes", a.notificationWorker.Interval())
+
+	return nil
+}
+
+func (a *App) initRetrainingControlWorker(ctx context.Context) error {
+	a.retrainingControlWorker = retrainingControlWorker.New(
+		time.Duration(config.NotificationWorkerQueueCheckPeriod())*time.Minute,
+		a.serviceProvider.getTxManager(ctx),
+		a.serviceProvider.getEmplRepo(ctx),
+		a.serviceProvider.getTrainingsRepo(ctx),
+		a.serviceProvider.getNotificationsRepo(ctx),
+		a.serviceProvider.getTasksRepo(ctx),
+		a.serviceProvider.getService(ctx),
+	)
+
+	logger.Infof("Retraining control worker initialized. Interval: %v minutes", a.notificationWorker.Interval())
 
 	return nil
 }

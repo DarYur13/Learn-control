@@ -788,6 +788,8 @@ func (m *Task) validate(all bool) error {
 
 	// no validation rules for Executor
 
+	// no validation rules for DownloadFileLink
+
 	// no validation rules for Done
 
 	if len(errors) > 0 {

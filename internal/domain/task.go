@@ -30,5 +30,6 @@ type Task struct {
 	Position    sql.NullString
 	Department  sql.NullString
 	Executor    sql.NullString
+	FileLink    sql.NullString
 	Done        bool
 }

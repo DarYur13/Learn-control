@@ -38,6 +38,10 @@ func TasksToPb(tasks []domain.Task) *pb.GetTasksByFiltersResponse {
 			task.Executor = t.Executor.String
 		}
 
+		if t.FileLink.Valid {
+			task.DownloadFileLink = t.FileLink.String
+		}
+
 		result = append(result, task)
 	}
 

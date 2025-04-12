@@ -27,7 +27,9 @@ type Task struct {
 	ID          int
 	Type        domain.TaskType
 	Description string
+	EmployeeID  sql.NullInt64
 	Employee    sql.NullString
+	TrainingID  sql.NullInt64
 	Training    sql.NullString
 	Position    sql.NullString
 	Department  sql.NullString

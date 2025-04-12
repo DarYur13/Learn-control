@@ -28,6 +28,7 @@ func (rcw *retrainingControlWorker) Start(ctx context.Context) {
 	}
 }
 
+// TODO transactions
 func (rcw *retrainingControlWorker) processUpcomingTrainings(ctx context.Context) error {
 	trainings, err := rcw.trainingsRepo.GetUpcomingTrainings(ctx)
 	if err != nil {
