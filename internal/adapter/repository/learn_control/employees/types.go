@@ -25,6 +25,7 @@ type EmployeesRepository interface {
 	SetEmployeeRefresherBrief(ctx context.Context, employeeID int) (int, error)
 
 	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
+	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
 }
 
 type Employee struct {

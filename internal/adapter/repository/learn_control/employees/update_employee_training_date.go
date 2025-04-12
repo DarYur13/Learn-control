@@ -6,6 +6,7 @@ import (
 	"time"
 
 	trainingsStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
+	"github.com/golang-sql/sqlexp"
 )
 
 const (
@@ -24,6 +25,14 @@ const (
 )
 
 func (es *EmployeesStorage) UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsStorage.TrainingDates, error) {
+	return es.updateEmployeeTrainingDate(ctx, tx, employeeID, trainingID, date)
+}
+
+func (es *EmployeesStorage) UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*trainingsStorage.TrainingDates, error) {
+	return es.updateEmployeeTrainingDate(ctx, es.db, employeeID, trainingID, date)
+}
+
+func (es *EmployeesStorage) updateEmployeeTrainingDate(ctx context.Context, tx sqlexp.Querier, employeeID int, trainingID int, date time.Time) (*trainingsStorage.TrainingDates, error) {
 	var trainingDates trainingsStorage.TrainingDates
 
 	err := tx.QueryRowContext(ctx, queryUpdateEmployeeTrainingDate,

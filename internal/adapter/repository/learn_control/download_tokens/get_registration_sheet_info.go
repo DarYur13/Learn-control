@@ -2,6 +2,7 @@ package learncontrol
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/google/uuid"
@@ -17,7 +18,8 @@ const (
 		e.position AS employee_position,
 		e.department,
 		t.training_type,
-		COALESCE(string_agg(la.act_name, E'\n'), '') AS acts
+		COALESCE(string_agg(la.act_name, E'\n'), '') AS acts,
+		dt.loads_count
 	FROM download_tokens dt
 	JOIN employees e ON e.id = dt.employee_id
 	JOIN employees i ON i.department = e.department AND i.is_leader = TRUE
@@ -32,14 +34,18 @@ const (
 		e.birth_date,
 		e.position,
 		e.department,
-		t.training_type
+		t.training_type,
+		dt.loads_count
 	`
 )
 
-func (dts *downloadTokensStorage) GetRegistrationSheetInfo(ctx context.Context, token uuid.UUID) (*domain.RegistrationSheetInfo, error) {
-	var info domain.RegistrationSheetInfo
+func (dts *downloadTokensStorage) GetRegistrationSheetInfoTx(ctx context.Context, tx *sql.Tx, token uuid.UUID) (*domain.RegistrationSheetInfo, error) {
+	var (
+		info       domain.RegistrationSheetInfo
+		loadsCount int
+	)
 
-	err := dts.db.QueryRowContext(ctx, queryGetRegistrationSheetInfo, token).Scan(
+	err := tx.QueryRowContext(ctx, queryGetRegistrationSheetInfo, token).Scan(
 		&info.InstructorName,
 		&info.InstructorPosition,
 		&info.EmployeeName,
@@ -48,10 +54,15 @@ func (dts *downloadTokensStorage) GetRegistrationSheetInfo(ctx context.Context, 
 		&info.EmployeeDepartment,
 		&info.TrainingType,
 		&info.Acts,
+		&loadsCount,
 	)
 
 	if err != nil {
 		return nil, err
+	}
+
+	if loadsCount > loadsCountLimit {
+		return nil, ErrTooManyLoads
 	}
 
 	return &info, nil
