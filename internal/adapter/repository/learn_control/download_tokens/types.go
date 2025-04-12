@@ -10,4 +10,5 @@ import (
 type DownloadTokensRepository interface {
 	AddToken(ctx context.Context, token domain.DownloadToken) error
 	GetRegistrationSheetInfo(ctx context.Context, token uuid.UUID) (*domain.RegistrationSheetInfo, error)
+	GetToken(ctx context.Context, employeeID, trainingID int) (uuid.UUID, error)
 }

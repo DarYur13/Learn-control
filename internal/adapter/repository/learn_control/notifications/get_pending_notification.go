@@ -10,6 +10,8 @@ const queryGetPendingNotifications = `
 	SELECT 
 		nq.id,
 		nq.notification_type,
+		nq.employee_id,
+		nq.training_id,
 		ntt.subject_template,
 		ntt.body_template,
 		i.full_name AS instructor_name,
@@ -34,6 +36,9 @@ const queryGetPendingNotifications = `
 	AND nq.created_at <= NOW()
 	GROUP BY 
 		nq.id,
+		nq.notification_type,
+		nq.employee_id,
+		nq.training_id,
 		ntt.subject_template,
 		ntt.body_template,
 		i.full_name,
@@ -62,6 +67,8 @@ func (ns *NotificationsStorage) GetPendingNotifications(ctx context.Context) ([]
 		if err := rows.Scan(
 			&n.ID,
 			&n.Type,
+			&n.EmployeeID,
+			&n.TrainingID,
 			&n.Subject,
 			&n.Body,
 			&n.InstructorName,

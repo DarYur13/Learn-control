@@ -35,10 +35,12 @@ type PendingNotification struct {
 	InstructorName     string
 	InstructorEmail    string
 	InstructorPosition string
+	EmployeeID         int
 	EmployeeName       string
 	EmployeeBirthDate  time.Time
 	EmployeePosition   string
 	EmployeeDepartment string
+	TrainingID         int
 	TrainingType       TrainingType
 	Acts               string
 	ReTrainingDate     time.Time

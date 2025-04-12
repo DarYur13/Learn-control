@@ -37,6 +37,13 @@ type Servicer interface {
 	CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType domain.TaskType, date time.Time) error
 
 	GetFileByToken(ctx context.Context, token uuid.UUID) (io.Reader, error)
+
+	CreateProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateControlTask(ctx context.Context, employeeID, trainingID, executorID int) (*domain.TaskBaseInfo, error)
+	CreateChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error)
 }
 
 type taskArgs struct {

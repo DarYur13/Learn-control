@@ -173,6 +173,7 @@ func (a *App) initNotificationWorker(ctx context.Context) error {
 		a.serviceProvider.getEmplRepo(ctx),
 		a.serviceProvider.getTrainingsRepo(ctx),
 		a.serviceProvider.getNotificationsRepo(ctx),
+		a.serviceProvider.getdownloadTokensRepo(ctx),
 		a.serviceProvider.getDocsGenerator(ctx),
 		a.serviceProvider.getNotifier(ctx),
 		time.Duration(config.NotificationWorkerQueueCheckPeriod())*time.Minute,

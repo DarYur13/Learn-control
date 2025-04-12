@@ -22,6 +22,7 @@ type EmployeesRepository interface {
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingIDs []int) error
 	SetEmployeeTrainnigProtocol(ctx context.Context, employeeID, trainingID int) error
 	SetEmployeeTrainnigProtocolTx(ctx context.Context, tx *sql.Tx, employeeID, trainingID int) error
+	SetEmployeeRefresherBrief(ctx context.Context, employeeID int) (int, error)
 
 	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
 }

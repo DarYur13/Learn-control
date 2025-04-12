@@ -62,7 +62,7 @@ func (s *Service) assignTrainingsAndTasks(ctx context.Context, tx *sql.Tx, emplo
 func (s *Service) buildTaskForTraining(ctx context.Context, employeeID, trainingID int, trainingType domain.TrainingType) (*domain.TaskBaseInfo, error) {
 	switch trainingType {
 	case domain.TrainingTypeIntroductory:
-		return s.createProvideTask(ctx, employeeID, trainingID)
+		return s.CreateProvideTask(ctx, employeeID, trainingID)
 
 	case domain.TrainingTypeInitial:
 		executorID, err := s.employeesStorage.GetEmployeeLeader(ctx, employeeID)
@@ -79,7 +79,7 @@ func (s *Service) buildTaskForTraining(ctx context.Context, employeeID, training
 			return nil, errors.WithMessage(err, "enqueue init brief")
 		}
 
-		return s.createControlTask(ctx, employeeID, trainingID, executorID)
+		return s.CreateControlTask(ctx, employeeID, trainingID, executorID)
 
 	case domain.TrainingTypeRefresher:
 		executorID, err := s.employeesStorage.GetEmployeeLeader(ctx, employeeID)
@@ -87,10 +87,10 @@ func (s *Service) buildTaskForTraining(ctx context.Context, employeeID, training
 			return nil, errors.WithMessage(err, "get department leader")
 		}
 
-		return s.createControlTask(ctx, employeeID, trainingID, executorID)
+		return s.CreateControlTask(ctx, employeeID, trainingID, executorID)
 
 	default:
-		return s.createAssignTask(ctx, employeeID, trainingID)
+		return s.CreateAssignTask(ctx, employeeID, trainingID)
 	}
 }
 
@@ -100,7 +100,7 @@ func (s *Service) addPositionAndTask(ctx context.Context, tx *sql.Tx, employee d
 		return errors.WithMessage(err, "create new position")
 	}
 
-	task, err := s.createChooseTask(ctx, positionID)
+	task, err := s.CreateChooseTask(ctx, positionID)
 	if err != nil {
 		return errors.WithMessage(err, "create choose task")
 	}

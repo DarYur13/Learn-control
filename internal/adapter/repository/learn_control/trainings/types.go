@@ -11,6 +11,7 @@ type TrainingsRepository interface {
 	GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error)
 	GetTrainingType(ctx context.Context, trainingID int) (domain.TrainingType, error)
 	GetTrainingAct(ctx context.Context, trainingID int) (string, error)
+	GetUpcomingTrainings(ctx context.Context) ([]domain.UpcomingTraining, error)
 }
 
 type Training struct {

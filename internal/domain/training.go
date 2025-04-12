@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 type TrainingType string
 
 const (
@@ -24,4 +26,12 @@ type TrainingBaseInfo struct {
 type TrainingDates struct {
 	PassDate   string
 	RePassDate string
+}
+
+type UpcomingTraining struct {
+	EmployeeID   int
+	TrainingID   int
+	TrainingType TrainingType
+	RePassDate   time.Time
+	DaysLeft     int
 }

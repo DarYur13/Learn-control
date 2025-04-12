@@ -2,13 +2,17 @@ package worker
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"io"
 	"strings"
 	"time"
 
+	"github.com/DarYur13/learn-control/internal/config"
 	"github.com/DarYur13/learn-control/internal/domain"
 	"github.com/DarYur13/learn-control/internal/logger"
+	"github.com/google/uuid"
+	"github.com/pkg/errors"
 )
 
 func (nw *notificationWorker) StartNotify(ctx context.Context) {
@@ -50,7 +54,10 @@ func (nw *notificationWorker) processNotifications(ctx context.Context) error {
 }
 
 func (nw *notificationWorker) handleNotification(ctx context.Context, notification domain.PendingNotification) error {
-	filledBody := nw.fillBodyTemplate(notification)
+	filledBody, err := nw.fillBodyTemplate(ctx, notification)
+	if err != nil {
+		return errors.WithMessage(err, "failed to fill notification message body")
+	}
 
 	readyToSend := domain.SMTPNotification{
 		Recipient: notification.InstructorEmail,
@@ -59,7 +66,7 @@ func (nw *notificationWorker) handleNotification(ctx context.Context, notificati
 	}
 
 	if notification.Type == domain.NotificationTypeInitBrief {
-		file, err := nw.getFile(ctx, notification)
+		file, err := nw.generateFile(ctx, notification)
 		if err != nil {
 			return err
 		}
@@ -68,11 +75,11 @@ func (nw *notificationWorker) handleNotification(ctx context.Context, notificati
 		readyToSend.Filename = fmt.Sprintf("Первичный инструктаж для %s", notification.EmployeeName)
 
 		if err := nw.notifier.SendWithAttachment(ctx, readyToSend); err != nil {
-			return err
+			return errors.WithMessage(err, "failed to send notification message with attach")
 		}
 	} else {
 		if err := nw.notifier.Send(ctx, readyToSend); err != nil {
-			return err
+			return errors.WithMessage(err, "failed to send notification message")
 		}
 	}
 
@@ -81,7 +88,18 @@ func (nw *notificationWorker) handleNotification(ctx context.Context, notificati
 	return nil
 }
 
-func (nw *notificationWorker) fillBodyTemplate(notification domain.PendingNotification) string {
+func (nw *notificationWorker) fillBodyTemplate(ctx context.Context, notification domain.PendingNotification) (string, error) {
+	var (
+		downloadLink string
+		err          error
+	)
+
+	if notification.Type == domain.NotificationTypeRefreshBriefFirst || notification.Type == domain.NotificationTypeRefreshBriefSecond {
+		downloadLink, err = nw.generateDownloadLink(ctx, notification.EmployeeID, notification.TrainingID)
+		if err != nil {
+			return "", errors.WithMessage(err, "failed to generate download link")
+		}
+	}
 
 	replacer := strings.NewReplacer(
 		"{instructor_name}", notification.InstructorName,
@@ -90,12 +108,13 @@ func (nw *notificationWorker) fillBodyTemplate(notification domain.PendingNotifi
 		"{position}", notification.EmployeePosition,
 		"{today_date}", time.Now().Format(domain.DateFormat),
 		"{retraining_date}", notification.ReTrainingDate.Format(domain.DateFormat),
+		"{download_link}", downloadLink,
 	)
 
-	return replacer.Replace(notification.Body)
+	return replacer.Replace(notification.Body), nil
 }
 
-func (nw *notificationWorker) getFile(ctx context.Context, notification domain.PendingNotification) (io.Reader, error) {
+func (nw *notificationWorker) generateFile(ctx context.Context, notification domain.PendingNotification) (io.Reader, error) {
 
 	info := domain.RegistrationSheetInfo{
 		TrainingType:       notification.TrainingType,
@@ -109,4 +128,27 @@ func (nw *notificationWorker) getFile(ctx context.Context, notification domain.P
 	}
 
 	return nw.docsGenerator.GenerateRegistrationSheet(ctx, info)
+}
+
+func (nw *notificationWorker) generateDownloadLink(ctx context.Context, employeeID, trainingID int) (string, error) {
+	token, err := nw.downloadTokensRepo.GetToken(ctx, employeeID, trainingID)
+	if err != nil {
+		if !errors.Is(err, sql.ErrNoRows) {
+			return "", errors.WithMessage(err, "failed to check or get token")
+		}
+
+		token = uuid.New()
+		expiresAt := time.Now().AddDate(0, 0, 30)
+
+		if err := nw.downloadTokensRepo.AddToken(ctx, domain.DownloadToken{
+			Token:      token,
+			EmployeeID: employeeID,
+			TrainingID: trainingID,
+			ExpiresAt:  expiresAt,
+		}); err != nil {
+			return "", errors.WithMessage(err, "failed to add new token")
+		}
+	}
+
+	return fmt.Sprintf("%s:%s/download?token=%s", config.ApiHost(), config.ApiHttpPort(), token.String()), nil
 }
