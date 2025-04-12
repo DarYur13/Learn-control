@@ -6,11 +6,13 @@ import (
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
 
 	impl "github.com/DarYur13/learn-control/internal/adapter/controller/learn_control"
+	docsgenerator "github.com/DarYur13/learn-control/internal/adapter/docs_generator/registration_form"
+	notifier "github.com/DarYur13/learn-control/internal/adapter/notifier/email"
+	downloadTokensRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/download_tokens"
 	emplRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/employees"
+	notificationsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/notifications"
 	posRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/positions"
 	tasksRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/tasks"
 	trainingsRepo "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
@@ -22,15 +24,18 @@ import (
 
 // serviceProvider di-container
 type serviceProvider struct {
-	db             *sql.DB
-	txManager      *txManager.Manager
-	EmployeesRepo  emplRepo.EmployeesRepository
-	PositionsRepo  posRepo.PositionsRepository
-	TasksRepo      tasksRepo.TasksRepository
-	TrainingsRepo  trainingsRepo.TrainingsRepository
-	service        service.Servicer
-	implementation *impl.Implementation
-	minioCli       *minio.Client
+	db                 *sql.DB
+	txManager          *txManager.Manager
+	EmployeesRepo      emplRepo.EmployeesRepository
+	PositionsRepo      posRepo.PositionsRepository
+	TasksRepo          tasksRepo.TasksRepository
+	TrainingsRepo      trainingsRepo.TrainingsRepository
+	service            service.Servicer
+	implementation     *impl.Implementation
+	docsGenerator      docsgenerator.DocsGenerator
+	notifyer           notifier.Notifier
+	notificationsRepo  notificationsRepo.NotificationsRepository
+	downloadTokensRepo downloadTokensRepo.DownloadTokensRepository
 }
 
 func newServiceProvider() *serviceProvider {
@@ -86,6 +91,20 @@ func (s *serviceProvider) getTrainingsRepo(ctx context.Context) trainingsRepo.Tr
 	return s.TrainingsRepo
 }
 
+func (s *serviceProvider) getNotificationsRepo(ctx context.Context) notificationsRepo.NotificationsRepository {
+	if s.notificationsRepo == nil {
+		s.notificationsRepo = notificationsRepo.New(s.getDbConn(ctx))
+	}
+	return s.notificationsRepo
+}
+
+func (s *serviceProvider) getdownloadTokensRepo(ctx context.Context) downloadTokensRepo.DownloadTokensRepository {
+	if s.downloadTokensRepo == nil {
+		s.downloadTokensRepo = downloadTokensRepo.New(s.getDbConn(ctx))
+	}
+	return s.downloadTokensRepo
+}
+
 func (s *serviceProvider) getTxManager(ctx context.Context) *txManager.Manager {
 	if s.txManager == nil {
 		s.txManager = txManager.New(s.getDbConn(ctx))
@@ -93,25 +112,28 @@ func (s *serviceProvider) getTxManager(ctx context.Context) *txManager.Manager {
 	return s.txManager
 }
 
-func (s *serviceProvider) getMinioCli(_ context.Context) *minio.Client {
-	if s.minioCli == nil {
-		minioEndpoint := fmt.Sprintf("%s:%s", config.MinioHost(), config.MinioPort())
+func (s *serviceProvider) getDocsGenerator(_ context.Context) docsgenerator.DocsGenerator {
+	if s.docsGenerator == nil {
 
-		minioAccessKey := config.MinioUser()
-		minioSecretKey := config.MinioPassword()
-
-		minioClient, err := minio.New(minioEndpoint, &minio.Options{
-			Creds:  credentials.NewStaticV4(minioAccessKey, minioSecretKey, ""),
-			Secure: false,
-		})
-		if err != nil {
-			logger.Fatalf("failed to create MinIO client: %s", err.Error())
-		}
-
-		s.minioCli = minioClient
+		s.docsGenerator = docsgenerator.New(config.DocsGeneratorTamplatePath())
 	}
 
-	return s.minioCli
+	return s.docsGenerator
+}
+
+func (s *serviceProvider) getNotifier(_ context.Context) notifier.Notifier {
+	if s.notifyer == nil {
+		emailNotifier := notifier.New(
+			config.NotifierEmailFrom(),
+			config.NotifierEmailPassword(),
+			config.NotifierSMTPHost(),
+			config.NotifierSMTPPort(),
+		)
+
+		s.notifyer = emailNotifier
+	}
+
+	return s.notifyer
 }
 
 func (s *serviceProvider) getService(ctx context.Context) service.Servicer {
@@ -122,7 +144,10 @@ func (s *serviceProvider) getService(ctx context.Context) service.Servicer {
 			s.getTasksRepo(ctx),
 			s.getTrainingsRepo(ctx),
 			s.getTxManager(ctx),
-			s.getMinioCli(ctx),
+			s.getDocsGenerator(ctx),
+			s.getNotifier(ctx),
+			s.getNotificationsRepo(ctx),
+			s.getdownloadTokensRepo(ctx),
 		)
 	}
 	return s.service

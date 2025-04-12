@@ -12,13 +12,13 @@ func (s *Service) nextTask(ctx context.Context, employeeID, trainingID int, task
 
 	switch taskType {
 	case domain.TaskTypeAssign:
-		task, err = s.createSetTask(ctx, employeeID, trainingID)
+		task, err = s.CreateSetTask(ctx, employeeID, trainingID)
 		if err != nil {
 			return nil, false, err
 		}
 
 	case domain.TaskTypeSet:
-		task, err = s.createConfirmTask(ctx, employeeID, trainingID)
+		task, err = s.CreateConfirmTask(ctx, employeeID, trainingID)
 		if err != nil {
 			return nil, false, err
 		}

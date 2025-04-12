@@ -955,6 +955,17 @@ func (m *AddEmployeeRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if !_AddEmployeeRequest_Email_Pattern.MatchString(m.GetEmail()) {
+		err := AddEmployeeRequestValidationError{
+			field:  "Email",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return AddEmployeeRequestMultiError(errors)
 	}
@@ -1036,6 +1047,8 @@ var _ interface {
 } = AddEmployeeRequestValidationError{}
 
 var _AddEmployeeRequest_Snils_Pattern = regexp.MustCompile("^[0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}$")
+
+var _AddEmployeeRequest_Email_Pattern = regexp.MustCompile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
 
 // Validate checks the field values on GetEmployeesByNameRequest with the rules
 // defined in the proto definition for this message. If any rules are

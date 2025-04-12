@@ -1,21 +1,24 @@
 -- +goose Up
 -- +goose StatementBegin
 
--- ==================
--- SCHEMA: TASKS
--- ==================
-
 -- Enum тип задач
-CREATE TYPE task_type AS ENUM ('PROVIDE', 'ASSIGN', 'CHOOSE', 'SET', 'CONFIRM', 'CONTROL');
+CREATE TYPE task_type AS ENUM (
+    'PROVIDE', 
+    'ASSIGN', 
+    'CHOOSE', 
+    'SET', 
+    'CONFIRM', 
+    'CONTROL'
+);
 
 -- Таблица текстов типов задач
-CREATE TABLE task_types_texts (
+CREATE TABLE IF NOT EXISTS task_types_texts (
     task_type task_type NOT NULL PRIMARY KEY,
     task_text VARCHAR(255) NOT NULL
 );
 
 -- Таблица задач
-CREATE TABLE tasks (
+CREATE TABLE IF NOT EXISTS tasks (
     id SERIAL PRIMARY KEY,
     task_type task_type NOT NULL REFERENCES task_types_texts(task_type),
     training_id INTEGER REFERENCES trainings(id),
@@ -28,7 +31,7 @@ CREATE TABLE tasks (
 );
 
 -- Ограничение: одна задача типа CHOOSE на должность
-CREATE UNIQUE INDEX unique_choose_task_per_position
+CREATE UNIQUE INDEX IF NOT EXISTS unique_choose_task_per_position
     ON tasks(position_id)
     WHERE task_type = 'CHOOSE';
 

@@ -76,5 +76,6 @@ func PbEmployeeToDomain(req *pb.AddEmployeeRequest) domain.Employee {
 		Department:     req.GetDepartment(),
 		Position:       req.GetPosition(),
 		EmploymentDate: req.GetEmploymentDate(),
+		Email:          req.GetEmail(),
 	}
 }

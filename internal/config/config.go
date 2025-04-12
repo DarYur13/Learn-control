@@ -17,10 +17,12 @@ const (
 )
 
 type config struct {
-	Pg    *modules.Pg
-	Log   *modules.Log
-	Api   *modules.Api
-	Minio *modules.Minio
+	Pg                 *modules.Pg
+	Log                *modules.Log
+	Api                *modules.Api
+	DocsGenerator      *modules.DocsGenerator
+	Notifier           *modules.Notifier
+	NotificationWorker *modules.NotificationWorker
 }
 
 var globalConfig config
@@ -47,16 +49,28 @@ func LoadAll() {
 		log.Fatalf("failed to load api config")
 	}
 
-	fileStor, err := modules.LoadMinio()
+	docsGenerator, err := modules.LoadDocsGenerator()
 	if err != nil {
-		log.Fatalf("failed to load minio config")
+		log.Fatalf("failed to load docs generator config")
+	}
+
+	notifier, err := modules.LoadNotifier()
+	if err != nil {
+		log.Fatalf("failed to load notifier config")
+	}
+
+	notificationWorker, err := modules.LoadNotificationWorker()
+	if err != nil {
+		log.Fatalf("failed to load notification worker config")
 	}
 
 	globalConfig = config{
-		Log:   logger,
-		Pg:    db,
-		Api:   api,
-		Minio: fileStor,
+		Log:                logger,
+		Pg:                 db,
+		Api:                api,
+		DocsGenerator:      docsGenerator,
+		Notifier:           notifier,
+		NotificationWorker: notificationWorker,
 	}
 }
 
@@ -100,18 +114,30 @@ func PgDatabase() string {
 	return globalConfig.Pg.Database
 }
 
-func MinioPort() string {
-	return globalConfig.Minio.Port
+func DocsGeneratorTamplatePath() string {
+	return globalConfig.DocsGenerator.TamplatePath
 }
 
-func MinioHost() string {
-	return globalConfig.Minio.Host
+func NotifierEmailFrom() string {
+	return globalConfig.Notifier.EmailFrom
 }
 
-func MinioUser() string {
-	return globalConfig.Minio.User
+func NotifierEmailPassword() string {
+	return globalConfig.Notifier.EmailPassword
 }
 
-func MinioPassword() string {
-	return globalConfig.Minio.Password
+func NotifierSMTPHost() string {
+	return globalConfig.Notifier.SMTPHost
+}
+
+func NotifierSMTPPort() string {
+	return globalConfig.Notifier.SMTPPort
+}
+
+func NotifierEmailUseTLS() string {
+	return globalConfig.Notifier.EmailUseTLS
+}
+
+func NotificationWorkerQueueCheckPeriod() int {
+	return globalConfig.NotificationWorker.QueueCheckPeriod
 }

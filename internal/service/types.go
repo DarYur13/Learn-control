@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 	"database/sql"
+	"io"
 	"time"
 
 	"github.com/DarYur13/learn-control/internal/domain"
+	"github.com/google/uuid"
 )
 
 const (
@@ -17,6 +19,7 @@ const (
 )
 
 type Servicer interface {
+	GetEmployeeByID(ctx context.Context, employeeID int) (*domain.Employee, error)
 	GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*domain.EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters domain.Filters) ([]domain.EmployeeInfo, error)
@@ -32,6 +35,15 @@ type Servicer interface {
 	CloseTaskWithPositionTrainingsSet(ctx context.Context, taskID, positionID int, trainingsIDs []int) error
 	CloseTaskWithTrainingProtocolConfirm(ctx context.Context, taskID, employeeID, trainingID int) error
 	CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType domain.TaskType, date time.Time) error
+
+	GetFileByToken(ctx context.Context, token uuid.UUID) (io.Reader, error)
+
+	CreateProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
+	CreateControlTask(ctx context.Context, employeeID, trainingID, executorID int) (*domain.TaskBaseInfo, error)
+	CreateChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error)
 }
 
 type taskArgs struct {

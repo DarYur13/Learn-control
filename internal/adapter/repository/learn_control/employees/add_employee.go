@@ -13,7 +13,8 @@ const (
 		department, 
 		position, 
 		snils, 
-		employment_date
+		employment_date,
+		email
 	) VALUES ($1, $2, $3, $4, $5, $6)
 	RETURNING id
 	`
@@ -29,6 +30,7 @@ func (es *EmployeesStorage) AddEmployeeTx(ctx context.Context, tx *sql.Tx, emplo
 		employee.Position,
 		employee.Snils,
 		employee.EmploymentDate,
+		employee.Email,
 	).Scan(&emplyeeID)
 	if err != nil {
 		return 0, err

@@ -11,6 +11,7 @@ import (
 type EmployeesRepository interface {
 	AddEmployeeTx(ctx context.Context, tx *sql.Tx, employee Employee) (int, error)
 
+	GetEmployeeByID(ctx context.Context, employeeID int) (*Employee, error)
 	GetEmployeesByName(ctx context.Context, name string) ([]EmployeeBaseInfo, error)
 	GetEmployeePersonalCard(ctx context.Context, id int) (*EmployeePersonalCard, error)
 	GetEmployeesByFilters(ctx context.Context, filters Filters) ([]EmployeeInfo, error)
@@ -21,8 +22,10 @@ type EmployeesRepository interface {
 	SetEmployeeTrainingsTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingIDs []int) error
 	SetEmployeeTrainnigProtocol(ctx context.Context, employeeID, trainingID int) error
 	SetEmployeeTrainnigProtocolTx(ctx context.Context, tx *sql.Tx, employeeID, trainingID int) error
+	SetEmployeeRefresherBrief(ctx context.Context, employeeID int) (int, error)
 
 	UpdateEmployeeTrainingDateTx(ctx context.Context, tx *sql.Tx, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
+	UpdateEmployeeTrainingDate(ctx context.Context, employeeID int, trainingID int, date time.Time) (*trainingsRepo.TrainingDates, error)
 }
 
 type Employee struct {
@@ -32,6 +35,7 @@ type Employee struct {
 	Department     string `db:"department"`
 	Position       string `db:"position"`
 	EmploymentDate string `db:"employment_date"`
+	Email          string `db:"email"`
 }
 
 type EmployeePersonalCard struct {
