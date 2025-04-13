@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	queryGetTrainings = `SELECT DISTINCT id, training FROM trainings`
+	queryGetTrainings = `SELECT DISTINCT id, training_type, training_name FROM trainings`
 )
 
 func (ts *TrainingsStorage) GetTrainings(ctx context.Context) ([]TrainigBaseInfo, error) {

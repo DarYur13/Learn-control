@@ -13,6 +13,7 @@ const (
 
 type Training struct {
 	Name        string
+	Type        TrainingType
 	HasProtocol string
 	TrainingDates
 }
@@ -24,8 +25,8 @@ type TrainingBaseInfo struct {
 }
 
 type TrainingDates struct {
-	PassDate   string
-	RePassDate string
+	PassDate   time.Time
+	RePassDate time.Time
 }
 
 type UpcomingTraining struct {

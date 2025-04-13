@@ -902,15 +902,45 @@ func (m *AddEmployeeRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetBirthdate()) < 10 {
+	if m.GetBirthdate() == nil {
 		err := AddEmployeeRequestValidationError{
 			field:  "Birthdate",
-			reason: "value length must be at least 10 runes",
+			reason: "value is required",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if t := m.GetBirthdate(); t != nil {
+		ts, err := t.AsTime(), t.CheckValid()
+		if err != nil {
+			err = AddEmployeeRequestValidationError{
+				field:  "Birthdate",
+				reason: "value is not a valid timestamp",
+				cause:  err,
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		} else {
+
+			now := time.Now()
+
+			if ts.Sub(now) >= 0 {
+				err := AddEmployeeRequestValidationError{
+					field:  "Birthdate",
+					reason: "value must be less than now",
+				}
+				if !all {
+					return err
+				}
+				errors = append(errors, err)
+			}
+
+		}
 	}
 
 	if utf8.RuneCountInString(m.GetDepartment()) < 1 {
@@ -935,10 +965,10 @@ func (m *AddEmployeeRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if utf8.RuneCountInString(m.GetEmploymentDate()) < 10 {
+	if m.GetEmploymentDate() == nil {
 		err := AddEmployeeRequestValidationError{
 			field:  "EmploymentDate",
-			reason: "value length must be at least 10 runes",
+			reason: "value is required",
 		}
 		if !all {
 			return err
@@ -1318,7 +1348,34 @@ func (m *EmployeeBaseInfo) validate(all bool) error {
 
 	// no validation rules for Fullname
 
-	// no validation rules for Birthdate
+	if all {
+		switch v := interface{}(m.GetBirthdate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, EmployeeBaseInfoValidationError{
+					field:  "Birthdate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, EmployeeBaseInfoValidationError{
+					field:  "Birthdate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetBirthdate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return EmployeeBaseInfoValidationError{
+				field:  "Birthdate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return EmployeeBaseInfoMultiError(errors)
@@ -1536,13 +1593,67 @@ func (m *GetEmployeePersonalCardResponse) validate(all bool) error {
 
 	// no validation rules for Fullname
 
-	// no validation rules for Birthdate
+	if all {
+		switch v := interface{}(m.GetBirthdate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetEmployeePersonalCardResponseValidationError{
+					field:  "Birthdate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetEmployeePersonalCardResponseValidationError{
+					field:  "Birthdate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetBirthdate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetEmployeePersonalCardResponseValidationError{
+				field:  "Birthdate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for Department
 
 	// no validation rules for Position
 
-	// no validation rules for EmploymentDate
+	if all {
+		switch v := interface{}(m.GetEmploymentDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetEmployeePersonalCardResponseValidationError{
+					field:  "EmploymentDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetEmployeePersonalCardResponseValidationError{
+					field:  "EmploymentDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEmploymentDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetEmployeePersonalCardResponseValidationError{
+				field:  "EmploymentDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for Snils
 
@@ -1685,9 +1796,65 @@ func (m *Training) validate(all bool) error {
 
 	// no validation rules for Name
 
-	// no validation rules for PassDate
+	// no validation rules for Type
 
-	// no validation rules for RePassDate
+	if all {
+		switch v := interface{}(m.GetPassDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrainingValidationError{
+					field:  "PassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrainingValidationError{
+					field:  "PassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPassDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrainingValidationError{
+				field:  "PassDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetRePassDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TrainingValidationError{
+					field:  "RePassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TrainingValidationError{
+					field:  "RePassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRePassDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TrainingValidationError{
+				field:  "RePassDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for HasProtocol
 
@@ -1929,9 +2096,63 @@ func (m *UpdateEmployeeTrainingDateResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for PassDate
+	if all {
+		switch v := interface{}(m.GetPassDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateResponseValidationError{
+					field:  "PassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateResponseValidationError{
+					field:  "PassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPassDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateEmployeeTrainingDateResponseValidationError{
+				field:  "PassDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
-	// no validation rules for RePassDate
+	if all {
+		switch v := interface{}(m.GetRePassDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateResponseValidationError{
+					field:  "RePassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UpdateEmployeeTrainingDateResponseValidationError{
+					field:  "RePassDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRePassDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateEmployeeTrainingDateResponseValidationError{
+				field:  "RePassDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return UpdateEmployeeTrainingDateResponseMultiError(errors)
@@ -2849,6 +3070,8 @@ func (m *TrainingBaseInfo) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for Name
+
+	// no validation rules for Type
 
 	if len(errors) > 0 {
 		return TrainingBaseInfoMultiError(errors)

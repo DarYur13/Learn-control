@@ -53,7 +53,7 @@ func DomainTaskTypeToPb(taskType domain.TaskType) pb.TaskType {
 		return pb.TaskType(value)
 	}
 
-	return pb.TaskType_UNSPECIFIED
+	return pb.TaskType_UNKNOWN_TASK
 }
 
 func PbTaskTypeToDomain(pbTaskType pb.TaskType) (domain.TaskType, error) {

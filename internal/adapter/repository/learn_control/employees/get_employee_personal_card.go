@@ -15,7 +15,8 @@ const (
 			e.department, 
 			e.position, 
 			e.employment_date,
-			t.training, 
+			t.training_name, 
+			t.training_type,
 			et.training_date AS pass_date,
 			et.retraining_date AS repass_date,
 			et.has_protocol
@@ -49,6 +50,7 @@ func (es *EmployeesStorage) GetEmployeePersonalCard(ctx context.Context, id int)
 			&result.Position,
 			&result.EmploymentDate,
 			&trainings.Name,
+			&trainings.Type,
 			&trainings.PassDate,
 			&trainings.RePassDate,
 			&trainings.HasProtocol,

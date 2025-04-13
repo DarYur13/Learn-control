@@ -195,7 +195,7 @@ func (a *App) initNotificationWorker(ctx context.Context) error {
 
 func (a *App) initRetrainingControlWorker(ctx context.Context) error {
 	a.retrainingControlWorker = retrainingControlWorker.New(
-		time.Duration(config.NotificationWorkerQueueCheckPeriod())*time.Minute,
+		time.Duration(config.RetrainingControlWorkerQueueCheckPeriod())*time.Hour,
 		a.serviceProvider.getTxManager(ctx),
 		a.serviceProvider.getEmplRepo(ctx),
 		a.serviceProvider.getTrainingsRepo(ctx),
@@ -204,7 +204,7 @@ func (a *App) initRetrainingControlWorker(ctx context.Context) error {
 		a.serviceProvider.getService(ctx),
 	)
 
-	logger.Infof("Retraining control worker initialized. Interval: %v minutes", a.notificationWorker.Interval())
+	logger.Infof("Retraining control worker initialized. Interval: %v minutes", a.retrainingControlWorker.Interval())
 
 	return nil
 }

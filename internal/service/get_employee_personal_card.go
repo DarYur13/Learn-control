@@ -39,16 +39,11 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 func formatTrainingDates(st trainingsStorage.TrainingDates) domain.TrainingDates {
 	dt := domain.TrainingDates{}
 	if st.PassDate.Valid {
-		dt.PassDate = st.PassDate.Time.Format(dateFormat)
+		dt.PassDate = st.PassDate.Time
 
 		if st.RePassDate.Valid {
-			dt.RePassDate = st.RePassDate.Time.Format(dateFormat)
-		} else {
-			dt.RePassDate = noNeedRepassDate
+			dt.RePassDate = st.RePassDate.Time
 		}
-	} else {
-		dt.PassDate = noPassDate
-		dt.RePassDate = noRepassDate
 	}
 
 	return dt

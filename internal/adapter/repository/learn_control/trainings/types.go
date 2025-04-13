@@ -15,8 +15,9 @@ type TrainingsRepository interface {
 }
 
 type Training struct {
-	Name        string       `db:"training_name" json:"name"`
-	HasProtocol sql.NullBool `db:"has_protocol" json:"has_protocol"`
+	Name        string              `db:"training_name" json:"name"`
+	Type        domain.TrainingType `db:"training_type"`
+	HasProtocol sql.NullBool        `db:"has_protocol" json:"has_protocol"`
 	TrainingDates
 }
 

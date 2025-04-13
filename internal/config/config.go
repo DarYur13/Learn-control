@@ -17,12 +17,13 @@ const (
 )
 
 type config struct {
-	Pg                 *modules.Pg
-	Log                *modules.Log
-	Api                *modules.Api
-	DocsGenerator      *modules.DocsGenerator
-	Notifier           *modules.Notifier
-	NotificationWorker *modules.NotificationWorker
+	Pg                      *modules.Pg
+	Log                     *modules.Log
+	Api                     *modules.Api
+	DocsGenerator           *modules.DocsGenerator
+	Notifier                *modules.Notifier
+	NotificationWorker      *modules.NotificationWorker
+	RetrainingControlWorker *modules.RetrainingControlWorker
 }
 
 var globalConfig config
@@ -64,13 +65,19 @@ func LoadAll() {
 		log.Fatalf("failed to load notification worker config")
 	}
 
+	retrainingControlWorker, err := modules.LoadRetrainingControlWorker()
+	if err != nil {
+		log.Fatalf("failed to load notification worker config")
+	}
+
 	globalConfig = config{
-		Log:                logger,
-		Pg:                 db,
-		Api:                api,
-		DocsGenerator:      docsGenerator,
-		Notifier:           notifier,
-		NotificationWorker: notificationWorker,
+		Log:                     logger,
+		Pg:                      db,
+		Api:                     api,
+		DocsGenerator:           docsGenerator,
+		Notifier:                notifier,
+		NotificationWorker:      notificationWorker,
+		RetrainingControlWorker: retrainingControlWorker,
 	}
 }
 
@@ -140,4 +147,8 @@ func NotifierEmailUseTLS() string {
 
 func NotificationWorkerQueueCheckPeriod() int {
 	return globalConfig.NotificationWorker.QueueCheckPeriod
+}
+
+func RetrainingControlWorkerQueueCheckPeriod() int {
+	return globalConfig.RetrainingControlWorker.QueueCheckPeriod
 }

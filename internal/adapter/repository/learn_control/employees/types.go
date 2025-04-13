@@ -29,29 +29,29 @@ type EmployeesRepository interface {
 }
 
 type Employee struct {
-	FullName       string `db:"full_name"`
-	BirthDate      string `db:"birth_date"`
-	Snils          string `db:"snils"`
-	Department     string `db:"department"`
-	Position       string `db:"position"`
-	EmploymentDate string `db:"employment_date"`
-	Email          string `db:"email"`
+	FullName       string    `db:"full_name"`
+	BirthDate      time.Time `db:"birth_date"`
+	Snils          string    `db:"snils"`
+	Department     string    `db:"department"`
+	Position       string    `db:"position"`
+	EmploymentDate time.Time `db:"employment_date"`
+	Email          string    `db:"email"`
 }
 
 type EmployeePersonalCard struct {
-	FullName       string `db:"full_name"`
-	BirthDate      string `db:"birth_date"`
-	Snils          string `db:"snils"`
-	Department     string `db:"department"`
-	Position       string `db:"position"`
-	EmploymentDate string `db:"employment_date"`
+	FullName       string    `db:"full_name"`
+	BirthDate      time.Time `db:"birth_date"`
+	Snils          string    `db:"snils"`
+	Department     string    `db:"department"`
+	Position       string    `db:"position"`
+	EmploymentDate time.Time `db:"employment_date"`
 	Trainings      []trainingsRepo.Training
 }
 
 type EmployeeBaseInfo struct {
 	ID        int64
 	FullName  string
-	BirthDate string
+	BirthDate time.Time
 }
 
 type EmployeeInfo struct {

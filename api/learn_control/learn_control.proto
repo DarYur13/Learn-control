@@ -10,13 +10,21 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 enum taskType {
-    UNSPECIFIED = 0;
+    UNKNOWN_TASK = 0;
     PROVIDE = 1;
     ASSIGN = 2;
     CHOOSE = 3;
     SET = 4;
     CONFIRM = 5;
     CONTROL = 6;
+}
+
+enum trainingType {
+    UNKNOWN_TRAINING = 0;
+    INTRODUCTORY = 1;
+    INITIAL = 2;
+    REFRESHER = 3;
+    REGULAR = 4;
 }
 
 
@@ -159,10 +167,10 @@ message Task {
 
 message AddEmployeeRequest {
     string fullname = 1 [(validate.rules).string = {min_len: 1}];
-    string birthdate = 2 [(validate.rules).string = {min_len: 10}];
+    google.protobuf.Timestamp birthdate = 2 [(validate.rules).timestamp = {required: true, lt_now: true}];
     string department = 3 [(validate.rules).string = {min_len: 1}];
     string position = 4 [(validate.rules).string = {min_len: 1}];
-    string employmentDate = 5 [(validate.rules).string = {min_len: 10}];
+    google.protobuf.Timestamp employmentDate = 5 [(validate.rules).timestamp = {required: true}];
     string snils = 6 [(validate.rules).string = {pattern: "^[0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}$"}];
     string email = 7 [(validate.rules).string = {pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"}];
 }
@@ -184,7 +192,7 @@ message GetEmployeesByNameResponse {
 message EmployeeBaseInfo {
     int64 id = 1;
     string fullname = 2;
-    string birthdate = 3;
+    google.protobuf.Timestamp birthdate = 3;
 }
 
 message GetEmployeePersonalCardRequest {
@@ -193,19 +201,20 @@ message GetEmployeePersonalCardRequest {
 
 message GetEmployeePersonalCardResponse {
     string fullname = 1;
-    string birthdate = 2;
+    google.protobuf.Timestamp birthdate = 2;
     string department = 3;
     string position = 4;
-    string employmentDate = 5;
+    google.protobuf.Timestamp employmentDate = 5;
     string snils = 6;
     repeated Training trainings = 7;
 }
 
 message Training {
     string name = 1;
-    string passDate = 2;
-    string rePassDate = 3;
-    string hasProtocol = 4;
+    trainingType type = 2;
+    google.protobuf.Timestamp passDate = 3;
+    google.protobuf.Timestamp rePassDate = 4;
+    string hasProtocol = 5;
 }
 
 message UpdateEmployeeTrainingDateRequest {
@@ -215,8 +224,8 @@ message UpdateEmployeeTrainingDateRequest {
 }
 
 message UpdateEmployeeTrainingDateResponse {
-    string passDate = 3;
-    string rePassDate = 4;
+    google.protobuf.Timestamp passDate = 3;
+    google.protobuf.Timestamp rePassDate = 4;
 }
 
 message GetEmployeesByFiltersRequest {
@@ -256,4 +265,5 @@ message GetTrainingsResponse {
 message TrainingBaseInfo {
     int64 id = 1;
     string name = 2;
+    trainingType type =3;
 }

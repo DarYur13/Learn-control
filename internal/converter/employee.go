@@ -3,13 +3,14 @@ package converter
 import (
 	"github.com/DarYur13/learn-control/internal/domain"
 	pb "github.com/DarYur13/learn-control/pkg/learn_control"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func EmployeeBaseInfoToPb(e *domain.EmployeeBaseInfo) *pb.EmployeeBaseInfo {
 	return &pb.EmployeeBaseInfo{
 		Id:        e.ID,
 		Fullname:  e.FullName,
-		Birthdate: e.BirthDate,
+		Birthdate: timestamppb.New(e.BirthDate),
 	}
 }
 
@@ -26,11 +27,11 @@ func EmployeesBaseInfoToPb(e []domain.EmployeeBaseInfo) *pb.GetEmployeesByNameRe
 func EmployeePersonalCardToPb(e *domain.EmployeePersonalCard) *pb.GetEmployeePersonalCardResponse {
 	result := &pb.GetEmployeePersonalCardResponse{
 		Fullname:       e.FullName,
-		Birthdate:      e.BirthDate,
+		Birthdate:      timestamppb.New(e.BirthDate),
 		Snils:          e.Snils,
 		Department:     e.Department,
 		Position:       e.Position,
-		EmploymentDate: e.EmploymentDate,
+		EmploymentDate: timestamppb.New(e.EmploymentDate),
 	}
 
 	for _, training := range e.Trainings {
@@ -54,8 +55,8 @@ func EmployeesInfoToPb(e []domain.EmployeeInfo) *pb.GetEmployeesByFiltersRespons
 		for _, t := range empl.Trainings {
 			training := &pb.Training{
 				Name:        t.Name,
-				PassDate:    t.PassDate,
-				RePassDate:  t.RePassDate,
+				PassDate:    timestamppb.New(t.PassDate),
+				RePassDate:  timestamppb.New(t.RePassDate),
 				HasProtocol: t.HasProtocol,
 			}
 
@@ -71,11 +72,11 @@ func EmployeesInfoToPb(e []domain.EmployeeInfo) *pb.GetEmployeesByFiltersRespons
 func PbEmployeeToDomain(req *pb.AddEmployeeRequest) domain.Employee {
 	return domain.Employee{
 		FullName:       req.GetFullname(),
-		BirthDate:      req.GetBirthdate(),
+		BirthDate:      req.GetBirthdate().AsTime(),
 		Snils:          req.GetSnils(),
 		Department:     req.GetDepartment(),
 		Position:       req.GetPosition(),
-		EmploymentDate: req.GetEmploymentDate(),
+		EmploymentDate: req.GetEmploymentDate().AsTime(),
 		Email:          req.GetEmail(),
 	}
 }

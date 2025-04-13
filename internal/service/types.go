@@ -10,14 +10,6 @@ import (
 	"github.com/google/uuid"
 )
 
-const (
-	dateFormat = "02.01.2006"
-
-	noPassDate       = "Не пройдено"
-	noRepassDate     = "Не установлено"
-	noNeedRepassDate = "Не требуется"
-)
-
 type Servicer interface {
 	GetEmployeeByID(ctx context.Context, employeeID int) (*domain.Employee, error)
 	GetEmployeesByName(ctx context.Context, name string) ([]domain.EmployeeBaseInfo, error)

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	trainingsStorage "github.com/DarYur13/learn-control/internal/adapter/repository/learn_control/trainings"
+	"github.com/DarYur13/learn-control/internal/domain"
 	sq "github.com/Masterminds/squirrel"
 )
 
@@ -17,7 +18,8 @@ const (
 		e.full_name,
 		e.department,
 		e.position,
-		t.training,
+		t.training_name,
+		t.training_type,
 		et.training_date,
 		et.retraining_date,
 		et.has_protocol
@@ -43,14 +45,15 @@ func (es *EmployeesStorage) GetEmployeesByFilters(ctx context.Context, filters F
 
 	for rows.Next() {
 		var (
-			id          int
-			fullName    string
-			department  string
-			position    string
-			training    sql.NullString
-			passDate    sql.NullTime
-			rePassDate  sql.NullTime
-			hasProtocol sql.NullBool
+			id           int
+			fullName     string
+			department   string
+			position     string
+			training     sql.NullString
+			trainingType domain.TrainingType
+			passDate     sql.NullTime
+			rePassDate   sql.NullTime
+			hasProtocol  sql.NullBool
 		)
 
 		if err := rows.Scan(
@@ -59,6 +62,7 @@ func (es *EmployeesStorage) GetEmployeesByFilters(ctx context.Context, filters F
 			&department,
 			&position,
 			&training,
+			&trainingType,
 			&passDate,
 			&rePassDate,
 			&hasProtocol,
@@ -79,6 +83,7 @@ func (es *EmployeesStorage) GetEmployeesByFilters(ctx context.Context, filters F
 		if training.Valid {
 			employeesMap[key].Trainings = append(employeesMap[key].Trainings, trainingsStorage.Training{
 				Name: training.String,
+				Type: trainingType,
 				TrainingDates: trainingsStorage.TrainingDates{
 					PassDate:   passDate,
 					RePassDate: rePassDate,
