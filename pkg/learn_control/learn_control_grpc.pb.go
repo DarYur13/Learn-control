@@ -20,19 +20,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	LearnControl_GetEmployeesByName_FullMethodName                   = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
-	LearnControl_GetEmployeePersonalCard_FullMethodName              = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
-	LearnControl_UpdateEmployeeTrainingDate_FullMethodName           = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
-	LearnControl_GetDepartments_FullMethodName                       = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments"
-	LearnControl_GetPositions_FullMethodName                         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions"
-	LearnControl_GetTrainings_FullMethodName                         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings"
-	LearnControl_GetEmployeesByFilters_FullMethodName                = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
-	LearnControl_AddEmployee_FullMethodName                          = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee"
-	LearnControl_GetTasksByFilters_FullMethodName                    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTasksByFilters"
-	LearnControl_CloseAssignTask_FullMethodName                      = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseAssignTask"
-	LearnControl_CloseTaskWithTrainingDateSet_FullMethodName         = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet"
-	LearnControl_CloseTaskWithPositionTrainingsSet_FullMethodName    = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet"
-	LearnControl_CloseTaskWithTrainingProtocolConfirm_FullMethodName = "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm"
+	LearnControl_GetEmployeesByName_FullMethodName                   = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByName"
+	LearnControl_GetEmployeePersonalCard_FullMethodName              = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard"
+	LearnControl_UpdateEmployeeTrainingDate_FullMethodName           = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate"
+	LearnControl_GetDepartments_FullMethodName                       = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetDepartments"
+	LearnControl_GetPositions_FullMethodName                         = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetPositions"
+	LearnControl_GetTrainings_FullMethodName                         = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTrainings"
+	LearnControl_GetEmployeesByFilters_FullMethodName                = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters"
+	LearnControl_AddEmployee_FullMethodName                          = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/AddEmployee"
+	LearnControl_GetTasksByFilters_FullMethodName                    = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTasksByFilters"
+	LearnControl_CloseAssignTask_FullMethodName                      = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseAssignTask"
+	LearnControl_CloseTaskWithTrainingDateSet_FullMethodName         = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet"
+	LearnControl_CloseTaskWithPositionTrainingsSet_FullMethodName    = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet"
+	LearnControl_CloseTaskWithTrainingProtocolConfirm_FullMethodName = "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm"
 )
 
 // LearnControlClient is the client API for LearnControl service.
@@ -493,7 +493,7 @@ func _LearnControl_CloseTaskWithTrainingProtocolConfirm_Handler(srv interface{},
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LearnControl_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "github.com.Artenso.learn_control.api.learn_control.LearnControl",
+	ServiceName: "github.com.DarYur13.learn_control.api.learn_control.LearnControl",
 	HandlerType: (*LearnControlServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

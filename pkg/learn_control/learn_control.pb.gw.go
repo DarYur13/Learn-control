@@ -371,7 +371,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -396,7 +396,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -421,7 +421,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -446,7 +446,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -471,7 +471,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -496,7 +496,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -521,7 +521,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -546,7 +546,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee", runtime.WithHTTPPathPattern("/employees/add"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/AddEmployee", runtime.WithHTTPPathPattern("/employees/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -571,7 +571,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTasksByFilters", runtime.WithHTTPPathPattern("/tasks/get"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTasksByFilters", runtime.WithHTTPPathPattern("/tasks/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -596,7 +596,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseAssignTask", runtime.WithHTTPPathPattern("/tasks/close"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseAssignTask", runtime.WithHTTPPathPattern("/tasks/close"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -621,7 +621,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet", runtime.WithHTTPPathPattern("/tasks/close_with_training_date_set"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet", runtime.WithHTTPPathPattern("/tasks/close_with_training_date_set"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -646,7 +646,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet", runtime.WithHTTPPathPattern("/tasks/close_with_position_trainings_set"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet", runtime.WithHTTPPathPattern("/tasks/close_with_position_trainings_set"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -671,7 +671,7 @@ func RegisterLearnControlHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm", runtime.WithHTTPPathPattern("/tasks/close_with_training_protocol_confirm"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm", runtime.WithHTTPPathPattern("/tasks/close_with_training_protocol_confirm"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -735,7 +735,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByName", runtime.WithHTTPPathPattern("/employees/get_list_by_name"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -757,7 +757,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeePersonalCard", runtime.WithHTTPPathPattern("/employees/get_personal_card"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -779,7 +779,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/UpdateEmployeeTrainingDate", runtime.WithHTTPPathPattern("/employees/update_training_date"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -801,7 +801,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetDepartments", runtime.WithHTTPPathPattern("/departments/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -823,7 +823,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetPositions", runtime.WithHTTPPathPattern("/positions/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -845,7 +845,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTrainings", runtime.WithHTTPPathPattern("/trainings/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -867,7 +867,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetEmployeesByFilters", runtime.WithHTTPPathPattern("/employees/get_list_by_filters"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -889,7 +889,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/AddEmployee", runtime.WithHTTPPathPattern("/employees/add"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/AddEmployee", runtime.WithHTTPPathPattern("/employees/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -911,7 +911,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/GetTasksByFilters", runtime.WithHTTPPathPattern("/tasks/get"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/GetTasksByFilters", runtime.WithHTTPPathPattern("/tasks/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -933,7 +933,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseAssignTask", runtime.WithHTTPPathPattern("/tasks/close"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseAssignTask", runtime.WithHTTPPathPattern("/tasks/close"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -955,7 +955,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet", runtime.WithHTTPPathPattern("/tasks/close_with_training_date_set"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingDateSet", runtime.WithHTTPPathPattern("/tasks/close_with_training_date_set"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -977,7 +977,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet", runtime.WithHTTPPathPattern("/tasks/close_with_position_trainings_set"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithPositionTrainingsSet", runtime.WithHTTPPathPattern("/tasks/close_with_position_trainings_set"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -999,7 +999,7 @@ func RegisterLearnControlHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.Artenso.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm", runtime.WithHTTPPathPattern("/tasks/close_with_training_protocol_confirm"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/github.com.DarYur13.learn_control.api.learn_control.LearnControl/CloseTaskWithTrainingProtocolConfirm", runtime.WithHTTPPathPattern("/tasks/close_with_training_protocol_confirm"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

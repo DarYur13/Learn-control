@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package github.com.Artenso.learn_control.api.learn_control;
+package github.com.DarYur13.learn_control.api.learn_control;
 
 option go_package = "github.com/DarYur13/learn_control/pkg/learn_control";
 
