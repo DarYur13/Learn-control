@@ -10,7 +10,7 @@ import (
 const (
 	queryCloseTask = `
 		UPDATE tasks
-		SET done = true AND done_at = CURRENT_DATE
+		SET done = true, done_at = CURRENT_DATE
 		WHERE id = $1
 	`
 )
