@@ -30,11 +30,11 @@ type Servicer interface {
 
 	GetFileByToken(ctx context.Context, token uuid.UUID) (io.Reader, error)
 
-	CreateProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
-	CreateAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
-	CreateSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
-	CreateConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error)
-	CreateControlTask(ctx context.Context, employeeID, trainingID, executorID int) (*domain.TaskBaseInfo, error)
+	CreateProvideTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error)
+	CreateAssignTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error)
+	CreateSetTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error)
+	CreateConfirmTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error)
+	CreateControlTask(ctx context.Context, employeeID, trainingID, executorID, positionID int) (*domain.TaskBaseInfo, error)
 	CreateChooseTask(ctx context.Context, positionID int) (*domain.TaskBaseInfo, error)
 }
 

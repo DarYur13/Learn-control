@@ -6,18 +6,20 @@ import (
 	"github.com/DarYur13/learn-control/internal/domain"
 )
 
-func (s *Service) CreateProvideTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) CreateProvideTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error) {
 	taskArgs := taskArgs{
 		EmployeeID: &employeeID,
 		TrainingID: &trainingID,
+		PositionID: &positionID,
 	}
 	return s.buildTask(ctx, domain.TaskTypeProvide, taskArgs)
 }
 
-func (s *Service) CreateAssignTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) CreateAssignTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error) {
 	taskArgs := taskArgs{
 		EmployeeID: &employeeID,
 		TrainingID: &trainingID,
+		PositionID: &positionID,
 	}
 	return s.buildTask(ctx, domain.TaskTypeAssign, taskArgs)
 }
@@ -29,27 +31,30 @@ func (s *Service) CreateChooseTask(ctx context.Context, positionID int) (*domain
 	return s.buildTask(ctx, domain.TaskTypeChoose, taskArgs)
 }
 
-func (s *Service) CreateSetTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) CreateSetTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error) {
 	taskArgs := taskArgs{
 		EmployeeID: &employeeID,
 		TrainingID: &trainingID,
+		PositionID: &positionID,
 	}
 	return s.buildTask(ctx, domain.TaskTypeSet, taskArgs)
 }
 
-func (s *Service) CreateConfirmTask(ctx context.Context, employeeID, trainingID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) CreateConfirmTask(ctx context.Context, employeeID, trainingID, positionID int) (*domain.TaskBaseInfo, error) {
 	taskArgs := taskArgs{
 		EmployeeID: &employeeID,
 		TrainingID: &trainingID,
+		PositionID: &positionID,
 	}
 	return s.buildTask(ctx, domain.TaskTypeConfirm, taskArgs)
 }
 
-func (s *Service) CreateControlTask(ctx context.Context, employeeID, trainingID, executorID int) (*domain.TaskBaseInfo, error) {
+func (s *Service) CreateControlTask(ctx context.Context, employeeID, trainingID, executorID, positionID int) (*domain.TaskBaseInfo, error) {
 	taskArgs := taskArgs{
 		EmployeeID: &employeeID,
 		TrainingID: &trainingID,
 		ExecutorID: &executorID,
+		PositionID: &positionID,
 	}
 	return s.buildTask(ctx, domain.TaskTypeControl, taskArgs)
 }

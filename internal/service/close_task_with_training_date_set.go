@@ -16,7 +16,7 @@ func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID int, 
 		return errors.WithMessage(err, "get task info")
 	}
 
-	task, needNextTask, err := s.nextTask(ctx, int(taskInfo.EmployeeID.Int64), int(taskInfo.TrainingID.Int64), taskType)
+	task, needNextTask, err := s.nextTask(ctx, int(taskInfo.EmployeeID.Int64), int(taskInfo.TrainingID.Int64), int(taskInfo.PositionID.Int64), taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")
 	}

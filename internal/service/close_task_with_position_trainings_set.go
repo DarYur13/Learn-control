@@ -28,7 +28,7 @@ func (s *Service) CloseTaskWithPositionTrainingsSet(ctx context.Context, taskID 
 		}
 
 		for _, emplID := range employeesIDs {
-			if txErr := s.assignTrainingsAndTasks(ctx, tx, emplID, trainingsIDs); txErr != nil {
+			if txErr := s.assignTrainingsAndTasks(ctx, tx, emplID, int(taskInfo.PositionID.Int64), trainingsIDs); txErr != nil {
 				return errors.WithMessagef(txErr, "assign trainings and tasks for employee %d", emplID)
 			}
 		}
