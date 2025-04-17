@@ -9,8 +9,13 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (s *Service) CloseAssignTask(ctx context.Context, taskID, employeeID, trainingID int, taskType domain.TaskType) error {
-	task, needNextTask, err := s.nextTask(ctx, employeeID, trainingID, taskType)
+func (s *Service) CloseAssignTask(ctx context.Context, taskID int, taskType domain.TaskType) error {
+	taskInfo, err := s.tasksStorage.GetTaskInfoByID(ctx, taskID)
+	if err != nil {
+		return errors.WithMessage(err, "get task info")
+	}
+
+	task, needNextTask, err := s.nextTask(ctx, int(taskInfo.EmployeeID.Int64), int(taskInfo.TrainingID.Int64), taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")
 	}

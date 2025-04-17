@@ -8,7 +8,6 @@ import (
 )
 
 func (i *Implementation) CloseTaskWithPositionTrainingsSet(ctx context.Context, req *pb.CloseTaskWithPositionTrainingsSetRequest) (*emptypb.Empty, error) {
-	positionID := int(req.GetPositionID())
 	taskID := int(req.GetTaskID())
 	trainingsIDs := make([]int, 0, len(req.GetTrainingsIDs()))
 
@@ -16,7 +15,7 @@ func (i *Implementation) CloseTaskWithPositionTrainingsSet(ctx context.Context, 
 		trainingsIDs = append(trainingsIDs, int(trainingID))
 	}
 
-	if err := i.service.CloseTaskWithPositionTrainingsSet(ctx, taskID, positionID, trainingsIDs); err != nil {
+	if err := i.service.CloseTaskWithPositionTrainingsSet(ctx, taskID, trainingsIDs); err != nil {
 		return nil, err
 	}
 

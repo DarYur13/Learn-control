@@ -9,10 +9,8 @@ import (
 
 func (i *Implementation) CloseTaskWithTrainingProtocolConfirm(ctx context.Context, req *pb.CloseTaskWithTrainingProtocolConfirmRequest) (*emptypb.Empty, error) {
 	taskID := int(req.GetTaskID())
-	emplID := int(req.GetEmployeeID())
-	trainingID := int(req.GetTrainingID())
 
-	if err := i.service.CloseTaskWithTrainingProtocolConfirm(ctx, taskID, emplID, trainingID); err != nil {
+	if err := i.service.CloseTaskWithTrainingProtocolConfirm(ctx, taskID); err != nil {
 		return nil, err
 	}
 

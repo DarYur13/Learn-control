@@ -61,10 +61,6 @@ func (m *CloseTaskWithTrainingProtocolConfirmRequest) validate(all bool) error {
 
 	// no validation rules for TaskID
 
-	// no validation rules for EmployeeID
-
-	// no validation rules for TrainingID
-
 	if len(errors) > 0 {
 		return CloseTaskWithTrainingProtocolConfirmRequestMultiError(errors)
 	}
@@ -173,8 +169,6 @@ func (m *CloseTaskWithPositionTrainingsSetRequest) validate(all bool) error {
 
 	// no validation rules for TaskID
 
-	// no validation rules for PositionID
-
 	if len(errors) > 0 {
 		return CloseTaskWithPositionTrainingsSetRequestMultiError(errors)
 	}
@@ -281,10 +275,6 @@ func (m *CloseTaskWithTrainingDateSetRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for TaskID
-
-	// no validation rules for EmployeeID
-
-	// no validation rules for TrainingID
 
 	if all {
 		switch v := interface{}(m.GetDate()).(type) {
@@ -422,10 +412,6 @@ func (m *CloseAssignTaskRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for TaskID
-
-	// no validation rules for EmployeeID
-
-	// no validation rules for TrainingID
 
 	// no validation rules for TaskType
 

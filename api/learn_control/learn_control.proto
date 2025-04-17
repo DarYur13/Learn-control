@@ -119,29 +119,22 @@ service LearnControl {
 
 message CloseTaskWithTrainingProtocolConfirmRequest {
     int64 taskID = 1;
-    int64 employeeID = 2;
-    int64 trainingID = 3;
 }
 
 message CloseTaskWithPositionTrainingsSetRequest {
     int64 taskID = 1;
-    int64 positionID = 2;
-    repeated int64 trainingsIDs = 3;
+    repeated int64 trainingsIDs = 2;
 }
 
 message CloseTaskWithTrainingDateSetRequest {
     int64 taskID = 1;
-    int64 employeeID = 2;
-    int64 trainingID = 3;
-    google.protobuf.Timestamp date = 4;
-    taskType taskType = 5;
+    google.protobuf.Timestamp date = 2;
+    taskType taskType = 3;
 }
 
 message CloseAssignTaskRequest {
     int64 taskID = 1; 
-    int64 employeeID = 2;
-    int64 trainingID = 3;
-    taskType taskType = 4;
+    taskType taskType = 2;
 }
 
 message GetTasksByFiltersRequest {
