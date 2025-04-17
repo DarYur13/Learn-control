@@ -19,6 +19,4 @@ export interface Task {
   executor: string;
   downloadFileLink: string;
   done: boolean;
-  employeeID?: number; // если понадобится
-  trainingID?: number;
 }

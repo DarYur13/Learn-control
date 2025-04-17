@@ -1,5 +1,5 @@
 import { Task, TaskType } from "@/entities/task/types";
-import { closeAssignTask } from "@/shared/api/tasks";
+import { closeWithDate } from "@/shared/api/tasks";
 import {
   Card,
   CardContent,
@@ -11,17 +11,26 @@ import {
   Divider,
   Chip,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/ru"; // Локализация
 import { useState } from "react";
 
-export default function ProvideCard({ task }: { task: Task }) {
-  const [loading, setLoading] = useState(false);
+export default function SetCard({ task }: { task: Task }) {
+  const [date, setDate] = useState<Dayjs | null>(null);
   const [done, setDone] = useState(task.done);
+  const [loading, setLoading] = useState(false);
 
   const handleComplete = async () => {
+    if (!date) return;
+
     try {
       setLoading(true);
-      await closeAssignTask(task.id, TaskType.PROVIDE);
+      await closeWithDate(
+        task.id,
+        date.toISOString(),
+        TaskType.SET
+      );
       setDone(true);
     } catch (err) {
       console.error("Ошибка при завершении задачи", err);
@@ -34,7 +43,7 @@ export default function ProvideCard({ task }: { task: Task }) {
     <Card variant="outlined" sx={{ borderRadius: 3, boxShadow: 2, p: 2 }}>
       <CardContent>
         <Stack spacing={2}>
-          {/* Верх: заголовок и статус */}
+          {/* Заголовок и статус */}
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="h6">{task.description}</Typography>
             <Chip
@@ -46,7 +55,7 @@ export default function ProvideCard({ task }: { task: Task }) {
 
           <Divider />
 
-          {/* Информация по строкам */}
+          {/* Инфо о задаче */}
           <Stack spacing={1}>
             {[
               { label: "Сотрудник", value: task.employee },
@@ -61,22 +70,19 @@ export default function ProvideCard({ task }: { task: Task }) {
             ))}
           </Stack>
 
-          {/* Кнопки */}
+          {/* Кнопки + календарь */}
           {!done && (
-            <Stack direction="row" spacing={2} justifyContent="flex-end">
-              {task.downloadFileLink && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  href={task.downloadFileLink}
-                  target="_blank"
-                >
-                  Скачать лист регистрации
-                </Button>
-              )}
+            <Stack direction="row" spacing={2} justifyContent="flex-end" alignItems="center">
+              <DatePicker
+                label="Дата обучения"
+                value={date}
+                onChange={(newDate) => setDate(newDate)}
+                disableFuture={false}
+                slotProps={{ textField: { size: "small", sx: { width: 220 } } }}
+              />
               <Button
                 variant="contained"
-                disabled={loading}
+                disabled={!date || loading}
                 onClick={handleComplete}
               >
                 {loading ? <CircularProgress size={20} /> : "Завершить"}
