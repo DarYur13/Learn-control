@@ -32,15 +32,17 @@ func (g *docxGenerator) GenerateRegistrationSheet(ctx context.Context, info doma
 	doc.Replace("{full_name}", info.EmployeeName, -1)
 	doc.Replace("{position}", info.EmployeePosition, -1)
 	doc.Replace("{birth_date}", info.EmployeeBirthDate.Format(domain.DateFormat), -1)
-	doc.Replace("{executor}", info.InstructorName, -1)
-	doc.Replace("{executor_position}", info.InstructorPosition, -1)
 
 	if info.TrainingType == domain.TrainingTypeIntroductory {
 		doc.Replace("{department}", info.EmployeeDepartment, -1)
+		doc.Replace("{executor}", info.OccupSafetySpecName, -1)
+		doc.Replace("{executor_position}", info.OccupSafetySpecPosition, -1)
 	}
 
 	if info.TrainingType == domain.TrainingTypeInitial || info.TrainingType == domain.TrainingTypeRefresher {
 		doc.Replace("{act}", info.Acts, -1)
+		doc.Replace("{executor}", info.InstructorName, -1)
+		doc.Replace("{executor_position}", info.InstructorPosition, -1)
 	}
 
 	buf := new(bytes.Buffer)
