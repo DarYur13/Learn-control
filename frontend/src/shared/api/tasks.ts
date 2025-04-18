@@ -1,6 +1,5 @@
 import { Task, TaskType } from "@/entities/task/types";
-
-const BASE_URL = "http://localhost:8000";
+import { BASE_URL } from "@/shared/api/baseURL";
 
 type GetTasksResponse = { tasks: Task[] };
 

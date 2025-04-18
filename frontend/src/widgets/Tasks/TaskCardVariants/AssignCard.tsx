@@ -1,5 +1,5 @@
 import { Task, TaskType } from "@/entities/task/types";
-import { closeWithDate } from "@/shared/api/tasks";
+import { closeAssignTask } from "@/shared/api/tasks";
 import {
   Card,
   CardContent,
@@ -11,29 +11,16 @@ import {
   Divider,
   Chip,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
-import "dayjs/locale/ru"; // Локализация
-import utc from "dayjs/plugin/utc";
 import { useState } from "react";
 
-dayjs.extend(utc);
-
-export default function SetCard({ task }: { task: Task }) {
-  const [date, setDate] = useState<Dayjs | null>(null);
-  const [done, setDone] = useState(task.done);
+export default function AssignCard({ task }: { task: Task }) {
   const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(task.done);
 
   const handleComplete = async () => {
-    if (!date) return;
-
     try {
       setLoading(true);
-      await closeWithDate(
-        task.id,
-        dayjs.utc(date.format("YYYY-MM-DD")).toISOString(),
-        TaskType.SET
-      );
+      await closeAssignTask(task.id, TaskType.ASSIGN);
       setDone(true);
     } catch (err) {
       console.error("Ошибка при завершении задачи", err);
@@ -73,20 +60,13 @@ export default function SetCard({ task }: { task: Task }) {
             ))}
           </Stack>
 
-          {/* Кнопки + календарь */}
+          {/* Кнопка завершения */}
           {!done && (
-            <Stack direction="row" spacing={2} justifyContent="flex-end" alignItems="center">
-              <DatePicker
-                label="Дата обучения"
-                value={date}
-                onChange={(newDate) => setDate(newDate)}
-                disableFuture={false}
-                slotProps={{ textField: { size: "small", sx: { width: 220 } } }}
-              />
+            <Stack direction="row" justifyContent="flex-end">
               <Button
                 variant="contained"
-                disabled={!date || loading}
                 onClick={handleComplete}
+                disabled={loading}
               >
                 {loading ? <CircularProgress size={20} /> : "Завершить"}
               </Button>

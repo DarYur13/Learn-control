@@ -20,3 +20,8 @@ export interface Task {
   downloadFileLink: string;
   done: boolean;
 }
+
+export type Training = {
+  id: number;
+  name: string;
+};
