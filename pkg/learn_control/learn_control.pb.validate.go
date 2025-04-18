@@ -1577,6 +1577,8 @@ func (m *GetEmployeePersonalCardResponse) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for EmployeeID
+
 	// no validation rules for Fullname
 
 	if all {
@@ -1779,6 +1781,8 @@ func (m *Training) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Id
 
 	// no validation rules for Name
 

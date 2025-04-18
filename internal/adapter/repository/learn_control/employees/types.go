@@ -39,6 +39,7 @@ type Employee struct {
 }
 
 type EmployeePersonalCard struct {
+	EmployeeID     int       `db:"id"`
 	FullName       string    `db:"full_name"`
 	BirthDate      time.Time `db:"birth_date"`
 	Snils          string    `db:"snils"`

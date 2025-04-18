@@ -19,6 +19,7 @@ type EmployeeBaseInfo struct {
 }
 
 type EmployeePersonalCard struct {
+	EmployeeID     int
 	FullName       string
 	BirthDate      time.Time
 	Snils          string

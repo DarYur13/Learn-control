@@ -15,6 +15,7 @@ type TrainingsRepository interface {
 }
 
 type Training struct {
+	ID          int                 `db:"id" json:"id"`
 	Name        string              `db:"training_name" json:"name"`
 	Type        domain.TrainingType `db:"training_type"`
 	HasProtocol sql.NullBool        `db:"has_protocol" json:"has_protocol"`

@@ -8,6 +8,7 @@ import (
 
 func TrainingToPb(t domain.Training) *pb.Training {
 	return &pb.Training{
+		Id:          int64(t.ID),
 		Name:        t.Name,
 		Type:        DomainTriningTypeToPb(t.Type),
 		PassDate:    timestamppb.New(t.PassDate),

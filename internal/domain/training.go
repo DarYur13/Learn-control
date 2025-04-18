@@ -12,6 +12,7 @@ const (
 )
 
 type Training struct {
+	ID          int
 	Name        string
 	Type        TrainingType
 	HasProtocol string

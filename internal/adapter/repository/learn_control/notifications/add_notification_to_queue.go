@@ -7,7 +7,11 @@ import (
 )
 
 const queryInsertNotificationToQueue = `
-	INSERT INTO notification_queue (employee_id, training_id, notification_type)
+	INSERT INTO notifications_queue (
+		employee_id, 
+		training_id, 
+		notification_type
+	)
 	VALUES ($1, $2, $3)
 `
 

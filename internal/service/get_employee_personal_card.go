@@ -15,6 +15,7 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 	}
 
 	result := domain.EmployeePersonalCard{
+		EmployeeID:     employee.EmployeeID,
 		FullName:       employee.FullName,
 		BirthDate:      employee.BirthDate,
 		Snils:          employee.Snils,
@@ -25,6 +26,7 @@ func (s *Service) GetEmployeePersonalCard(ctx context.Context, id int) (*domain.
 
 	for _, t := range employee.Trainings {
 		training := domain.Training{
+			ID:            t.ID,
 			Name:          t.Name,
 			TrainingDates: formatTrainingDates(t.TrainingDates),
 			HasProtocol:   formatTrainingHasProtocol(t.HasProtocol),
