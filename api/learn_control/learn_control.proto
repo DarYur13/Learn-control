@@ -119,29 +119,22 @@ service LearnControl {
 
 message CloseTaskWithTrainingProtocolConfirmRequest {
     int64 taskID = 1;
-    int64 employeeID = 2;
-    int64 trainingID = 3;
 }
 
 message CloseTaskWithPositionTrainingsSetRequest {
     int64 taskID = 1;
-    int64 positionID = 2;
-    repeated int64 trainingsIDs = 3;
+    repeated int64 trainingsIDs = 2;
 }
 
 message CloseTaskWithTrainingDateSetRequest {
     int64 taskID = 1;
-    int64 employeeID = 2;
-    int64 trainingID = 3;
-    google.protobuf.Timestamp date = 4;
-    taskType taskType = 5;
+    google.protobuf.Timestamp date = 2;
+    taskType taskType = 3;
 }
 
 message CloseAssignTaskRequest {
     int64 taskID = 1; 
-    int64 employeeID = 2;
-    int64 trainingID = 3;
-    taskType taskType = 4;
+    taskType taskType = 2;
 }
 
 message GetTasksByFiltersRequest {
@@ -200,21 +193,23 @@ message GetEmployeePersonalCardRequest {
 }
 
 message GetEmployeePersonalCardResponse {
-    string fullname = 1;
-    google.protobuf.Timestamp birthdate = 2;
-    string department = 3;
-    string position = 4;
-    google.protobuf.Timestamp employmentDate = 5;
-    string snils = 6;
-    repeated Training trainings = 7;
+    int64 employeeID = 1;
+    string fullname = 2;
+    google.protobuf.Timestamp birthdate = 3;
+    string department = 4;
+    string position = 5;
+    google.protobuf.Timestamp employmentDate = 6;
+    string snils = 7;
+    repeated Training trainings = 8;
 }
 
 message Training {
-    string name = 1;
-    trainingType type = 2;
-    google.protobuf.Timestamp passDate = 3;
-    google.protobuf.Timestamp rePassDate = 4;
-    string hasProtocol = 5;
+    int64 id = 1;
+    string name = 2;
+    trainingType type = 3;
+    google.protobuf.Timestamp passDate = 4;
+    google.protobuf.Timestamp rePassDate = 5;
+    string hasProtocol = 6;
 }
 
 message UpdateEmployeeTrainingDateRequest {

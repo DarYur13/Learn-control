@@ -10,6 +10,7 @@ import (
 type TasksRepository interface {
 	AddTaskTx(ctx context.Context, tx *sql.Tx, task TaskBaseInfo) error
 	AddTask(ctx context.Context, task TaskBaseInfo) error
+	GetTaskInfoByID(ctx context.Context, taskID int) (TaskBaseInfo, error)
 	GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]Task, error)
 	CloseTask(ctx context.Context, taskID int) error
 	CloseTaskTx(ctx context.Context, tx *sql.Tx, taskID int) error

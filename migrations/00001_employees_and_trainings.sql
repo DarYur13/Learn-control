@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS employees (
     department VARCHAR(100) NOT NULL,
     position VARCHAR(100) NOT NULL,
     snils VARCHAR(14) UNIQUE NOT NULL,
-    employment_date DATE,
+    employment_date DATE NOT NULL,
     is_leader BOOLEAN NOT NULL DEFAULT FALSE,
     email VARCHAR(100) UNIQUE
 );

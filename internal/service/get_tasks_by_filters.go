@@ -52,17 +52,24 @@ func (s *Service) GetTasksByFilters(ctx context.Context, done sql.NullBool) ([]d
 }
 
 func (s *Service) generateDownloadLink(ctx context.Context, employeeID, trainingID int) (string, error) {
-	token := uuid.New()
-	expiresAt := time.Now().AddDate(0, 0, 1)
+	token, err := s.downloadTokensStorage.GetToken(ctx, employeeID, trainingID)
+	if err != nil {
+		if !errors.Is(err, sql.ErrNoRows) {
+			return "", errors.WithMessage(err, "failed to check or get token")
+		}
 
-	if err := s.downloadTokensStorage.AddToken(ctx, domain.DownloadToken{
-		Token:      token,
-		EmployeeID: employeeID,
-		TrainingID: trainingID,
-		ExpiresAt:  expiresAt,
-	}); err != nil {
-		return "", errors.WithMessage(err, "failed to add new token")
+		token = uuid.New()
+		expiresAt := time.Now().AddDate(0, 0, 30)
+
+		if err := s.downloadTokensStorage.AddToken(ctx, domain.DownloadToken{
+			Token:      token,
+			EmployeeID: employeeID,
+			TrainingID: trainingID,
+			ExpiresAt:  expiresAt,
+		}); err != nil {
+			return "", errors.WithMessage(err, "failed to add new token")
+		}
 	}
 
-	return fmt.Sprintf("%s:%s/files/download?token=%s", config.ApiHost(), config.ApiHttpPort(), token.String()), nil
+	return fmt.Sprintf("http://%s:%s/files/download?token=%s", config.ApiHost(), config.ApiHttpPort(), token.String()), nil
 }

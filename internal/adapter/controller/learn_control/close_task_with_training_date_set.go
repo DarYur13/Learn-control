@@ -11,8 +11,6 @@ import (
 )
 
 func (i *Implementation) CloseTaskWithTrainingDateSet(ctx context.Context, req *pb.CloseTaskWithTrainingDateSetRequest) (*emptypb.Empty, error) {
-	emplID := int(req.GetEmployeeID())
-	trainingID := int(req.GetTrainingID())
 	taskID := int(req.GetTaskID())
 	date := req.GetDate().AsTime()
 
@@ -21,7 +19,7 @@ func (i *Implementation) CloseTaskWithTrainingDateSet(ctx context.Context, req *
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %s", err.Error())
 	}
 
-	if err := i.service.CloseTaskWithTrainingDateSet(ctx, taskID, emplID, trainingID, taskType, date); err != nil {
+	if err := i.service.CloseTaskWithTrainingDateSet(ctx, taskID, taskType, date); err != nil {
 		return nil, err
 	}
 

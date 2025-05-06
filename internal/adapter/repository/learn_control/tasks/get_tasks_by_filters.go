@@ -10,16 +10,16 @@ import (
 const (
 	queryGetTasks = `
 	SELECT 
-		t.id
+		t.id,
 		t.task_type,
 		ttt.task_text,
 		e_empl.id,
 		e_empl.full_name AS employee,
 		tr.id,
-		tr.training,
+		tr.training_name,
 		p.position,
 		p.department,
-		e_exec.full_name AS executor
+		e_exec.full_name AS executor,
 		t.done
 	FROM tasks t
 	LEFT JOIN task_types_texts ttt ON t.task_type = ttt.task_type

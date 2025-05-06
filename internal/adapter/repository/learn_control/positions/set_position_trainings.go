@@ -7,11 +7,11 @@ import (
 
 const (
 	querySetPositionTrainings = `
-	INSERT INTO position_trainings
+	INSERT INTO position_trainings (
 		position_id,
 		training_id
 	) VALUES ($1, $2)
-	ON CONFLICT (employee_id, training_id) DO NOTHING;
+	ON CONFLICT (position_id, training_id) DO NOTHING;
 	`
 )
 

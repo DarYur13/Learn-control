@@ -12,11 +12,14 @@ const (
 	SELECT 
 		et.employee_id,
 		et.training_id,
+		p.id,
 		t.training_type,
 		et.retraining_date,
 		DATE_PART('day', et.retraining_date - CURRENT_DATE) AS days_left
 	FROM employee_trainings et
 	JOIN trainings t ON t.id = et.training_id
+	JOIN employees e ON e.id = et.employee_id
+	JOIN positions p ON e.position = p.position AND e.department = p.department
 	WHERE DATE_PART('day', et.retraining_date - CURRENT_DATE) IN (10, 30)
 	AND NOT EXISTS (
 		SELECT 1
@@ -43,6 +46,7 @@ func (ts *TrainingsStorage) GetUpcomingTrainings(ctx context.Context) ([]domain.
 		if err := rows.Scan(
 			&training.EmployeeID,
 			&training.TrainingID,
+			&training.PositionID,
 			&training.TrainingType,
 			&training.RePassDate,
 			&training.DaysLeft,

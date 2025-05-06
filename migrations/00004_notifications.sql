@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS notifications_queue (
 
 -- +goose Down
 -- +goose StatementBegin
+DROP TABLE IF EXISTS notifications_queue;
 DROP TABLE IF EXISTS notification_types_templates;
-DROP TABLE IF EXISTS notification_queue;
 DROP TYPE IF EXISTS notification_type;
 -- +goose StatementEnd

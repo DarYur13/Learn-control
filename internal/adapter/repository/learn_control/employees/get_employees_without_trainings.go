@@ -9,7 +9,8 @@ import (
 
 const (
 	queryGetEmployesWithoutTrainings = `
-	SELECT e.id FROM employees e
+	SELECT DISTINCT e.id 
+	FROM employees e
 	JOIN positions p ON e.position = p.position AND e.department = p.department
 	JOIN position_trainings pt ON p.id = pt.position_id
 	LEFT JOIN employee_trainings et ON e.id = et.employee_id AND et.training_id = pt.training_id

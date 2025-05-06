@@ -9,12 +9,14 @@ import (
 const (
 	queryGetEmployee = `
 		SELECT 
+			e.id,
 			e.full_name, 
 			e.birth_date, 
 			e.snils, 
 			e.department, 
 			e.position, 
 			e.employment_date,
+			t.id,
 			t.training_name, 
 			t.training_type,
 			et.training_date AS pass_date,
@@ -24,7 +26,7 @@ const (
 		JOIN employee_trainings et ON e.id = et.employee_id
 		JOIN trainings t ON et.training_id = t.id
 		WHERE e.id = $1
-		ORDER BY et.training_date DESC, t.training
+		ORDER BY et.training_date DESC, t.training_name
 	`
 )
 
@@ -43,12 +45,14 @@ func (es *EmployeesStorage) GetEmployeePersonalCard(ctx context.Context, id int)
 		var trainings trainingsStorage.Training
 
 		if err := rows.Scan(
+			&result.EmployeeID,
 			&result.FullName,
 			&result.BirthDate,
 			&result.Snils,
 			&result.Department,
 			&result.Position,
 			&result.EmploymentDate,
+			&trainings.ID,
 			&trainings.Name,
 			&trainings.Type,
 			&trainings.PassDate,

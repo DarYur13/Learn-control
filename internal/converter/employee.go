@@ -26,6 +26,7 @@ func EmployeesBaseInfoToPb(e []domain.EmployeeBaseInfo) *pb.GetEmployeesByNameRe
 
 func EmployeePersonalCardToPb(e *domain.EmployeePersonalCard) *pb.GetEmployeePersonalCardResponse {
 	result := &pb.GetEmployeePersonalCardResponse{
+		EmployeeID:     int64(e.EmployeeID),
 		Fullname:       e.FullName,
 		Birthdate:      timestamppb.New(e.BirthDate),
 		Snils:          e.Snils,

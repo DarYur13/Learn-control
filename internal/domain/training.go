@@ -12,6 +12,7 @@ const (
 )
 
 type Training struct {
+	ID          int
 	Name        string
 	Type        TrainingType
 	HasProtocol string
@@ -31,6 +32,7 @@ type TrainingDates struct {
 
 type UpcomingTraining struct {
 	EmployeeID   int
+	PositionID   int
 	TrainingID   int
 	TrainingType TrainingType
 	RePassDate   time.Time

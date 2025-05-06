@@ -81,7 +81,7 @@ func (rcw *retrainingControlWorker) processRefresherBrief(ctx context.Context, b
 		return errors.WithMessage(err, "failed to get employee leader")
 	}
 
-	task, err := rcw.service.CreateControlTask(ctx, brief.EmployeeID, brief.TrainingID, executorID)
+	task, err := rcw.service.CreateControlTask(ctx, brief.EmployeeID, brief.TrainingID, brief.PositionID, executorID)
 	if err != nil {
 		return errors.WithMessage(err, "failed to create task")
 	}
@@ -112,7 +112,7 @@ func (rcw *retrainingControlWorker) processRefresherBrief(ctx context.Context, b
 
 func (rcw *retrainingControlWorker) processRegularTraining(ctx context.Context, training domain.UpcomingTraining) error {
 	if training.DaysLeft == daysTillRetrainingFirst {
-		task, err := rcw.service.CreateAssignTask(ctx, training.EmployeeID, training.TrainingID)
+		task, err := rcw.service.CreateAssignTask(ctx, training.EmployeeID, training.TrainingID, training.PositionID)
 		if err != nil {
 			return errors.WithMessage(err, "failed to create task")
 		}

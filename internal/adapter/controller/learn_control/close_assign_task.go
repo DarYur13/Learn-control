@@ -11,8 +11,6 @@ import (
 )
 
 func (i *Implementation) CloseAssignTask(ctx context.Context, req *pb.CloseAssignTaskRequest) (*emptypb.Empty, error) {
-	emplID := int(req.GetEmployeeID())
-	trainingID := int(req.GetTrainingID())
 	taskID := int(req.GetTaskID())
 
 	taskType, err := converter.PbTaskTypeToDomain(req.GetTaskType())
@@ -20,7 +18,7 @@ func (i *Implementation) CloseAssignTask(ctx context.Context, req *pb.CloseAssig
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %s", err.Error())
 	}
 
-	if err := i.service.CloseAssignTask(ctx, taskID, emplID, trainingID, taskType); err != nil {
+	if err := i.service.CloseAssignTask(ctx, taskID, taskType); err != nil {
 		return nil, err
 	}
 

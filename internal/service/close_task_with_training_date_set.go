@@ -10,14 +10,19 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID, emplID, trainingID int, taskType domain.TaskType, date time.Time) error {
-	task, needNextTask, err := s.nextTask(ctx, emplID, trainingID, taskType)
+func (s *Service) CloseTaskWithTrainingDateSet(ctx context.Context, taskID int, taskType domain.TaskType, date time.Time) error {
+	taskInfo, err := s.tasksStorage.GetTaskInfoByID(ctx, taskID)
+	if err != nil {
+		return errors.WithMessage(err, "get task info")
+	}
+
+	task, needNextTask, err := s.nextTask(ctx, int(taskInfo.EmployeeID.Int64), int(taskInfo.TrainingID.Int64), int(taskInfo.PositionID.Int64), taskType)
 	if err != nil {
 		return errors.WithMessage(err, "create next task")
 	}
 
 	if err := s.txManager.Do(ctx, func(tx *sql.Tx) error {
-		_, txErr := s.employeesStorage.UpdateEmployeeTrainingDateTx(ctx, tx, emplID, trainingID, date)
+		_, txErr := s.employeesStorage.UpdateEmployeeTrainingDateTx(ctx, tx, int(taskInfo.EmployeeID.Int64), int(taskInfo.TrainingID.Int64), date)
 		if txErr != nil {
 			return errors.WithMessage(txErr, "set training date")
 		}
