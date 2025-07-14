@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"]
     },

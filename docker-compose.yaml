@@ -2,29 +2,49 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:14-alpine3.15
-    container_name: "learn_control_pg"
+    image: postgres:14-alpine
+    container_name: learn_control_pg
+    env_file:
+      - .env
     environment:
-      - "POSTGRES_DB=learn_control"
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=postgres"
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-  # goose:
-  #   build: ./migrations/
-  #   restart: on-failure
-  #   environment:
-  #     DB_HOST: postgres
-  #   ports:
-  #     - "5444:5432"
-  #   depends_on:
-  #     - postgres
+  goose:
+    build:
+      context: .
+      dockerfile: ./migrations/Dockerfile
+    container_name: learn_control_goose
+    depends_on:
+      - postgres
+    volumes:
+      - ./migrations:/migrations
+    env_file:
+      - .env
 
-  # app:
-  #   build: .
-  #   ports:
-  #     - "50051:50051"
-  #     - "8000:8000"
-  #   depends_on:
-  #     - postgres
+  backend:
+    build: .
+    container_name: learn_control_backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+
+  frontend:
+    build: ./frontend
+    container_name: learn_control_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

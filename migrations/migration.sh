@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export MIGRATION_DIR=./migrations
+export MIGRATION_DIR=/migrations
 export DB_HOST="postgres"
 export DB_PORT="5432"
-export DB_NAME="commands_storage"
+export DB_NAME="learn_control"
 export DB_USER="postgres"
 export DB_PASSWORD="postgres"
 export DB_SSL=disable
