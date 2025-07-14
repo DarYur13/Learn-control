@@ -3,83 +3,6 @@
 **Learn-Control** — это веб-приложение для автоматизации процессов организации обучений и инструктажей по охране труда на предприятии. 
 Система помогает отслеживать информацию о сотрудниках и их обучении, ставит задачи специалисту по охране труда и уведомляет руководителей отделов о необходимости проведения инструктажей.
 
-## 📦 Стек технологий
-
-**Backend:**
-
-* Язык: Go
-* Архитектура: Чистая архитектура
-* gRPC (протоколы описаны в `api/learn_control.proto`)
-* PostgreSQL
-* Docker / Docker Compose
-* Makefile для автоматизации
-
-**Frontend:**
-
-* React + TypeScript
-* Vite
-* React Router
-* CSS Modules
-* Взаимодействие с backend через REST API
-
-## 🗂 Структура проекта
-
-```
-Learn-control/
-├── api/                          # gRPC API
-│
-├── cmd/                          # Точка входа приложения
-│
-├── internal/                     
-│   ├── adapter/                  
-│   │   ├── controller/           # Контроллеры HTTP/gRPC
-│   │   │   ├── files_download/   # Контроллер загрузки документов
-│   │   │   │   
-│   │   │   └── learn_control/    # Контроллеры бизнес-операций
-│   │   │       
-│   │   ├── docs_generator/       # Генерация документов
-│   │   │   └── registration_form/
-│   │   │       
-│   │   └── notifier/             # Уведомления
-│   │       └── email/
-│   │
-│   ├── app/                      # Инициализация зависимостей
-│   │
-│   ├── config/                   # Конфигурация приложения
-│   │   └── modules/
-│   │
-│   ├── converter/                # Преобразование между слоями
-│   │
-│   ├── domain/                   # Доменные сущности
-│   │
-│   ├── logger/                   # Логирование
-│   │
-│   ├── service/                  # Use-case логика
-│   │
-│   ├── token/                    # Работа с JWT или другими токенами
-│   │
-│   └── worker/                   # Фоновые задачи
-│       └── notification/         # Отправка уведомлений
-│       │
-│       └── retraining_control/   # Контроль сроков перепрохождения обучений
-│
-├── migrations/                   # SQL миграции
-│
-├── templates/                    # Шаблоны документов (регистрационные листы и др.)
-├── pkg/                          # Сгенерированные файлы из proto
-│   └── learn_control/
-│
-├── frontend/                    # Клиентская часть (React + Vite)
-│   ├── public/                  # Статика
-│   ├── src/
-│   │   ├── app/                 # Входные компоненты
-│   │   ├── pages/               # Страницы интерфейса
-│   │   ├── entities/            # Типы и модели
-│   │   ├── assets/              # Статика (svg, изображения)
-│   │   └── main.tsx            # Вход в приложение
-
-```
-
 ## 🚀 Быстрый старт
 
 ### 1. Клонирование репозитория
@@ -137,14 +60,76 @@ make generate
 ### 4. Запуск проекта (Docker Compose)
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
-### 5. Миграции
+## 📦 Стек технологий
 
-```bash
-make install-goose
-make local-migration-up
+**Backend:**
+
+* Язык: Go
+* Чистая архитектура
+* gRPC (протоколы описаны в `api/learn_control.proto`)
+* PostgreSQL
+* Docker / Docker Compose
+
+**Frontend:**
+
+* React + TypeScript
+* Vite
+* React Router
+* CSS Modules
+* Взаимодействие с backend через REST API
+
+## 🗂 Структура проекта
+
+```
+Learn-control/
+├── api/                          # gRPC API
+│
+├── cmd/                          # Точка входа приложения
+│
+├── internal/                     
+│   ├── adapter/                  
+│   │   ├── controller/           # Контроллеры HTTP/gRPC
+│   │   │   ├── files_download/   # Контроллер загрузки документов
+│   │   │   │   
+│   │   │   └── learn_control/    # Контроллеры бизнес-операций
+│   │   │       
+│   │   ├── docs_generator/       # Генерация документов
+│   │   │   └── registration_form/
+│   │   │       
+│   │   └── notifier/             # Уведомления
+│   │       └── email/
+│   │
+│   ├── app/                      # Инициализация зависимостей
+│   │
+│   ├── config/                   # Конфигурация приложения
+│   │   └── modules/
+│   │
+│   ├── converter/                # Преобразование между слоями
+│   │
+│   ├── domain/                   # Доменные сущности
+│   │
+│   ├── logger/                   # Логирование
+│   │
+│   ├── service/                  # Use-case логика
+│   │
+│   ├── token/                    # Работа с JWT или другими токенами
+│   │
+│   └── worker/                   # Фоновые задачи
+│       └── notification/         # Отправка уведомлений
+│       │
+│       └── retraining_control/   # Контроль сроков перепрохождения обучений
+│
+├── migrations/                   # SQL миграции
+│
+├── templates/                    # Шаблоны документов (регистрационные листы и др.)
+├── pkg/                          # Сгенерированные файлы из proto
+│   └── learn_control/
+│
+└── frontend/                    # Клиентская часть (React + Vite)
+
 ```
 
 ## 📁 Полезные команды Makefile
